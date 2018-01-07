@@ -1,20 +1,37 @@
 package com.lixinyu.cooperativecoding.Entries;
 
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Code {
-	public int id;
-	public String content;
-	public Code(int id, String content) {
-		super();
-		this.id = id;
-		this.content = content;
+    @Id
+	private int team;
+    private String name;
+	private String content;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Code(int team, String name, String content) {
+
+        this.team = team;
+        this.name = name;
+        this.content = content;
+    }
+
+    public int getTeam() {
+		return team;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setTeam(int id) {
+		this.team = team;
 	}
 
 	public String getContent() {

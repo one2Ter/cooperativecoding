@@ -13,7 +13,7 @@ import java.util.List;
 public class Editor {
 
 	public static File getFileWithCode(Code code) {
-		List<String> lines = new ArrayList<String>(Arrays.asList(code.content.split("\n")));
+		List<String> lines = new ArrayList<String>(Arrays.asList(code.getContent().split("\n")));
 
 		File file = new File("/cooperativecoding/hello.c");
 		try {

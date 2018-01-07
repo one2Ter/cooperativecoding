@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://127.0.0.1")
 @RestController
 public class TestController {
-	Code code = new Code(0,"#include<stdio.h>\n int main()\n{\n    printf(\"hello world\");\n    return 0;\n}");
+	Code code = new Code(0,"helloworld.c","#include<stdio.h>\n int main()\n{\n    printf(\"hello world\");\n    return 0;\n}");
 
 	@PostMapping("/run")
 	public @ResponseBody String run(){
@@ -31,14 +31,15 @@ public class TestController {
 	@PostMapping("/file")
 	public @ResponseBody List<String> read(){
 		
-		List<String> lines = java.util.Arrays.asList(code.content.split("\n"));
+		List<String> lines = java.util.Arrays.asList(code.getContent().split("\n"));
 		return lines;
 	}
 	
 	@PostMapping("/update")
 	public @ResponseBody String update(@RequestParam String data,@RequestParam String path) {
 		List<String> lines = java.util.Arrays.asList(data.split("\n"));
-		code.content=data;
+		//data = code.getContent();
+        code.setContent(data);
 		Editor.writeStringArrListintoFile(lines,path);
 		return "RE:"+data;
 	}
