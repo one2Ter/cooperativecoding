@@ -1,4 +1,4 @@
-package com.lixinyu.cooperativecoding;
+package com.lixinyu.cooperativecoding.Service;
 
 import com.lixinyu.cooperativecoding.Entries.Code;
 
