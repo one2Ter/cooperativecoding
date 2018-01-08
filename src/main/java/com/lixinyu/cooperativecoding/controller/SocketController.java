@@ -1,5 +1,6 @@
-package com.lixinyu.cooperativecoding.Websocket;
+package com.lixinyu.cooperativecoding.controller;
 
+import com.lixinyu.cooperativecoding.model.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.lixinyu.cooperativecoding.Controller;
+package com.lixinyu.cooperativecoding.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;

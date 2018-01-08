@@ -1,4 +1,4 @@
-package com.lixinyu.cooperativecoding.Websocket;
+package com.lixinyu.cooperativecoding.model;
 
 public class Message {
 

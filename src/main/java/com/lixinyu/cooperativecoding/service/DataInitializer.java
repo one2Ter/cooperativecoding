@@ -1,25 +1,16 @@
-package com.lixinyu.cooperativecoding;
+package com.lixinyu.cooperativecoding.service;
 
 import com.lixinyu.cooperativecoding.data.RoleRepository;
 import com.lixinyu.cooperativecoding.data.UserRepository;
 import com.lixinyu.cooperativecoding.model.Role;
 import com.lixinyu.cooperativecoding.model.User;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@SpringBootApplication
-public class Application {
-	public static void main(String[] args) {
-
-		SpringApplication.run(Application.class, args
-		);
-	}
-
+public class DataInitializer {
     @Bean
     public CommandLineRunner table_init_role(RoleRepository repository){
         return(args) -> {
@@ -39,4 +30,5 @@ public class Application {
             repository.save(new User("20143461",1,"李新宇",false,"20143461",roles,true));
         };
     }
+
 }

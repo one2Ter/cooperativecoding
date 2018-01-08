@@ -1,4 +1,4 @@
-package com.lixinyu.cooperativecoding.Service;
+package com.lixinyu.cooperativecoding.service;
 
 import java.io.File;
 

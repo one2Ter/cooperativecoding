@@ -1,6 +1,6 @@
-package com.lixinyu.cooperativecoding.Service;
+package com.lixinyu.cooperativecoding.service;
 
-import com.lixinyu.cooperativecoding.Entries.Code;
+import com.lixinyu.cooperativecoding.model.Code;
 
 import java.io.File;
 import java.io.FileNotFoundException;

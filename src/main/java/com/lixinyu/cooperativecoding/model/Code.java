@@ -1,4 +1,4 @@
-package com.lixinyu.cooperativecoding.Entries;
+package com.lixinyu.cooperativecoding.model;
 
 
 import javax.persistence.Entity;
