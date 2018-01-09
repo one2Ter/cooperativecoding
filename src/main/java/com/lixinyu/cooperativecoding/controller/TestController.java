@@ -22,9 +22,10 @@ public class TestController {
     @GetMapping("/")
     public String session(HttpServletRequest request, Model model,Authentication authentication){
         //String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        String name = authentication.getName();
-        request.getSession().setAttribute("content", name);
-        model.addAttribute("content",request.getSession().getAttribute("content"));
+        String username = authentication.getName();
+
+        request.getSession().setAttribute("username", username);
+        model.addAttribute("username",request.getSession().getAttribute("username"));
         return "index";
     }
 

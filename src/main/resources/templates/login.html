@@ -9,17 +9,22 @@
     <table>
         <tr>
             <td>USERNAME:</td>
-            <td><input type='text' name='username' th:value='20143461' /></td>
+            <td><input id="username" type='text' name='username' th:value='20143461' /></td>
         </tr>
         <tr>
             <td>PASSWORD:</td>
             <td><input type='password' name='password' th:value="20143461" /></td>
         </tr>
         <tr>
-            <td colspan='2'><input name="submit" type="submit" value="Login" /></td>
-
+            <td colspan='2'><input name="submit" type="submit" value="Login" onclick="login()" /></td>
         </tr>
     </table>
+
+    <script>
+        function login(){
+            localStorage.setItem('username',f.password.value);
+        }
+    </script>
 </form>
 </body>
 </html>

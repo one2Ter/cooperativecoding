@@ -1,10 +1,10 @@
-
 var stompClient = null;
 var connected = false;
 var content = $("#chatcontent");
 var cursor = null;
-
+var username = null;
 function connect() {
+    username = localStorage.getItem("username");
     stompClient = Stomp.over(new SockJS('/message'));
     stompClient.connect({}, function (frame) {
         connected = true;
@@ -13,7 +13,7 @@ function connect() {
             //console.log(message);
             var response = JSON.parse(message.body);
             if(response.id < 0){
-                if(response.from=="20143461"){
+                if(response.from===username){
                     showGreeting(response.content);
                 }else{
                     receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);

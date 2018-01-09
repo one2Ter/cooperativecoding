@@ -22,14 +22,14 @@
         <input type="text" value="foo.js" id="mode" />
         <button type="button" onclick="change()">change mode</button>
     </span>
-    <span th:text="${content}"></span>
-    <img id="avatar" src="/img/head.png" />
+    <span id="username" style="display: none" th:text="${username}"></span>
+    <img id="avatar" src="img/head.png" />
 </div>
 
 <div id="editor">
 	<div id="title">Main.cpp</div>
 	<textarea id="codemirror"></textarea>
-    <textarea readonly="true" id="console">hello world</textarea>
+    <textarea readonly="true" id="console"></textarea>
 </div>
 
 <div id="chatroom">
