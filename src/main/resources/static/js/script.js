@@ -136,6 +136,7 @@ editor.on('change',function (cm) {
     }
 });
 
+//切换代码高亮模式
 CodeMirror.modeURL = "js/codemirror/mode/%N/%N.js";
 var modeInput = document.getElementById("mode");
 CodeMirror.on(modeInput, "keypress", function(e) {
