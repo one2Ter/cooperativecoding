@@ -15,19 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 public class TestController {
     //自定义登录页实现
     @GetMapping("/login")
-    public String login_get(HttpServletRequest request, Model model){
-        request.getSession().setAttribute("username",request.getParameter("username"));
+    public String login_get(){
         return "login";
     }
 
-    @GetMapping("/session")
-
+    @GetMapping("/")
     public String session(HttpServletRequest request, Model model,Authentication authentication){
         //String name = SecurityContextHolder.getContext().getAuthentication().getName();
         String name = authentication.getName();
         request.getSession().setAttribute("content", name);
         model.addAttribute("content",request.getSession().getAttribute("content"));
-        return "session";
+        return "index";
     }
 
 }

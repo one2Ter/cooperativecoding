@@ -11,16 +11,20 @@ function connect() {
         //console.log('Connected: ' + frame);
         stompClient.subscribe('/clients/message', function (message) {
             //console.log(message);
+            var response = JSON.parse(message.body);
+            if(response.id < 0){
+                if(response.from=="20143461"){
+                    showGreeting(response.content);
+                }else{
+                    receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);
+                }
 
-            if(JSON.parse(message.body).id < 0){
-                showGreeting("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);
             }else{
                 var data = JSON.parse(message.body).content;
                 var lines = "";
                 for(var i=0;i<data.length;i++){
                     lines += data[i];
                 }
-
                 editor.getDoc().setValue(lines);
                 //重置光标位置
                 editor.doc.setCursor(cursor);
@@ -40,19 +44,18 @@ function sendName(message) {
     stompClient.send("/server/message", {}, JSON.stringify({'id':-1,'content': message}));
 }
 
-function showGreeting(message) {
-    receiveMessage(message);
+function showGreeting(msg) {
+    content.append("<div class=\"customer_lists clearfix\"><div class=\"header_img jimi3\" style=\"background: url(../img/mine.jpg) no-repeat center;\"><div class=\"header_img_hover\"></div></div><div class=\"bkbubble left\"><p>"+msg+"</p></div></div>");
+    content.scrollTop(content[0].scrollHeight);
 }
 
 function sendMessage(msg){
+    var input =$('#inputBox');
     if(!connected){
         connect();
     }
-    content.append("<div class=\"customer_lists clearfix\"><div class=\"header_img jimi3\" style=\"background: url(../img/mine.jpg) no-repeat center;\"><div class=\"header_img_hover\"></div></div><div class=\"bkbubble left\"><p>"+msg+"</p></div></div>");
-    content.scrollTop(content[0].scrollHeight);
-
-    sendName(msg);
-    $("#inputBox").val("");
+    sendName(input.val());
+    input.val("");
 }
 
 function receiveMessage(msg){
@@ -97,9 +100,11 @@ function run(){
 }
 
 function resize(){
-    $("body").height(document.body.clientHeight-60);
-    editor.setSize((document.body.clientWidth)*0.7+10,document.body.clientHeight-180);
-    content.height(document.body.clientHeight-120);
+    var width = document.body.clientWidth;
+    var height = document.body.clientHeight;
+    $("body").height(height-60);
+    editor.setSize(width*0.7+10,height-180);
+    content.height(height-120);
 }
 
 $(document).ready(function(){
@@ -110,6 +115,9 @@ $(document).ready(function(){
 });
 
 window.onresize = function resizeBody(){
+
+    console.log("document.body.clientHeight =  "+document.body.clientHeight);
+    console.log("document.body.clientWidth =  "+document.body.clientWidth);
     resize();
 };
 
@@ -128,7 +136,7 @@ editor.on('change',function (cm) {
     }
 });
 
-CodeMirror.modeURL = "./js/codemirror/mode/%N/%N.js";
+CodeMirror.modeURL = "js/codemirror/mode/%N/%N.js";
 var modeInput = document.getElementById("mode");
 CodeMirror.on(modeInput, "keypress", function(e) {
     if (e.keyCode == 13) change();
@@ -153,7 +161,6 @@ function change() {
     if (mode) {
         editor.setOption("mode", spec);
         CodeMirror.autoLoadMode(editor, mode);
-        //document.getElementById("modeinfo").textContent = spec;
     } else {
         alert("Could not find a mode corresponding to " + val);
     }

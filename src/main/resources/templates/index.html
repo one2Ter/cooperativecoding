@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>协作式在线程序编程</title>
+    <link type="text/css" rel="stylesheet" href="css/codemirror.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <script type="text/javascript" src="js/codemirror/codemirror.js" />
+    <script type="text/javascript" src="js/codemirror/mode/loadmode.js" />
+    <script type="text/javascript" src="js/codemirror/mode/meta.js" />
+    <script type="text/javascript" src="webjars/sockjs-client/sockjs.min.js" />
+    <script type="text/javascript" src="webjars/stomp-websocket/stomp.min.js" />
+    <script type="text/javascript" src="webjars/jquery/jquery.min.js" />
+</head>
+<body>
+
+<div class="nav">
+    <button onclick="update()">SAVE</button>
+    <button onclick="run()">RUN</button>
+    <button onclick="Message()">MESSAGE</button>
+    <button onclick="disconnect()">DISCONNECT</button>
+    <span>
+        <input type="text" value="foo.js" id="mode" />
+        <button type="button" onclick="change()">change mode</button>
+    </span>
+    <span th:text="${content}"></span>
+    <img id="avatar" src="/img/head.png" />
+</div>
+
+<div id="editor">
+	<div id="title">Main.cpp</div>
+	<textarea id="codemirror"></textarea>
+    <textarea readonly="true" id="console">hello world</textarea>
+</div>
+
+<div id="chatroom">
+    <div id="chatbox">
+        <div id="chatcontent" class="content chat-block" tabindex="0" >
+        </div>
+    </div>
+
+    <div id="chat_input">
+        <input id="inputBox" type="text" name="" />
+        <div id="btn_send" onclick="sendMessage()">发送</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/script.js" />
+</body>
+</html>

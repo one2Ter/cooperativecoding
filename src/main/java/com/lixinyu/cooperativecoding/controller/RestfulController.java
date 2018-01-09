@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://127.0.0.1")
-
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @PreAuthorize("hasAnyRole('Normal')")
 @RestController
