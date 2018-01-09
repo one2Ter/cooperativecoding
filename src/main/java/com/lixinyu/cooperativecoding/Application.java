@@ -20,14 +20,14 @@ public class Application {
 		);
 	}
 
-    @Bean
-    public CommandLineRunner table_init_role(RoleRepository repository){
-        return(args) -> {
-            repository.save(new Role("Super"));
-            repository.save(new Role("Normal"));
-            repository.save(new Role("Limited"));
-        };
-    }
+//    @Bean
+//    public CommandLineRunner table_init_role(RoleRepository repository){
+//        return(args) -> {
+//            repository.save(new Role("Super"));
+//            repository.save(new Role("Normal"));
+//            repository.save(new Role("Limited"));
+//        };
+//    }
     @Bean
     public CommandLineRunner db_init(UserRepository repository){
         Set<Role> roles = new HashSet<>();
@@ -36,6 +36,7 @@ public class Application {
         //删除数据库并重建
         return(args) -> {
             //repository.save(new Role("Super"));
+            repository.save(new User("20143460",1,"张三丰",false,"20143460",roles,true));
             repository.save(new User("20143461",1,"李新宇",false,"20143461",roles,true));
         };
     }

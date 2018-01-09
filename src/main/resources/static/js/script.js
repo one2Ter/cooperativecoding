@@ -13,7 +13,7 @@ function connect() {
             //console.log(message);
 
             if(JSON.parse(message.body).id < 0){
-                showGreeting("chat:"+JSON.parse(message.body).content);
+                showGreeting("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);
             }else{
                 var data = JSON.parse(message.body).content;
                 var lines = "";
@@ -129,7 +129,6 @@ editor.on('change',function (cm) {
 });
 
 CodeMirror.modeURL = "./js/codemirror/mode/%N/%N.js";
-
 var modeInput = document.getElementById("mode");
 CodeMirror.on(modeInput, "keypress", function(e) {
     if (e.keyCode == 13) change();
