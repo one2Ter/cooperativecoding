@@ -8,14 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class TestController {
+
+
     @GetMapping("/hello")
     public String hello(HttpServletRequest request, Model model){
         model.addAttribute("message","hello world");
         return "hello";
     }
     @GetMapping("/login")
-    public String login(HttpServletRequest request, Model model){
-
+    public String login(){
         return "login";
     }
+
+
 }

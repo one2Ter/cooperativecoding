@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasAnyRole('Normal')")
 @RestController
 public class RestfulController {
-	Code code = new Code(0,"helloworld.c","#include<stdio.h>\n int main()\n{\n    printf(\"hello world\");\n    return 0;\n}");
+	Code code = new Code(0,"helloworld.c","#include<stdio.h>\nint main()\n{\n    printf(\"hello world\");\n    return 0;\n}");
 
 	@PostMapping(value = "/run")
 	public @ResponseBody String run(){
