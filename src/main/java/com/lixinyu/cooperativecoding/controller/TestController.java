@@ -8,15 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class TestController {
-
-
-    @GetMapping("/hello")
-    public String hello(HttpServletRequest request, Model model){
-        model.addAttribute("message","hello world");
-        return "hello";
-    }
+    //自定义登录页实现
     @GetMapping("/login")
-    public String login(){
+    public String login(HttpServletRequest request, Model model){
         return "login";
     }
 

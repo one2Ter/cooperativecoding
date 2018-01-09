@@ -4,8 +4,9 @@
     <title>协作式在线程序编程</title>
     <link rel="stylesheet" type="text/css" href="css/codemirror.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" src="js/codemirror.js"></script>
-    <script type="text/javascript" src="js/clike.js"></script>
+    <script type="text/javascript" src="js/codemirror/codemirror.js"></script>
+    <script type="text/javascript" src="js/codemirror/mode/loadmode.js"></script>
+    <script type="text/javascript" src="js/codemirror/mode/meta.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
@@ -17,21 +18,19 @@
     <button onclick="run()">RUN</button>
     <button onclick="Message()">MESSAGE</button>
     <button onclick="disconnect()">DISCONNECT</button>
-
+    <span>Filename, mime, or mode name: <input type=text value=foo.js id=mode> <button type=button onclick="change()">change mode</button></span>
     <img id="avatar" src="img/head.png" />
 </div>
 
 <div id="editor">
 	<div style="height: 20px;width: 100%">Main.cpp</div>
 	<textarea id="codemirror"></textarea>
-
     <textarea readonly="true" id="console">hello world</textarea>
-
 </div>
 
 <div id="chatroom">
   <div id="chatbox">
-  <div id="chatcontent" class="content chat-block" tabindex="0" style="overflow-y: scroll;overflow-x: hidden;" >
+  <div id="chatcontent" class="content chat-block" tabindex="0" >
 
   </div>
 </div>

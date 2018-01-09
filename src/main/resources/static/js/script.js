@@ -25,24 +25,20 @@ function connect() {
                 //重置光标位置
                 editor.doc.setCursor(cursor);
             }
-
         });
     });
-
 }
 
 function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-
     console.log("Disconnected");
 }
 
 function sendName(message) {
     stompClient.send("/server/message", {}, JSON.stringify({'id':-1,'content': message}));
 }
-
 
 function showGreeting(message) {
     receiveMessage(message);
@@ -77,7 +73,6 @@ CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
 $.post("/file",function(data){
     editor.getDoc().setValue(mtoString(data));
 });
-
 
 function mtoString(data){
     var lines = "";
@@ -133,3 +128,34 @@ editor.on('change',function (cm) {
     }
 });
 
+CodeMirror.modeURL = "./js/codemirror/mode/%N/%N.js";
+
+var modeInput = document.getElementById("mode");
+CodeMirror.on(modeInput, "keypress", function(e) {
+    if (e.keyCode == 13) change();
+});
+function change() {
+    var val = modeInput.value, m, mode, spec;
+    if (m = /.+\.([^.]+)$/.exec(val)) {
+        var info = CodeMirror.findModeByExtension(m[1]);
+        if (info) {
+            mode = info.mode;
+            spec = info.mime;
+        }
+    } else if (/\//.test(val)) {
+        var info = CodeMirror.findModeByMIME(val);
+        if (info) {
+            mode = info.mode;
+            spec = val;
+        }
+    } else {
+        mode = spec = val;
+    }
+    if (mode) {
+        editor.setOption("mode", spec);
+        CodeMirror.autoLoadMode(editor, mode);
+        //document.getElementById("modeinfo").textContent = spec;
+    } else {
+        alert("Could not find a mode corresponding to " + val);
+    }
+}
