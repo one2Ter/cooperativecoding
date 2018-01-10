@@ -10,24 +10,33 @@
     <script type="text/javascript" src="webjars/sockjs-client/sockjs.min.js" />
     <script type="text/javascript" src="webjars/stomp-websocket/stomp.min.js" />
     <script type="text/javascript" src="webjars/jquery/jquery.min.js" />
+
 </head>
 <body>
 
 <div class="nav">
+    <i class="fab fa-python"></i>
     <button onclick="update()">SAVE</button>
     <button onclick="run()">RUN</button>
     <button onclick="Message()">MESSAGE</button>
     <button onclick="disconnect()">DISCONNECT</button>
-    <span>
-        <input type="text" value="foo.js" id="mode" />
-        <button type="button" onclick="change()">change mode</button>
-    </span>
+
     <span id="username" style="display: none" th:text="${username}"></span>
     <img id="avatar" src="img/head.png" />
 </div>
 
 <div id="editor">
-	<div id="title">Main.cpp</div>
+	<div id="title">
+
+        <div style="width: 100%;float: left;background-color: #999999;height: 30px;line-height: 30px">
+            <img style="width: 24px;height: 24px;border-radius: 12px;float: left;margin: 3px" src="img/head.png" />
+            <span>main.cpp</span>
+            <span class="code_mode" onclick="change('text/x-python','python',this)">Python</span>
+            <span class="code_mode" onclick="change('text/x-java','clike',this)">Java</span>
+            <span class="code_mode" onclick="change('text/x-c++src','clike',this)">C++</span>
+            <span class="code_mode" onclick="change('text/x-csrc','clike',this)">C</span>
+        </div>
+    </div>
 	<textarea id="codemirror"></textarea>
     <textarea readonly="true" id="console"></textarea>
 </div>

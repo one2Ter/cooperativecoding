@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Compiler {
 
-	private static String PATH = "/cooperativecoding/";
+	private static String PATH = "/app/";
 	
 	static String convertStreamToString(java.io.InputStream is) {
 	    @SuppressWarnings("resource")
@@ -15,9 +15,9 @@ public class Compiler {
 	public static String build(File file) throws Exception {
 
 		String timestamp = String.valueOf(System.currentTimeMillis()) + ".out";
-		String command = "./build.sh "+PATH+timestamp+" "+file.getPath();
+		String command = "./build.sh "+PATH+"/target/"+timestamp+" "+file.getPath();
 		System.out.println(command);
-		String output = "gg";
+		String output = null;
 		Process process = null;
 
 		try {

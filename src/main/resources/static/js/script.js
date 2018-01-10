@@ -14,7 +14,7 @@ function connect() {
             var response = JSON.parse(message.body);
             if(response.id < 0){
                 if(response.from===username){
-                    showGreeting(response.content);
+                    localMessage(response.content);
                 }else{
                     receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);
                 }
@@ -40,21 +40,18 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName(message) {
-    stompClient.send("/server/message", {}, JSON.stringify({'id':-1,'content': message}));
-}
-
-function showGreeting(msg) {
+function localMessage(msg) {
     content.append("<div class=\"customer_lists clearfix\"><div class=\"header_img jimi3\" style=\"background: url(../img/mine.jpg) no-repeat center;\"><div class=\"header_img_hover\"></div></div><div class=\"bkbubble left\"><p>"+msg+"</p></div></div>");
     content.scrollTop(content[0].scrollHeight);
 }
 
-function sendMessage(msg){
-    var input =$('#inputBox');
+function sendMessage(){
+    var input =$("#inputBox");
+    var message = input.val();
     if(!connected){
         connect();
     }
-    sendName(input.val());
+    stompClient.send("/server/message", {}, JSON.stringify({'id':-1,'content': message}));
     input.val("");
 }
 
@@ -64,7 +61,7 @@ function receiveMessage(msg){
 }
 var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
     lineNumbers: true,
-    mode: "text/x-java"
+    mode: "text/x-csrc"
 });
 
 var map = {"Ctrl-S": function(cm){update();}}
@@ -88,7 +85,7 @@ function mtoString(data){
 
 function update(){
     var content = editor.getValue();
-    $.post("/update",{data:content,path:"/cooperativecoding/hello.c"}, function(data) {
+    $.post("/update",{data:content,path:"/app/src/hello.c"}, function(data) {
         console.log(data);
     });
 }
@@ -103,21 +100,17 @@ function resize(){
     var width = document.body.clientWidth;
     var height = document.body.clientHeight;
     $("body").height(height-60);
-    editor.setSize(width*0.7+10,height-180);
+    editor.setSize(width*0.7+10,height-190);
     content.height(height-120);
 }
 
 $(document).ready(function(){
     connect();
     resize();
-
     content.scrollTop(content[0].scrollHeight);
 });
 
 window.onresize = function resizeBody(){
-
-    console.log("document.body.clientHeight =  "+document.body.clientHeight);
-    console.log("document.body.clientWidth =  "+document.body.clientWidth);
     resize();
 };
 
@@ -134,35 +127,23 @@ editor.on('change',function (cm) {
     if(connected){
         stompClient.send("/server/message",{},JSON.stringify({'id':7,'content':cm.getValue()}));
     }
+    var content = editor.getValue();
+    $.post("/update",{data:content,path:"/app/src/hello.c"}, function(data) {
+        console.log(data);
+    });
 });
 
 //切换代码高亮模式
 CodeMirror.modeURL = "js/codemirror/mode/%N/%N.js";
-var modeInput = document.getElementById("mode");
-CodeMirror.on(modeInput, "keypress", function(e) {
-    if (e.keyCode == 13) change();
-});
-function change() {
-    var val = modeInput.value, m, mode, spec;
-    if (m = /.+\.([^.]+)$/.exec(val)) {
-        var info = CodeMirror.findModeByExtension(m[1]);
-        if (info) {
-            mode = info.mode;
-            spec = info.mime;
-        }
-    } else if (/\//.test(val)) {
-        var info = CodeMirror.findModeByMIME(val);
-        if (info) {
-            mode = info.mode;
-            spec = val;
-        }
-    } else {
-        mode = spec = val;
+
+function change(mime,mode,selected) {
+    editor.setOption("mode", mime);
+    CodeMirror.autoLoadMode(editor, mode);
+
+    var modes = document.getElementsByClassName("code_mode_selected");
+    for (i = 0; i < modes.length; i++) {
+        modes[i].className = "code_mode";
     }
-    if (mode) {
-        editor.setOption("mode", spec);
-        CodeMirror.autoLoadMode(editor, mode);
-    } else {
-        alert("Could not find a mode corresponding to " + val);
-    }
+    selected.className = "code_mode_selected";
+
 }

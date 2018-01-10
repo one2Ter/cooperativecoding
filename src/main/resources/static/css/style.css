@@ -104,9 +104,47 @@ body,html{
 }
 
  #title{
-     height: 20px;
+     height: 30px;
      width: 100%
  }
+
+ .code_mode{
+     height: 22px;
+     border-radius: 11px;
+     margin: 4px;
+     background-color: gray;
+     float: right;
+     color: white;
+     padding-left: 11px;
+     padding-right: 11px;
+     line-height: 22px;
+     cursor: pointer
+ }
+ .code_mode:hover{
+     height: 24px;
+     border-radius: 12px;
+     margin: 3px;
+     background-color: gray;
+     float: right;
+     color: white;
+     padding-left: 12px;
+     padding-right: 12px;
+     line-height: 24px;
+     cursor: pointer
+ }
+
+.code_mode_selected{
+    height: 22px;
+    border-radius: 11px;
+    margin: 4px;
+    background-color: #00bb00;
+    float: right;
+    color: white;
+    padding-left: 11px;
+    padding-right: 11px;
+    line-height: 22px;
+    cursor: pointer
+}
 
  /*图片气泡*/
 
