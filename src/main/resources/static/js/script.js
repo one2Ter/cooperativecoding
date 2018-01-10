@@ -3,6 +3,7 @@ var connected = false;
 var content = $("#chatcontent");
 var cursor = null;
 var username = null;
+var maintainer = true;
 function connect() {
     username = localStorage.getItem("username");
     stompClient = Stomp.over(new SockJS('/message'));
@@ -18,7 +19,6 @@ function connect() {
                 }else{
                     receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);
                 }
-
             }else{
                 var data = JSON.parse(message.body).content;
                 var lines = "";
@@ -60,11 +60,10 @@ function receiveMessage(msg){
     content.scrollTop(content[0].scrollHeight);
 }
 var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
-    lineNumbers: true,
-    mode: "text/x-csrc"
+    lineNumbers: true
 });
 
-var map = {"Ctrl-S": function(cm){update();}}
+var map = {"Ctrl-S": function(cm){update();}};
 editor.addKeyMap(map);
 
 var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
@@ -92,6 +91,11 @@ function update(){
 
 function run(){
     $.post("/run",function(data) {
+        if(data[1]==="P"){
+            $("#console").css("color","green");
+        }else{
+            $("#console").css("color","red");
+        }
         $("#console").val(data);
     });
 }
@@ -124,7 +128,7 @@ editor.on('beforeChange',function (cm,obj) {
 
 //监听编辑器代码变动，同步到所有客户端
 editor.on('change',function (cm) {
-    if(connected){
+    if(connected && maintainer){
         stompClient.send("/server/message",{},JSON.stringify({'id':7,'content':cm.getValue()}));
     }
     var content = editor.getValue();
@@ -141,7 +145,7 @@ function change(mime,mode,selected) {
     CodeMirror.autoLoadMode(editor, mode);
 
     var modes = document.getElementsByClassName("code_mode_selected");
-    for (i = 0; i < modes.length; i++) {
+    for (var i = 0; i < modes.length; i++) {
         modes[i].className = "code_mode";
     }
     selected.className = "code_mode_selected";

@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Compiler {
 
-	private static String PATH = "/app/";
+	private static String PATH = "/app/target/";
 	
 	static String convertStreamToString(java.io.InputStream is) {
 	    @SuppressWarnings("resource")
@@ -12,23 +12,28 @@ public class Compiler {
 	    return s.hasNext() ? s.next() : "";
 	}
 
-	public static String build(File file) throws Exception {
+	public static String excute(File file,String type) throws Exception {
+	    String command = null;
 
-		String timestamp = String.valueOf(System.currentTimeMillis()) + ".out";
-		String command = "./build.sh "+PATH+"/target/"+timestamp+" "+file.getPath();
-		System.out.println(command);
+        String timestamp = String.valueOf(System.currentTimeMillis());
+
+
+        command = "./build.sh "+PATH+timestamp+" "+file.getPath()+" "+type;
+        System.out.println(command);
+		//build.sh /app/target/265365364.out /app/src/hello.c c|cpp|java|python
+
 		String output = null;
-		Process process = null;
+		Process process = Runtime.getRuntime().exec(command, null, new File(PATH));
+		String error = convertStreamToString(process.getErrorStream());
+		output = error+convertStreamToString(process.getInputStream());
 
-		try {
-			process = Runtime.getRuntime().exec(command, null, new File(PATH));
-			output = convertStreamToString(process.getInputStream());
-			process.waitFor();
-			process.destroy();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if(error==""){
+		    output = "[PROCESS FINISHED SUCCESSFULLY]\n"+output;
+        }else{
+            output = "[SOME ERROR OCCURRED]\n"+output;
+        }
+		process.waitFor();
+		process.destroy();
 
 		return output;
 	}

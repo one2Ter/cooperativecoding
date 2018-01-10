@@ -15,7 +15,7 @@ public class Editor {
 	public static File getFileWithCode(Code code) {
 		List<String> lines = new ArrayList<String>(Arrays.asList(code.getContent().split("\n")));
 
-		File file = new File("/app/src/hello.c");
+		File file = new File("/app/src/hello");
 		try {
 			PrintStream ps = new PrintStream(new FileOutputStream(file));
 			for (String line : lines) {

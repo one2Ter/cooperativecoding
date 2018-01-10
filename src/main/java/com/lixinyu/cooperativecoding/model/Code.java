@@ -10,6 +10,7 @@ public class Code {
 	private int team;
     private String name;
 	private String content;
+	private String type;
 
     public String getName() {
         return name;
@@ -19,11 +20,12 @@ public class Code {
         this.name = name;
     }
 
-    public Code(int team, String name, String content) {
+    public Code(int team, String name, String content,String type) {
 
         this.team = team;
         this.name = name;
         this.content = content;
+        this.type = type;
     }
 
     public int getTeam() {
@@ -41,4 +43,12 @@ public class Code {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

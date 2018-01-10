@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasAnyRole('Normal')")
 @RestController
 public class RestfulController {
-	private Code code = new Code(0,"helloworld.c","#include<stdio.h>\nint main()\n{\n    printf(\"hello world\");\n    return 0;\n}");
+	private Code code = new Code(0,"helloworld","#include<stdio.h>\nint main()\n{\n    printf(\"hello world\");\n    return 0;\n}","c");
 
 	@PostMapping(value = "/run")
 	public @ResponseBody String run() throws Exception{
-        return Compiler.build(Editor.getFileWithCode(code));
+        return Compiler.excute(Editor.getFileWithCode(code),code.getType());
 	}
 	
 	@PostMapping(value = "/file")
