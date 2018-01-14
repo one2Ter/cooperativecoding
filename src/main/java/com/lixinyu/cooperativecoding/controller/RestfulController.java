@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasAnyRole('Normal')")
 @RestController
 public class RestfulController {
-	private Code code = new Code(0,"helloworld","#include<stdio.h>\nint main()\n{\n    printf(\"hello world\");\n    return 0;\n}","c");
+	private Code code = new Code(0,"helloworld","#include<stdio.h>\n" + "int main()\n" + "{\n" + "\tchar x[]=\"hello\";\n\tchar y[]=\"world\";\n" + "    printf(\"start\");\n" + "\tscanf(\"%s\",x);\n\tprintf(\"\\n\");\n\tscanf(\"%s\",y);\n" + "    printf(\"end,x=%s,y=%s\",x,y);\n" + "    return 0;\n" + "}","c");
 
 	@PostMapping(value = "/file")
 	public @ResponseBody List<String> read(){

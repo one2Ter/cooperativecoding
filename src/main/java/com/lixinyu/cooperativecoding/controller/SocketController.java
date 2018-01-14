@@ -28,10 +28,7 @@ public class SocketController {
                 break;
             case -1:
                 List<String> lines = java.util.Arrays.asList(message.getContent().split("\n"));
-                //data = code.getContent();
-//                code.setContent(data);
                 Editor.writeStringArrListintoFile(lines,"/app/src/hello");
-//                return "RE:"+data;
                 msg = new Message(message);
                 message.setId(-1);
                 msg.setFrom(authentication.getName());
@@ -41,7 +38,9 @@ public class SocketController {
 
                 Code code = new Code(0,"helloworld",message.getContent(),"c");
                 Output o = Compiler.execute(Editor.getFileWithCode(code),code.getType());
-                
+
+
+
                 if(!o.getError().equals("")){
                     msg.setContent(o.getError());
                 }else{

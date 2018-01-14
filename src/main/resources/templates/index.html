@@ -4,29 +4,19 @@
     <title>协作式在线程序编程</title>
     <link type="text/css" rel="stylesheet" href="css/codemirror.css" />
     <link type="text/css" rel="stylesheet" href="css/style.css" />
-    <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
+    <link type="text/css" rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="webjars/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script type="text/javascript" src="js/codemirror/codemirror.js" />
     <script type="text/javascript" src="js/codemirror/mode/loadmode.js" />
     <script type="text/javascript" src="webjars/sockjs-client/sockjs.min.js" />
     <script type="text/javascript" src="webjars/stomp-websocket/stomp.min.js" />
     <script type="text/javascript" src="webjars/jquery/jquery.min.js" />
+    <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js" />
 
 </head>
 <body>
-
-<!--<div class="nav">-->
-    <!--<i class="fab fa-python"></i>-->
-    <!--<button onclick="update()">SAVE</button>-->
-    <!--<button onclick="run()">RUN</button>-->
-    <!--<button onclick="Message()">MESSAGE</button>-->
-    <!--<button onclick="disconnect()">DISCONNECT</button>-->
-    <!--<span id="username" th:text="${username}"></span>-->
-    <!--<img id="avatar" src="img/head.png" />-->
-<!--</div>-->
-
 <div id="editor">
 	<div id="title">
-
         <div style="width: 100%;float: left;background-color: #009999;height: 30px;line-height: 30px">
             <img style="width: 24px;height: 24px;border-radius: 12px;float: left;margin: 3px" src="img/head.png" />
             <span style="color: white">李新宇(20143461)正在编辑</span>
@@ -36,24 +26,27 @@
             <span class="code_mode" onclick="change('text/x-csrc','clike',this)">C</span>
         </div>
     </div>
-	<textarea id="codemirror"></textarea>
-    <div style="width: 100%;height: 30px;background-color: #009999">
-        <button onclick="run()" style="height: 24px;width: 80px;margin: 3px;cursor: pointer;float: right"><i class="fa fa-play-circle" aria-hidden="true"></i>运行</button>
-        <button onclick="run()" style="height: 24px;width: 80px;margin: 3px;cursor: pointer"><i class="fa fa-rotate-left" aria-hidden="true"></i>撤销</button>
-        <button onclick="run()" style="height: 24px;width: 80px;margin: 3px;cursor: pointer"><i class="fa fa-rotate-right" aria-hidden="true"></i>重做</button>
 
-        <!--<div style="height: 20px;margin:2px;line-height: 20px;width: 60px;background-color: #00bb00;text-align: center" onclick="run()">运行(F5)</div>-->
+    <div id="bookmark">
+        <span class="tabs_selected" onclick="tabClick(this)" style="color: royalblue"><i class="fa fa-file-code-o" aria-hidden="true"></i>helloworld.c</span>
+        <div type="button" data-toggle="modal" data-target="#exampleModal" id="tab_new"><i id="btn_new" class="fa fa-plus-circle" aria-hidden="true"></i></div>
+    </div>
+
+	<textarea id="codemirror"></textarea>
+    <div style="width: 100%;height: 32px;background-color: #009999;padding: 2px">
+        <button onclick="run()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer;float: right"><i class="fa fa-play-circle" aria-hidden="true"></i>运行</button>
+        <button onclick="run()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer"><i class="fa fa-rotate-left" aria-hidden="true"></i>撤销</button>
+        <button onclick="run()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer"><i class="fa fa-rotate-right" aria-hidden="true"></i>重做</button>
+        <button onclick="run()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer"><i class="fa fa-trash" aria-hidden="true"></i>删除</button>
     </div>
     <textarea readonly="true" id="console"></textarea>
 </div>
 
 <div id="chatroom">
-    <div style="width: 100%;height: 30px;background-color: cornflowerblue;text-align: center;line-height: 30px;color: white">
+    <div style="width: 100%;height: 60px;background-color: cornflowerblue;text-align: center;line-height: 60px;color: white">
     14计科3班(42/49)
     </div>
-    <div style="width: 100%;height: 30px;background-color: lightblue">
 
-    </div>
     <div id="chatbox">
         <div id="chatcontent" class="content chat-block" tabindex="0" >
         </div>
@@ -64,7 +57,30 @@
         <div id="btn_send" onclick="sendMessage()">发送</div>
     </div>
 </div>
-
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">新建文件</h4>
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                    <!--<span aria-hidden="true">&times;</span>-->
+                <!--</button>-->
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="input_file_name" placeholder="请输入文件名" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" onclick="tabNew()" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="js/script.js" />
 </body>
 </html>

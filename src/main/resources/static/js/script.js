@@ -9,18 +9,11 @@ function connect() {
     stompClient = Stomp.over(new SockJS('/message'));
     stompClient.connect({}, function (frame) {
         connected = true;
-        //console.log('Connected: ' + frame);
         stompClient.subscribe('/clients/message', function (message) {
-            //console.log(message);
             var response = JSON.parse(message.body);
-
             switch (response.id){
                 case 0:
-                    if(response.from===username){
-                        localMessage(response.content);
-                    }else{
-                        receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);
-                    }
+                    receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from,JSON.parse(message.body).from);
                     break;
                 case -1:
                     var data = JSON.parse(message.body).content;
@@ -41,11 +34,6 @@ function connect() {
     });
 }
 
-function localMessage(msg) {
-    content.append("<div class=\"customer_lists clearfix\"><div class=\"header_img jimi3\" style=\"background: url(../img/mine.jpg) no-repeat center;\"><div class=\"header_img_hover\"></div></div><div class=\"bkbubble left\"><p>"+msg+"</p></div></div>");
-    content.scrollTop(content[0].scrollHeight);
-}
-
 function sendMessage(){
     var input =$("#inputBox");
     var message = input.val();
@@ -56,19 +44,27 @@ function sendMessage(){
     input.val("");
 }
 
-function receiveMessage(msg){
-    content.append("<div class=\"jimi_lists clearfix\"><div class=\"header_img jimi3 fl\"></div><div class=\"bkbubble right\"><p>"+msg+"</p></div></div>");
+function receiveMessage(msg,from){
+    if(from === username){
+        content.append("<div class=\"customer_lists clearfix\"><div class=\"header_img jimi3\" style=\"background: url(../img/mine.jpg) no-repeat center;\"><div class=\"header_img_hover\"></div></div><div class=\"bkbubble left\"><p>"+msg+"</p></div></div>");
+    }else{
+        content.append("<div class=\"jimi_lists clearfix\"><div class=\"header_img jimi3 fl\"></div><div class=\"bkbubble right\"><p>"+msg+"</p></div></div>");
+    }
     content.scrollTop(content[0].scrollHeight);
 }
 var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
     lineNumbers: true
 });
 
-var map = {"Ctrl-S": function(cm){update();}};
+//按键绑定
+var map = {
+    "Ctrl-S": function(cm){update();}
+};
 editor.addKeyMap(map);
 
 var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
 CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+
 
 $.post("/file",function(data){
     editor.getDoc().setValue(mtoString(data));
@@ -96,7 +92,7 @@ function resize(){
     var width = document.body.clientWidth;
     var height = document.body.clientHeight;
     $("body").height(height-60);
-    editor.setSize(width*0.7,height-160);
+    editor.setSize(width*0.7,height-194);
     content.height(height-120);
 }
 
@@ -137,5 +133,17 @@ function change(mime,mode,selected) {
         modes[i].className = "code_mode";
     }
     selected.className = "code_mode_selected";
+}
 
+function tabNew(){
+    $("#tab_new").before("<span class='tabs' onclick='tabClick(this)'><i class='fa fa-file-code-o' aria-hidden='true'></i>head.h</span>");
+}
+
+function tabClick(e) {
+    var tabs = document.getElementsByClassName("tabs_selected");
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].className = "tabs";
+    }
+
+    e.className = "tabs_selected";
 }

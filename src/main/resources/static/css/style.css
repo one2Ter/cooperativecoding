@@ -149,6 +149,58 @@ body,html{
     cursor: pointer
 }
 
+#bookmark{
+    width: 100%;
+    height: 30px;
+    background-color: gainsboro;
+}
+
+.tabs{
+    cursor: pointer;
+    height: 30px;
+    line-height: 30px;
+    text-align: left;
+    background-color: #cccccc;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #999999;
+    border-left: none;
+}
+
+.tabs_selected{
+    cursor: pointer;
+    height: 30px;
+    line-height: 30px;
+    text-align: left;
+    background-color: #F9FAF9;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #999999;
+    border-left: none;
+    border-bottom: none;
+}
+
+#tab_new{
+    height: 30px;
+    width: 30px;
+
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+    color: #999999;
+}
+
+#btn_new{
+    line-height: 30px;
+    font-size: 20px;
+}
+#btn_new:hover{
+    font-size: 24px;
+}
+
  /*图片气泡*/
 
  .jimi_lists {
