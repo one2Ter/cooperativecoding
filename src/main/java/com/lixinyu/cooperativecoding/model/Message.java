@@ -1,5 +1,7 @@
 package com.lixinyu.cooperativecoding.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Message {
 
     private int id;
@@ -7,6 +9,12 @@ public class Message {
     private String from;
 
     public Message() {
+    }
+
+    public Message(Message message){
+        this.id = message.getId();
+        this.content = message.getContent();
+        this.from = message.getFrom();
     }
 
     public Message(int id, String content, String from) {

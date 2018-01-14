@@ -13,31 +13,32 @@ function connect() {
         stompClient.subscribe('/clients/message', function (message) {
             //console.log(message);
             var response = JSON.parse(message.body);
-            if(response.id < 0){
-                if(response.from===username){
-                    localMessage(response.content);
-                }else{
-                    receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);
-                }
-            }else{
-                var data = JSON.parse(message.body).content;
-                var lines = "";
-                for(var i=0;i<data.length;i++){
-                    lines += data[i];
-                }
-                editor.getDoc().setValue(lines);
-                //重置光标位置
-                editor.doc.setCursor(cursor);
+
+            switch (response.id){
+                case 0:
+                    if(response.from===username){
+                        localMessage(response.content);
+                    }else{
+                        receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from);
+                    }
+                    break;
+                case -1:
+                    var data = JSON.parse(message.body).content;
+                    var lines = "";
+                    for(var i=0;i<data.length;i++){
+                        lines += data[i];
+                    }
+                    editor.getDoc().setValue(lines);
+                    //重置光标位置
+                    editor.doc.setCursor(cursor);
+                    break;
+                case 1:
+                    var console = $("#console");
+                    console.val(JSON.parse(message.body).content);
+                    break;
             }
         });
     });
-}
-
-function disconnect() {
-    if (stompClient !== null) {
-        stompClient.disconnect();
-    }
-    console.log("Disconnected");
 }
 
 function localMessage(msg) {
@@ -51,7 +52,7 @@ function sendMessage(){
     if(!connected){
         connect();
     }
-    stompClient.send("/server/message", {}, JSON.stringify({'id':-1,'content': message}));
+    stompClient.send("/server/message", {}, JSON.stringify({'id':0,'content': message}));
     input.val("");
 }
 
@@ -84,27 +85,18 @@ function mtoString(data){
 
 function update(){
     var content = editor.getValue();
-    $.post("/update",{data:content,path:"/app/src/hello.c"}, function(data) {
-        console.log(data);
-    });
+    stompClient.send("/server/message",{},JSON.stringify({'id':-1,'content':editor.getValue()}));
 }
 
 function run(){
-    $.post("/run",function(data) {
-        if(data[1]==="P"){
-            $("#console").css("color","green");
-        }else{
-            $("#console").css("color","red");
-        }
-        $("#console").val(data);
-    });
+    stompClient.send("/server/message",{},JSON.stringify({'id':1,'content':editor.getValue()}));
 }
 
 function resize(){
     var width = document.body.clientWidth;
     var height = document.body.clientHeight;
     $("body").height(height-60);
-    editor.setSize(width*0.7+10,height-190);
+    editor.setSize(width*0.7,height-160);
     content.height(height-120);
 }
 
@@ -129,12 +121,8 @@ editor.on('beforeChange',function (cm,obj) {
 //监听编辑器代码变动，同步到所有客户端
 editor.on('change',function (cm) {
     if(connected && maintainer){
-        stompClient.send("/server/message",{},JSON.stringify({'id':7,'content':cm.getValue()}));
+        update();
     }
-    var content = editor.getValue();
-    $.post("/update",{data:content,path:"/app/src/hello.c"}, function(data) {
-        console.log(data);
-    });
 });
 
 //切换代码高亮模式

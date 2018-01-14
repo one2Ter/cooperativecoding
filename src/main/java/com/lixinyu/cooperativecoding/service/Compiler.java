@@ -1,5 +1,7 @@
 package com.lixinyu.cooperativecoding.service;
 
+import com.lixinyu.cooperativecoding.model.Output;
+
 import java.io.File;
 
 public class Compiler {
@@ -12,7 +14,7 @@ public class Compiler {
 	    return s.hasNext() ? s.next() : "";
 	}
 
-	public static String excute(File file,String type) throws Exception {
+	public static Output execute(File file, String type) throws Exception {
 	    String command = null;
 
         String timestamp = String.valueOf(System.currentTimeMillis());
@@ -22,16 +24,13 @@ public class Compiler {
         System.out.println(command);
 		//build.sh /app/target/265365364.out /app/src/hello.c c|cpp|java|python
 
-		String output = null;
+		Output output = new Output();
 		Process process = Runtime.getRuntime().exec(command, null, new File(PATH));
-		String error = convertStreamToString(process.getErrorStream());
-		output = error+convertStreamToString(process.getInputStream());
 
-		if(error==""){
-		    output = "[PROCESS FINISHED SUCCESSFULLY]\n"+output;
-        }else{
-            output = "[SOME ERROR OCCURRED]\n"+output;
-        }
+		output.setError(convertStreamToString(process.getErrorStream()));
+
+		output.setOutput(convertStreamToString(process.getInputStream()));
+
 		process.waitFor();
 		process.destroy();
 
