@@ -12,7 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasAnyRole('Normal')")
 @RestController
 public class RestfulController {
-	private Code code = new Code(0,"helloworld","#include<stdio.h>\n" + "int main()\n" + "{\n" + "\tchar x[]=\"hello\";\n\tchar y[]=\"world\";\n" + "    printf(\"start\");\n" + "\tscanf(\"%s\",x);\n\tprintf(\"\\n\");\n\tscanf(\"%s\",y);\n" + "    printf(\"end,x=%s,y=%s\",x,y);\n" + "    return 0;\n" + "}","c");
+    String s = "#include<stdio.h>\n" +
+            "void main()\n" +
+            "{\n" +
+            "    char x[]=\"stack\";\n" +
+            "    char y[]=\"overflow\";\n" +
+            "    printf(\"set x:\\n\");\n" +
+            "    scanf(\"%s\",x);\n" +
+            "    printf(\"set y:\\n\");\n" +
+            "    scanf(\"%s\",y);\n" +
+            "    printf(\"well,x=%s,y=%s\",x,y);\n" +
+            "}";
+	private Code code = new Code(0,"helloworld",s,"c");
 
 	@PostMapping(value = "/file")
 	public @ResponseBody List<String> read(){

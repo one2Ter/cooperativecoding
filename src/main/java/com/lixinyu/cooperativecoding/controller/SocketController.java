@@ -39,8 +39,6 @@ public class SocketController {
                 Code code = new Code(0,"helloworld",message.getContent(),"c");
                 Output o = Compiler.execute(Editor.getFileWithCode(code),code.getType());
 
-
-
                 if(!o.getError().equals("")){
                     msg.setContent(o.getError());
                 }else{

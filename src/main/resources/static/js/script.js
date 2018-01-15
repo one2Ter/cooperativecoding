@@ -147,3 +147,15 @@ function tabClick(e) {
 
     e.className = "tabs_selected";
 }
+
+function m_input_focus(e) {
+    var parameters = $("#parameters");
+    var children = parameters.children("input");
+
+    for(var i=0;i<children.length;i++){
+        if(children[i]!==e && children[i].value===""){
+            children[i].remove();
+        }
+    }
+    parameters.append("<input onfocus=\"m_input_focus(this)\" type=\"text\" class=\"form-control\" placeholder=\"请输入参数\" />");
+}
