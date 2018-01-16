@@ -44,8 +44,8 @@
     var delimiters = parserConf.delimiters || parserConf.singleDelimiters || /^[\(\)\[\]\{\}@,:`=;\.]/;
     //               (Backwards-compatiblity with old, cumbersome config system)
     var operators = [parserConf.singleOperators, parserConf.doubleOperators, parserConf.doubleDelimiters, parserConf.tripleDelimiters,
-                     parserConf.operators || /^([-+*/%\/&|^]=?|[<>=]+|\/\/=?|\*\*=?|!=|[~!@])/]
-    for (var i = 0; i < operators.length; i++) if (!operators[i]) operators.splice(i--, 1)
+        parserConf.operators || /^([-+*/%\/&|^]=?|[<>=]+|\/\/=?|\*\*=?|!=|[~!@])/];
+      for (var i = 0; i < operators.length; i++) if (!operators[i]) operators.splice(i--, 1);
 
     var hangingIndent = parserConf.hangingIndent || conf.indentUnit;
 
@@ -56,7 +56,7 @@
     if (parserConf.extra_builtins != undefined)
       myBuiltins = myBuiltins.concat(parserConf.extra_builtins);
 
-    var py3 = !(parserConf.version && Number(parserConf.version) < 3)
+      var py3 = !(parserConf.version && Number(parserConf.version) < 3);
     if (py3) {
       // since http://legacy.python.org/dev/peps/pep-0465/ @ is also an operator
       var identifiers = parserConf.identifiers|| /^[_A-Za-z\u00A1-\uFFFF][_A-Za-z0-9\u00A1-\uFFFF]*/;
@@ -76,7 +76,7 @@
 
     // tokenizers
     function tokenBase(stream, state) {
-      if (stream.sol()) state.indent = stream.indentation()
+        if (stream.sol()) state.indent = stream.indentation();
       // Handle scope changes
       if (stream.sol() && top(state).type == "py") {
         var scopeOffset = top(state).offset;
@@ -151,7 +151,7 @@
       }
 
       for (var i = 0; i < operators.length; i++)
-        if (stream.match(operators[i])) return "operator"
+          if (stream.match(operators[i])) return "operator";
 
       if (stream.match(delimiters)) return "punctuation";
 
@@ -212,14 +212,14 @@
     }
 
     function pushPyScope(state) {
-      while (top(state).type != "py") state.scopes.pop()
+        while (top(state).type != "py") state.scopes.pop();
       state.scopes.push({offset: top(state).offset + conf.indentUnit,
                          type: "py",
                          align: null})
     }
 
     function pushBracketScope(stream, state, type) {
-      var align = stream.match(/^([\s\[\{\(]|#.*)*$/, false) ? null : stream.column() + 1
+        var align = stream.match(/^([\s\[\{\(]|#.*)*$/, false) ? null : stream.column() + 1;
       state.scopes.push({offset: state.indent + hangingIndent,
                          type: type,
                          align: align})
@@ -264,7 +264,7 @@
 
       delimiter_index = "])}".indexOf(current);
       if (delimiter_index != -1) {
-        if (top(state).type == current) state.indent = state.scopes.pop().offset - hangingIndent
+          if (top(state).type == current) state.indent = state.scopes.pop().offset - hangingIndent;
         else return ERRORCLASS;
       }
       if (state.dedent > 0 && stream.eol() && top(state).type == "py") {
@@ -305,9 +305,9 @@
         if (state.tokenize != tokenBase)
           return state.tokenize.isString ? CodeMirror.Pass : 0;
 
-        var scope = top(state), closing = scope.type == textAfter.charAt(0)
+          var scope = top(state), closing = scope.type == textAfter.charAt(0);
         if (scope.align != null)
-          return scope.align - (closing ? 1 : 0)
+            return scope.align - (closing ? 1 : 0);
         else
           return scope.offset - (closing ? hangingIndent : 0)
       },

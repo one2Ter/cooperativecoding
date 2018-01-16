@@ -201,6 +201,13 @@ body,html{
     font-size: 24px;
 }
 
+.input-parameters {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
  /*图片气泡*/
 
  .jimi_lists {

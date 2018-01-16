@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8"/>
     <title>协作式在线程序编程</title>
@@ -59,15 +59,12 @@
         <div id="btn_send" onclick="sendMessage()">发送</div>
     </div>
 </div>
-<!-- Modal -->
+<!-- Modal弹出层 -->
 <div class="modal fade" id="m_new_tab" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><i class="fa fa-file-o" aria-hidden="true"></i>新建文件</h4>
-                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-                    <!--<span aria-hidden="true">&times;</span>-->
-                <!--</button>-->
             </div>
             <div class="modal-body">
                 <form>
@@ -77,7 +74,6 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-success">新增</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                 <button type="button" onclick="tabNew()" class="btn btn-primary" data-dismiss="modal">确定</button>
             </div>
@@ -90,17 +86,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" ><i class="fa fa-cogs" aria-hidden="true"></i>输入参数</h4>
-                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-                <!--<span aria-hidden="true">&times;</span>-->
-                <!--</button>-->
             </div>
             <div class="modal-body">
                 <form>
                     <div id="parameters" class="form-group">
-                        <input onfocus="m_input_focus(this)" type="text" class="form-control" placeholder="请输入参数" />
+                        <input onfocus="m_input_focus(this)" type="text" class="input-parameters form-control"
+                               placeholder="请输入参数"/>
                     </div>
                 </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                 <button type="button" onclick="tabNew()" class="btn btn-primary" data-dismiss="modal">确定</button>
@@ -108,6 +103,7 @@
         </div>
     </div>
 </div>
+<!-- Modal弹出层 -->
 <script type="text/javascript" src="js/script.js" />
 </body>
 </html>

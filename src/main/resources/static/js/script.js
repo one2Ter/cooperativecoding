@@ -157,5 +157,5 @@ function m_input_focus(e) {
             children[i].remove();
         }
     }
-    parameters.append("<input onfocus=\"m_input_focus(this)\" type=\"text\" class=\"form-control\" placeholder=\"请输入参数\" />");
+    parameters.append("<input onfocus=\"m_input_focus(this)\" type=\"text\" class=\"form-control input-parameters\" placeholder=\"请输入参数\" />");
 }
