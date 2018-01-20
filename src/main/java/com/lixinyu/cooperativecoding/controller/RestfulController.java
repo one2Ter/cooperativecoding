@@ -31,7 +31,6 @@ public class RestfulController {
 
 	@PostMapping(value = "/file")
 	public @ResponseBody List<String> read(){
-        List<String> lines = Arrays.asList(code.getContent().split("\n"));
-		return lines;
+        return Arrays.asList(code.getContent().split("\n"));
 	}
 }

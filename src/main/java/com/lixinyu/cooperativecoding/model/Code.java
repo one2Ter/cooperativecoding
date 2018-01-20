@@ -20,7 +20,6 @@ public class Code {
     }
 
     public Code(int team, String name, String content,String type) {
-
         this.team = team;
         this.name = name;
         this.content = content;

@@ -15,7 +15,6 @@ public class SocketController {
     @MessageMapping("/message")
     @SendTo("/clients/message")
     public Message greeting(Message message,Authentication authentication) throws Exception {
-        Message msg = new Message(message);
         //TODO database操作
         switch (message.getId()){
             case  0:
@@ -27,13 +26,13 @@ public class SocketController {
                 Code code = new Code(0,"helloworld",message.getContent(),"c");
                 Output o = Compiler.execute(Writer.write(message.getContent(), "/spring_boot/src/hello"), code.getType(), message.getExtra().split("\\|"));
                 if(!o.getError().equals("")){
-                    msg.setContent(o.getError());
+                    message.setContent(o.getError());
                 }else{
-                    msg.setContent(o.getOutput());
+                    message.setContent(o.getOutput());
                 }
                 break;
         }
-        msg.setFrom(authentication.getName());
-        return msg;
+        message.setFrom(authentication.getName());
+        return message;
     }
 }
