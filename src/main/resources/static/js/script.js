@@ -85,15 +85,25 @@ function update(){
 }
 
 function run(){
-    stompClient.send("/server/message",{},JSON.stringify({'id':1,'content':editor.getValue()}));
+    var input_parameters = document.getElementsByClassName("input-parameters");
+    var inputs = "";
+    for (var i = 0; i < input_parameters.length - 1; i++) {
+        inputs += input_parameters[i].value + "|";
+    }
+
+    inputs = inputs + input_parameters[input_parameters.length - 1].value;
+
+    console.log(inputs);
+    console.log(JSON.stringify({'id': 1, 'content': editor.getValue(), 'extra': inputs}));
+    stompClient.send("/server/message", {}, JSON.stringify({'id': 1, 'content': editor.getValue(), 'extra': inputs}));
 }
 
 function resize(){
     var width = document.body.clientWidth;
     var height = document.body.clientHeight;
-    $("body").height(height-60);
-    editor.setSize(width*0.7,height-194);
-    content.height(height-120);
+    $("body").height(height - 60);
+    editor.setSize(width * 0.7, height - 194);
+    content.height(height - 120);
 }
 
 $(document).ready(function(){

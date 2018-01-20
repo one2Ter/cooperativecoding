@@ -1,11 +1,15 @@
 package com.lixinyu.cooperativecoding.controller;
 
-import java.util.List;
-
 import com.lixinyu.cooperativecoding.model.Code;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
 
 @CrossOrigin(origins = "http://127.0.0.1")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,7 +31,7 @@ public class RestfulController {
 
 	@PostMapping(value = "/file")
 	public @ResponseBody List<String> read(){
-		List<String> lines = java.util.Arrays.asList(code.getContent().split("\n"));
+        List<String> lines = Arrays.asList(code.getContent().split("\n"));
 		return lines;
 	}
 }
