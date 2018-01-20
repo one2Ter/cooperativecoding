@@ -25,12 +25,13 @@
             <span class="code_mode" onclick="change('text/x-csrc','clike',this)">C</span>
         </div>
     </div>
-
     <div id="bookmark">
+        <span class="tabs" onclick="tabClick(this)"><i class="fa fa-file-code-o" aria-hidden="true"></i>readme.md</span>
         <span class="tabs_selected" onclick="tabClick(this)" style="color: royalblue"><i class="fa fa-file-code-o" aria-hidden="true"></i>helloworld.c</span>
-        <div type="button" data-toggle="modal" data-target="#m_new_tab" id="tab_new"><i id="btn_new" class="fa fa-plus-circle" aria-hidden="true"></i></div>
+        <div type="button" data-toggle="modal" data-target="#m_new_tab" id="tab_new"><i id="btn_new"
+                                                                                        class="fa fa-plus-circle"
+                                                                                        aria-hidden="true"></i></div>
     </div>
-
 	<textarea id="codemirror"></textarea>
     <div style="width: 100%;height: 32px;background-color: #009999;padding: 2px">
         <button onclick="run()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer;float: right"><i class="fa fa-play-circle" aria-hidden="true"></i>运行</button>
@@ -47,12 +48,10 @@
     <div style="width: 100%;height: 60px;background-color: cornflowerblue;text-align: center;line-height: 60px;color: white">
     14计科3班(42/49)
     </div>
-
     <div id="chatbox">
         <div id="chatcontent" class="content chat-block" tabindex="0" >
         </div>
     </div>
-
     <div id="chat_input">
         <input id="inputBox" type="text" name="" />
         <div id="btn_send" onclick="sendMessage()">发送</div>
@@ -96,7 +95,6 @@
                     </div>
                 </form>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                 <button type="button" onclick="tabNew()" class="btn btn-primary" data-dismiss="modal">确定</button>

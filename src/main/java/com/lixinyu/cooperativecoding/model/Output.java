@@ -4,7 +4,6 @@ public class Output {
     private String error;
     private String output;
 
-
     public Output() {
     }
 

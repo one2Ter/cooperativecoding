@@ -14,5 +14,5 @@ public class Project {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "project_file",joinColumns = @JoinColumn(name="project_id"),inverseJoinColumns = @JoinColumn(name = "file_id"))
-    private Set<File> files;
+    private Set<Code> codes;
 }
