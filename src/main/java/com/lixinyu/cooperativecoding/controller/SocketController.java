@@ -1,8 +1,9 @@
 package com.lixinyu.cooperativecoding.controller;
 
-import com.lixinyu.cooperativecoding.model.Code;
+import com.lixinyu.cooperativecoding.model.entity.Code;
 import com.lixinyu.cooperativecoding.model.Message;
 import com.lixinyu.cooperativecoding.model.Output;
+import com.lixinyu.cooperativecoding.model.entity.Project;
 import com.lixinyu.cooperativecoding.service.Compiler;
 import com.lixinyu.cooperativecoding.service.Writer;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -23,7 +24,7 @@ public class SocketController {
                 Writer.write(message.getContent(), "/spring_boot/src/hello");
                 break;
             case 1:
-                Code code = new Code(0,"helloworld",message.getContent(),"c");
+                Code code = new Code(0,"helloworld",message.getContent(),"c",new Project());
                 Output o = Compiler.execute(Writer.write(message.getContent(), "/spring_boot/src/hello"), code.getType(), message.getExtra().split("\\|"));
                 if(!o.getError().equals("")){
                     message.setContent(o.getError());

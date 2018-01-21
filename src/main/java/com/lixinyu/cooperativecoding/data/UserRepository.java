@@ -1,6 +1,6 @@
 package com.lixinyu.cooperativecoding.data;
 
-import com.lixinyu.cooperativecoding.model.User;
+import com.lixinyu.cooperativecoding.model.entity.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

@@ -2,7 +2,7 @@ package com.lixinyu.cooperativecoding.service;
 
 import com.lixinyu.cooperativecoding.data.UserRepository;
 import com.lixinyu.cooperativecoding.model.CustomUserDetails;
-import com.lixinyu.cooperativecoding.model.User;
+import com.lixinyu.cooperativecoding.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

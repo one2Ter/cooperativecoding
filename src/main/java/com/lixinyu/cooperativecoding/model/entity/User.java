@@ -1,4 +1,4 @@
-package com.lixinyu.cooperativecoding.model;
+package com.lixinyu.cooperativecoding.model.entity;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -8,7 +8,9 @@ public class User {
 
     @Id
     private String username;
-    private int team;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
     private String name;
     private boolean maintainer;
     private String password;
@@ -31,7 +33,7 @@ public class User {
         this.active = user.getActive();
     }
 
-    public User(String username, int team, String name, boolean maintainer, String password, Set<Role> roles, boolean active) {
+    public User(String username, Team team, String name, boolean maintainer, String password, Set<Role> roles, boolean active) {
         this.username = username;
         this.team = team;
         this.name = name;
@@ -41,12 +43,12 @@ public class User {
         this.active = active;
     }
 
-    public int getTeam() {
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(int group) {
-        this.team = group;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public String getName() {

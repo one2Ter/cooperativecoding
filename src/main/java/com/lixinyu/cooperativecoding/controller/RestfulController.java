@@ -1,6 +1,7 @@
 package com.lixinyu.cooperativecoding.controller;
 
-import com.lixinyu.cooperativecoding.model.Code;
+import com.lixinyu.cooperativecoding.model.entity.Code;
+import com.lixinyu.cooperativecoding.model.entity.Project;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +28,7 @@ public class RestfulController {
             "    scanf(\"%s\",y);\n" +
             "    printf(\"well,x=%s,y=%s\",x,y);\n" +
             "}";
-	private Code code = new Code(0,"helloworld",s,"c");
+	private Code code = new Code(0,"helloworld",s,"c",new Project());
 
 	@PostMapping(value = "/file")
 	public @ResponseBody List<String> read(){
