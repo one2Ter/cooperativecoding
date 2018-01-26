@@ -6,8 +6,8 @@ import java.util.Set;
 @Entity
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long project_id;
+
+    private int project_id;
 
     //项目名称
     private String project_name;
@@ -26,8 +26,10 @@ public class Project {
         return project_id;
     }
 
-    public void setProject_id(long project_id) {
+    public Project(int project_id, String project_name, Team team) {
         this.project_id = project_id;
+        this.project_name = project_name;
+        this.team = team;
     }
 
     public String getProject_name() {
@@ -52,5 +54,9 @@ public class Project {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public void setProject_id(int project_id) {
+        this.project_id = project_id;
     }
 }

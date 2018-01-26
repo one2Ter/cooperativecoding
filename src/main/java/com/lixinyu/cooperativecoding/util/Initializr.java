@@ -1,9 +1,7 @@
 package com.lixinyu.cooperativecoding.util;
 
 import com.lixinyu.cooperativecoding.data.*;
-import com.lixinyu.cooperativecoding.model.entity.Role;
-import com.lixinyu.cooperativecoding.model.entity.Team;
-import com.lixinyu.cooperativecoding.model.entity.User;
+import com.lixinyu.cooperativecoding.model.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -27,17 +25,53 @@ public class Initializr implements CommandLineRunner {
 
     @Override
     public void run(String... strings) {
-        //role
+        initRole();
+        initTeam();
+        initUser();
+        initProject();
+        initCode();
+    }
+
+    private void initRole() {
         roleRepository.save(new Role(0, "User"));
         roleRepository.save(new Role(1, "Administrator"));
         roleRepository.save(new Role(2, "Guest"));
+    }
 
-        //team
+    private void initTeam() {
+        teamRepository.save(new Team(140101, "14计科1班"));
+        teamRepository.save(new Team(140102, "14计科2班"));
         teamRepository.save(new Team(140103, "14计科3班"));
+    }
+
+    private void initUser() {
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findOne(0));
-        roles.add(roleRepository.findOne(1));
-        //user
         userRepository.save(new User("20143461", teamRepository.findOne(140103), "李新宇", false, "20143461", roles, true));
+
+        //为李新宇添加管理员权限
+        User user = userRepository.findByUsername("20143461").get();
+        user.addRole(roleRepository.findOne(1));
+        userRepository.save(user);
     }
+
+    private void initProject() {
+        projectRepository.save(new Project(1, "helloworld", teamRepository.findOne(140103)));
+    }
+
+    private void initCode() {
+        String s = "#include<stdio.h>\n" +
+                "void main()\n" +
+                "{\n" +
+                "    char x[]=\"stack\";\n" +
+                "    char y[]=\"overflow\";\n" +
+                "    printf(\"set x:\\n\");\n" +
+                "    scanf(\"%s\",x);\n" +
+                "    printf(\"set y:\\n\");\n" +
+                "    scanf(\"%s\",y);\n" +
+                "    printf(\"well,x=%s,y=%s\",x,y);\n" +
+                "}";
+        codeRepository.save(new Code(1, "main.c", s, "c", projectRepository.findOne(1)));
+    }
+
 }
