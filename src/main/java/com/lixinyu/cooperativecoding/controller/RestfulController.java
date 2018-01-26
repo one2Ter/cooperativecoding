@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://127.0.0.1")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@PreAuthorize("hasAnyRole('Normal')")
+@PreAuthorize("hasAnyRole('User')")
 @RestController
 public class RestfulController {
     String s = "#include<stdio.h>\n" +

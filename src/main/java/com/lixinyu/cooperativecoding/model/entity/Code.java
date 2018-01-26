@@ -1,46 +1,47 @@
 package com.lixinyu.cooperativecoding.model.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Code {
     @Id
-	private int code_id;
-    private String name;
+    private long code_id;
+    private String code_title;
 	private String content;
 	private String type;
 
 	@ManyToOne
     @JoinColumn(name = "project_id")
-
 	private Project project;
 
     public Code() {
 
     }
 
-    public Code(int code_id, String name, String content, String type, Project project) {
+    public Code(int code_id, String code_title, String content, String type, Project project) {
         this.code_id = code_id;
-        this.name = name;
+        this.code_title = code_title;
         this.content = content;
         this.type = type;
         this.project = project;
     }
-    public String getName() {
-        return name;
+
+    public String getCode_title() {
+        return code_title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCode_title(String code_title) {
+        this.code_title = code_title;
     }
 
-
-
-    public int getCode_id() {
+    public long getCode_id() {
 		return code_id;
 	}
 
-	public void setCode_id(int id) {
+    public void setCode_id(long code_id) {
 		this.code_id = code_id;
 	}
 

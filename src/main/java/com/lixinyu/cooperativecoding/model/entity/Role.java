@@ -1,31 +1,30 @@
 package com.lixinyu.cooperativecoding.model.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int role_id;
     private String role;
 
     public Role() {
     }
-    public Role(String role) {
+
+    public Role(int role_id, String role) {
+        this.role_id = role_id;
         this.role = role;
     }
-    public int getId() {
-        return id;
+
+    public int getRole_id() {
+        return role_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRole_id(int role_id) {
+        this.role_id = role_id;
     }
-
 
     public String getRole() {
         return role;

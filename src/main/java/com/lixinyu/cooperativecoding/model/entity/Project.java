@@ -7,8 +7,7 @@ import java.util.Set;
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //项目id
-    private int project_id;
+    private long project_id;
 
     //项目名称
     private String project_name;
@@ -23,8 +22,35 @@ public class Project {
     public Project() {
     }
 
-    public Project(String project_name, Set<Code> codes) {
+    public long getProject_id() {
+        return project_id;
+    }
+
+    public void setProject_id(long project_id) {
+        this.project_id = project_id;
+    }
+
+    public String getProject_name() {
+        return project_name;
+    }
+
+    public void setProject_name(String project_name) {
         this.project_name = project_name;
+    }
+
+    public Set<Code> getCodes() {
+        return codes;
+    }
+
+    public void setCodes(Set<Code> codes) {
         this.codes = codes;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
