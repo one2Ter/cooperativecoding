@@ -7,6 +7,14 @@ body,html{
     height: 100%;
 }
 
+.title-bar {
+    width: 100%;
+    float: left;
+    background-color: #009999;
+    height: 30px;
+    line-height: 30px
+}
+
 .CodeMirror{
     font-size:16px;
     background-color: #F9FAF9;

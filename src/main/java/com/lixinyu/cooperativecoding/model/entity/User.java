@@ -18,8 +18,11 @@ public class User {
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name="uid"),inverseJoinColumns = @JoinColumn(name = "role"))
     private Set<Role> roles;
 
-    private boolean active;
 
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+    private boolean active;
     public User(){
     }
 
@@ -33,13 +36,14 @@ public class User {
         this.active = user.getActive();
     }
 
-    public User(String username, Team team, String name, boolean maintainer, String password, Set<Role> roles, boolean active) {
+    public User(String username, Team team, String name, boolean maintainer, String password, Set<Role> roles, Project project, boolean active) {
         this.username = username;
         this.team = team;
         this.name = name;
         this.maintainer = maintainer;
         this.password = password;
         this.roles = roles;
+        this.project = project;
         this.active = active;
     }
 
@@ -96,6 +100,14 @@ public class User {
 
     public void removeRole(Role role) {
         this.roles.remove(role);
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public boolean getActive() {

@@ -67,7 +67,15 @@ CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
 
 
 $.post("/file",function(data){
-    editor.getDoc().setValue(mtoString(data));
+    console.log(data);
+    //code_id code_title content type
+    for (var i = 0; i < data.length; i++) {
+        var title = data[i].code_title;
+        var code_id = data[i].code_id;
+        $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ")'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
+    }
+    var codes = data;
+    editor.getDoc().setValue(data[1].content);
 });
 
 function mtoString(data){
@@ -146,16 +154,24 @@ function change(mime,mode,selected) {
 }
 
 function tabNew(){
-    $("#tab_new").before("<span class='tabs' onclick='tabClick(this)'><i class='fa fa-file-code-o' aria-hidden='true'></i>head.h</span>");
+    var file_name = $("#ip_filename").val();
+    if (file_name !== "") {
+        $("#tab_new").before("<span class='tabs' onclick='tabClick(this)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
+    }
 }
 
-function tabClick(e) {
+function tabClick(e, index) {
     var tabs = document.getElementsByClassName("tabs_selected");
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].className = "tabs";
     }
 
     e.className = "tabs_selected";
+
+    //
+    $.post("/code/" + index, function (data) {
+        editor.getDoc().setValue(data);
+    });
 }
 
 function m_input_focus(e) {
@@ -168,4 +184,8 @@ function m_input_focus(e) {
         }
     }
     parameters.append("<input onfocus=\"m_input_focus(this)\" type=\"text\" class=\"form-control input-parameters\" placeholder=\"请输入参数\" />");
+}
+
+function switchProject(e) {
+
 }

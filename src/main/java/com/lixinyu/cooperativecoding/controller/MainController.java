@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class MainController{
     //自定义登录页实现
     @GetMapping("/login")
-    public String login_get() {
+    public String login() {
         return "login";
     }
 

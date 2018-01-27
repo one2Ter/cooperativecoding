@@ -1,9 +1,12 @@
 package com.lixinyu.cooperativecoding.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties(value = {"codes"})
 public class Project {
     @Id
 
@@ -12,7 +15,7 @@ public class Project {
     //项目名称
     private String project_name;
 
-    @OneToMany(mappedBy = "project",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Code> codes;
 
     @ManyToOne

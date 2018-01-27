@@ -16,18 +16,18 @@
 <body>
 <div id="editor">
 	<div id="title">
-        <div style="width: 100%;float: left;background-color: #009999;height: 30px;line-height: 30px">
+        <div class="title-bar">
             <img style="width: 24px;height: 24px;border-radius: 12px;float: left;margin: 3px" src="img/head.png" />
             <span style="color: white">李新宇(20143461)正在编辑</span>
-            <span class="code_mode" onclick="change('text/x-python','python',this)">Python</span>
-            <span class="code_mode" onclick="change('text/x-java','clike',this)">Java</span>
-            <span class="code_mode" onclick="change('text/x-c++src','clike',this)">C++</span>
-            <span class="code_mode" onclick="change('text/x-csrc','clike',this)">C</span>
+
+            <span class="code_mode" type="button" data-toggle="modal" data-target="#m_switch_project">默认空间</span>
+            <!--<span class="code_mode" onclick="change('text/x-python','python',this)">Python</span>-->
+            <!--<span class="code_mode" onclick="change('text/x-java','clike',this)">Java</span>-->
+            <!--<span class="code_mode" onclick="change('text/x-c++src','clike',this)">C++</span>-->
+            <!--<span class="code_mode" onclick="change('text/x-csrc','clike',this)">C</span>-->
         </div>
     </div>
     <div id="bookmark">
-        <span class="tabs" onclick="tabClick(this)"><i class="fa fa-file-code-o" aria-hidden="true"></i>readme.md</span>
-        <span class="tabs_selected" onclick="tabClick(this)" style="color: royalblue"><i class="fa fa-file-code-o" aria-hidden="true"></i>helloworld.c</span>
         <div type="button" data-toggle="modal" data-target="#m_new_tab" id="tab_new"><i id="btn_new"
                                                                                         class="fa fa-plus-circle"
                                                                                         aria-hidden="true"></i></div>
@@ -65,9 +65,10 @@
                 <h4 class="modal-title"><i class="fa fa-file-o" aria-hidden="true"></i>新建文件</h4>
             </div>
             <div class="modal-body">
+
                 <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="请输入文件名" />
+                        <input id="ip_filename" type="text" class="form-control" placeholder="请输入文件名"/>
                     </div>
                 </form>
             </div>
@@ -97,7 +98,53 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" onclick="tabNew()" class="btn btn-primary" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="m_switch_project" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fa fa-tasks" aria-hidden="true"></i>所有项目</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover" id="project_table">
+                    <thead>
+                    <tr>
+                        <th scope="col">切换</th>
+                        <th scope="col">名称</th>
+                        <th scope="col">创建日期</th>
+                        <th scope="col">在线人数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr onclick="switchProject(this)">
+                        <th scope="row"><input type="radio" name="project_radio"/></th>
+                        <td>默认空间</td>
+                        <td>2018-01-01</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><input type="radio" name="project_radio"/></th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td colspan="2">Larry the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
             </div>
         </div>
     </div>

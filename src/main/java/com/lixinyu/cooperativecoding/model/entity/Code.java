@@ -1,14 +1,17 @@
 package com.lixinyu.cooperativecoding.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
+@JsonIgnoreProperties(value = {"project"})
 public class Code {
     @Id
-    private long code_id;
+    private int code_id;
     private String code_title;
 	private String content;
 	private String type;
@@ -16,6 +19,8 @@ public class Code {
 	@ManyToOne
     @JoinColumn(name = "project_id")
 	private Project project;
+
+    private boolean main;
 
     public Code() {
 
@@ -41,7 +46,7 @@ public class Code {
 		return code_id;
 	}
 
-    public void setCode_id(long code_id) {
+    public void setCode_id(int code_id) {
 		this.code_id = code_id;
 	}
 
