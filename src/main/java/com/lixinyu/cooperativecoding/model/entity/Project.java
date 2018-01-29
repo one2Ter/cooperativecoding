@@ -15,7 +15,7 @@ public class Project {
     //项目名称
     private String project_name;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Code> codes;
 
     @ManyToOne

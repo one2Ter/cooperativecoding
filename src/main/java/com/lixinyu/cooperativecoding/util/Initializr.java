@@ -72,8 +72,8 @@ public class Initializr implements CommandLineRunner {
                 "    printf(\"well,x=%s,y=%s\",x,y);\n" +
                 "}";
 
-        codeRepository.save(new Code(1, "main.c", s, "c", projectRepository.findOne(1)));
-        codeRepository.save(new Code(2, "readme.md", "毕业设计readme", "text", projectRepository.findOne(1)));
+        codeRepository.save(new Code(1, "main.c", s, "c", projectRepository.findOne(1), true));
+        codeRepository.save(new Code(2, "readme.md", "毕业设计readme", "text", projectRepository.findOne(1), false));
     }
 
 }

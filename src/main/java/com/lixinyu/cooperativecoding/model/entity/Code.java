@@ -20,18 +20,20 @@ public class Code {
     @JoinColumn(name = "project_id")
 	private Project project;
 
-    private boolean main;
+    private boolean executable;
+
 
     public Code() {
 
     }
 
-    public Code(int code_id, String code_title, String content, String type, Project project) {
+    public Code(int code_id, String code_title, String content, String type, Project project, boolean executable) {
         this.code_id = code_id;
         this.code_title = code_title;
         this.content = content;
         this.type = type;
         this.project = project;
+        this.executable = executable;
     }
 
     public String getCode_title() {
@@ -72,5 +74,13 @@ public class Code {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public boolean isExecutable() {
+        return executable;
+    }
+
+    public void setExecutable(boolean executable) {
+        this.executable = executable;
     }
 }

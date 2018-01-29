@@ -4,6 +4,7 @@ var content = $("#chatcontent");
 var cursor = null;
 var username = null;
 var maintainer = true;
+var code_id = 0;
 function connect() {
     username = localStorage.getItem("username");
     stompClient = Stomp.over(new SockJS('/message'));
@@ -27,7 +28,8 @@ function connect() {
                     break;
                 case 1:
                     var console = $("#console");
-                    console.val(JSON.parse(message.body).content);
+                    var output = JSON.parse(message.body).content;
+                    console.val(output);
                     break;
             }
         });
@@ -89,7 +91,7 @@ function mtoString(data){
 
 function update(){
     var content = editor.getValue();
-    stompClient.send("/server/message",{},JSON.stringify({'id':-1,'content':editor.getValue()}));
+    stompClient.send("/server/message", {}, JSON.stringify({'id': -1, 'content': editor.getValue(), 'extra': code_id}));
 }
 
 function run(){
@@ -156,16 +158,19 @@ function change(mime,mode,selected) {
 function tabNew(){
     var file_name = $("#ip_filename").val();
     if (file_name !== "") {
-        $("#tab_new").before("<span class='tabs' onclick='tabClick(this)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
+        $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ")'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
     }
 }
 
 function tabClick(e, index) {
+
+    //选项卡选中状态UI
+    code_id = index;
+
     var tabs = document.getElementsByClassName("tabs_selected");
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].className = "tabs";
     }
-
     e.className = "tabs_selected";
 
     //
