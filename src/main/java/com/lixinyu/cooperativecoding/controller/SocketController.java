@@ -5,7 +5,6 @@ import com.lixinyu.cooperativecoding.data.UserRepository;
 import com.lixinyu.cooperativecoding.model.Message;
 import com.lixinyu.cooperativecoding.model.Output;
 import com.lixinyu.cooperativecoding.model.entity.Code;
-import com.lixinyu.cooperativecoding.model.entity.Project;
 import com.lixinyu.cooperativecoding.model.entity.User;
 import com.lixinyu.cooperativecoding.util.Compiler;
 import com.lixinyu.cooperativecoding.util.Writer;
@@ -16,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
-import java.util.Set;
 
 @Controller
 public class SocketController {
@@ -56,13 +54,7 @@ public class SocketController {
 
                 break;
             case MSG_RUN:
-                //把project下所有的文件写入 然后执行编译运行
-                //首先获取project
-                Project project = user.getProject();
-                //获取project下所有的文件
-                Set<Code> codes = project.getCodes();
-                //在src目录下依次写文件
-                for (Code c : codes) {
+                for (Code c : user.getProject().getCodes()) {
                     System.out.println(c.getContent());
                     if (c.isExecutable()) {
                         code_type = c.getType();

@@ -2,10 +2,7 @@ package com.lixinyu.cooperativecoding.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @JsonIgnoreProperties(value = {"project"})
@@ -13,7 +10,10 @@ public class Code {
     @Id
     private int code_id;
     private String code_title;
-	private String content;
+
+    //@Lob : 设置MYSQL中content的字段类型为longtext(存储更多字符串)
+    @Lob
+    private String content;
 	private String type;
 
 	@ManyToOne

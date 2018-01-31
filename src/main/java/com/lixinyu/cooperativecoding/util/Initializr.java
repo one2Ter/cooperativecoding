@@ -52,6 +52,7 @@ public class Initializr implements CommandLineRunner {
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findOne(0));
         userRepository.save(new User("20143461", teamRepository.findOne(140103), "李新宇", false, "20143461", roles, projectRepository.findOne(1), true));
+        //userRepository.save(new User("20143460", teamRepository.findOne(140103), "张三丰", false, "20143460", roles, projectRepository.findOne(1), true));
 
         //为李新宇添加管理员权限
         User user = userRepository.findByUsername("20143461").get();
@@ -60,16 +61,29 @@ public class Initializr implements CommandLineRunner {
     }
 
     private void initCode() {
-        String s = "#include<stdio.h>\n" +
-                "void main()\n" +
+        String s = "#include <stdio.h>\n" +
+                "int main()\n" +
                 "{\n" +
-                "    char x[]=\"stack\";\n" +
-                "    char y[]=\"overflow\";\n" +
-                "    printf(\"SET X:\\n\");\n" +
-                "    scanf(\"%s\",x);\n" +
-                "    printf(\"SET Y:\\n\");\n" +
-                "    scanf(\"%s\",y);\n" +
-                "    printf(\"well,x=%s,y=%s\",x,y);\n" +
+                "    int i,j,k;\n" +
+                "    for(i=0;i<=3;i++) {\n" +
+                "        for(j=0;j<=2-i;j++) {\n" +
+                "            printf(\" \");\n" +
+                "        }\n" +
+                "        for(k=0;k<=2*i;k++) {\n" +
+                "            printf(\"*\");\n" +
+                "        }\n" +
+                "        printf(\"\\n\");\n" +
+                "    }\n" +
+                "    for(i=0;i<=2;i++) {\n" +
+                "        for(j=0;j<=i;j++) {\n" +
+                "            printf(\" \");\n" +
+                "        }\n" +
+                "        for(k=0;k<=4-2*i;k++) {\n" +
+                "            printf(\"*\");\n" +
+                "        }\n" +
+                "        printf(\"\\n\");\n" +
+                "    }\n" +
+                "  \n" +
                 "}";
 
         codeRepository.save(new Code(1, "main.c", s, "c", projectRepository.findOne(1), true));
