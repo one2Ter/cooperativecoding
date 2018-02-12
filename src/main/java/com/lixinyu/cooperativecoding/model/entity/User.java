@@ -22,6 +22,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    private long lastHeartbeat;
     private boolean active;
     public User(){
     }
@@ -108,6 +110,14 @@ public class User {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public long getLastHeartbeat() {
+        return lastHeartbeat;
+    }
+
+    public void setLastHeartbeat(long lastHeartbeat) {
+        this.lastHeartbeat = lastHeartbeat;
     }
 
     public boolean getActive() {

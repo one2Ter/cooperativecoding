@@ -5,6 +5,7 @@ var cursor = null;
 var username = null;
 var maintainer = true;
 var code_id = 0;
+
 function connect() {
     username = localStorage.getItem("username");
     stompClient = Stomp.over(new SockJS('/message'));
@@ -114,12 +115,23 @@ function resize(){
     $("body").height(height - 60);
     editor.setSize(width * 0.7, height - 194);
     content.height(height - 120);
+    content.scrollTop(content[0].scrollHeight);
+}
+
+function heartbeat() {
+    //客户端每隔10秒向服务端发送心跳，服务端统计在线人数
+    console.log("客户端向服务端发送心跳 服务端统计在线人数");
+    if(connected){
+        stompClient.send("/server/message", {}, JSON.stringify({'id': 2}));
+    }else{
+        console.log("正在等待建立socket连接...");
+    }
 }
 
 $(document).ready(function(){
     connect();
     resize();
-    content.scrollTop(content[0].scrollHeight);
+    setInterval(heartbeat,10000);
 });
 
 window.onresize = function resizeBody(){

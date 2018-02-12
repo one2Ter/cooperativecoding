@@ -31,10 +31,14 @@ public class Initializr implements CommandLineRunner {
         initUser();
         initCode();
     }
-
+    /*
+    * Administrator 系统管理员
+    * User          普通用户
+    * Guest         游客
+    */
     private void initRole() {
-        roleRepository.save(new Role(0, "User"));
-        roleRepository.save(new Role(1, "Administrator"));
+        roleRepository.save(new Role(0, "Administrator"));
+        roleRepository.save(new Role(1, "User"));
         roleRepository.save(new Role(2, "Guest"));
     }
 
@@ -89,5 +93,4 @@ public class Initializr implements CommandLineRunner {
         codeRepository.save(new Code(1, "main.c", s, "c", projectRepository.findOne(1), true));
         codeRepository.save(new Code(2, "readme.md", "毕业设计readme", "text", projectRepository.findOne(1), false));
     }
-
 }

@@ -22,6 +22,7 @@ public class SocketController {
     private static final int MSG_CHAT = 0;
     private static final int MSG_CODE = -1;
     private static final int MSG_RUN = 1;
+    private static final int MSG_HEARTBEAT = 2;
 
     private File file;
     private String code_type;
@@ -69,6 +70,11 @@ public class SocketController {
                 }else{
                     message.setContent(o.getOutput());
                 }
+                break;
+            case MSG_HEARTBEAT:
+                //将当前时间写入到lastHeartbeat字段
+                user.setLastHeartbeat(System.currentTimeMillis());
+                userRepository.save(user);
                 break;
         }
         message.setFrom(name);
