@@ -203,6 +203,14 @@ function m_input_focus(e) {
     parameters.append("<input onfocus=\"m_input_focus(this)\" type=\"text\" class=\"form-control input-parameters\" placeholder=\"请输入参数\" />");
 }
 
-function switchProject(e) {
+function loadProject() {
+    $.post("/project/all",function (data) {
+        for(var i=0;i<data.length;i++){
+            var project_name = data[i].project_name;
+            var online = data[i].online;
 
+            console.log(project_name);
+            $("#project_list").html("<tr><th scope=\"row\"><input type=\"radio\" name=\"project_radio\"/></th><td>"+project_name+"</td><td>"+online+"</td></tr>");
+        }
+    });
 }

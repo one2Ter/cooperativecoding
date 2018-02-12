@@ -9,7 +9,6 @@ import java.util.Set;
 @JsonIgnoreProperties(value = {"codes"})
 public class Project {
     @Id
-
     private int project_id;
 
     //项目名称
@@ -21,6 +20,9 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
+    //在线人数
+    private int online = 0;
 
     public Project() {
     }
@@ -61,5 +63,13 @@ public class Project {
 
     public void setProject_id(int project_id) {
         this.project_id = project_id;
+    }
+
+    public int getOnline() {
+        return online;
+    }
+
+    public void setOnline(int online) {
+        this.online = online;
     }
 }

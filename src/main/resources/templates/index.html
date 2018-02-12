@@ -20,7 +20,7 @@
             <img style="width: 24px;height: 24px;border-radius: 12px;float: left;margin: 3px" src="img/head.png" />
             <span style="color: white">李新宇(20143461)正在编辑</span>
 
-            <span class="code_mode" type="button" data-toggle="modal" data-target="#m_switch_project">默认空间</span>
+            <span onclick="loadProject()" class="code_mode" type="button" data-toggle="modal" data-target="#m_switch_project">默认空间</span>
         </div>
     </div>
     <div id="bookmark">
@@ -113,28 +113,11 @@
                     <tr>
                         <th scope="col">切换</th>
                         <th scope="col">名称</th>
-                        <th scope="col">创建日期</th>
                         <th scope="col">在线人数</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr onclick="switchProject(this)">
-                        <th scope="row"><input type="radio" name="project_radio"/></th>
-                        <td>默认空间</td>
-                        <td>2018-01-01</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><input type="radio" name="project_radio"/></th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><input type="radio" name="project_radio"/></th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                    <tbody id="project_list">
+
                     </tbody>
                 </table>
             </div>
