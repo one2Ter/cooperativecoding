@@ -39,8 +39,6 @@ public class SocketController {
         String name = authentication.getName();
         User user = userRepository.findByUsername(name).get();
 
-
-
         //TODO database操作
         switch (message.getId()){
             case MSG_CHAT:
@@ -63,6 +61,7 @@ public class SocketController {
                         Writer.write(c.getContent(), "/spring_boot/src/" + c.getCode_title());
                     }
                 }
+
 
                 Output o = Compiler.execute(file, code_type, message.getExtra().split("\\|"));
                 if(!o.getError().equals("")){
