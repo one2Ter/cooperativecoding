@@ -14,7 +14,8 @@ public class User {
     private String name;
     private boolean maintainer;
     private String password;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name="uid",referencedColumnName = "username"),inverseJoinColumns = @JoinColumn(name = "role",referencedColumnName = "role_id"))
     private Set<Role> roles;
 
