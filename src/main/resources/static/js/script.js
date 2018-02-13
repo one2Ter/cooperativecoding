@@ -205,12 +205,13 @@ function m_input_focus(e) {
 
 function loadProject() {
     $.post("/project/all",function (data) {
+        var content="";
         for(var i=0;i<data.length;i++){
             var project_name = data[i].project_name;
             var online = data[i].online;
-
             console.log(project_name);
-            $("#project_list").html("<tr><th scope=\"row\"><input type=\"radio\" name=\"project_radio\"/></th><td>"+project_name+"</td><td>"+online+"</td></tr>");
+            content+="<tr><th scope=\"row\"><input type=\"radio\" name=\"project_radio\"/></th><td>"+project_name+"</td><td>"+online+"</td></tr>";
         }
+        $("#project_list").html(content);
     });
 }

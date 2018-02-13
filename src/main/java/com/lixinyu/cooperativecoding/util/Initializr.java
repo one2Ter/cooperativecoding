@@ -49,18 +49,22 @@ public class Initializr implements CommandLineRunner {
     }
 
     private void initProject() {
+        //14计科3班的project
         projectRepository.save(new Project(1, "helloworld", teamRepository.findOne(140103)));
+        projectRepository.save(new Project(2, "testone", teamRepository.findOne(140103)));
+        projectRepository.save(new Project(3, "testone", teamRepository.findOne(140101)));
     }
 
     private void initUser() {
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findOne(0));
+        roles.add(roleRepository.findOne(1));
+
         userRepository.save(new User("20143461", teamRepository.findOne(140103), "李新宇", false, "20143461", roles, projectRepository.findOne(1), true));
-        //userRepository.save(new User("20143460", teamRepository.findOne(140103), "张三丰", false, "20143460", roles, projectRepository.findOne(1), true));
+        //userRepository.save(new User("20143460", teamRepository.findOne(140101), "张三丰", false, "20143460", roles, projectRepository.findOne(3), true));
 
         //为李新宇添加管理员权限
         User user = userRepository.findByUsername("20143461").get();
-        user.addRole(roleRepository.findOne(1));
+        user.addRole(roleRepository.findOne(0));
         userRepository.save(user);
     }
 

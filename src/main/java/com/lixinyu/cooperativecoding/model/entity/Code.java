@@ -22,7 +22,6 @@ public class Code {
 
     private boolean executable;
 
-
     public Code() {
 
     }

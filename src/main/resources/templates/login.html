@@ -2,18 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 <head>
     <title>登录</title>
-
 </head>
 <body onload='document.f.username.focus();'>
 <h1>Login with Username and Password</h1>
 <form id="f" name='f' action='/login' method='POST'>
     <table>
         <tr>
-            <td>USERNAME:</td>
+            <td>用户名</td>
             <td><input id="username" type='text' name='username' th:value='20143461' /></td>
         </tr>
         <tr>
-            <td>PASSWORD:</td>
+            <td>密码</td>
             <td><input type='password' name='password' th:value="20143461" /></td>
         </tr>
         <tr>

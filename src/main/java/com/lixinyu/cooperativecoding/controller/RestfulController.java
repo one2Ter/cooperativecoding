@@ -1,6 +1,7 @@
 package com.lixinyu.cooperativecoding.controller;
 
 import com.lixinyu.cooperativecoding.data.CodeRepository;
+import com.lixinyu.cooperativecoding.data.ProjectRepository;
 import com.lixinyu.cooperativecoding.data.UserRepository;
 import com.lixinyu.cooperativecoding.model.entity.Code;
 import com.lixinyu.cooperativecoding.model.entity.Project;
@@ -23,6 +24,8 @@ public class RestfulController {
     private UserRepository userRepository;
     @Autowired
     private CodeRepository codeRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
 
     @RequestMapping(value = "/file")
@@ -66,14 +69,14 @@ public class RestfulController {
         for(Project project:projects){
             //统计在线人数
             int online = 0;
-            for(User user:userRepository.findAll()){
-                if(System.currentTimeMillis() - user.getLastHeartbeat() < 15000){
+            for(User user : userRepository.findAll()){
+                if(user.getProject() == project && System.currentTimeMillis() - user.getLastHeartbeat() < 15000){
                     online++;
                 }
             }
             project.setOnline(online);
+            //projectRepository.save(project);
         }
-
         return projects;
     }
 }
