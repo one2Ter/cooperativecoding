@@ -56,7 +56,7 @@ public class SocketController {
                 for (Code c : user.getProject().getCodes()) {
                     System.out.println(c.getContent());
                     if (c.isExecutable()) {
-                        code_type = c.getType();
+                        code_type = c.getMode();
                         file = Writer.write(c.getContent(), "/spring_boot/src/" + c.getCode_title());
                     } else {
                         Writer.write(c.getContent(), "/spring_boot/src/" + c.getCode_title());

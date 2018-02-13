@@ -60,16 +60,15 @@ public class Initializr implements CommandLineRunner {
     }
 
     private void initUser() {
-
-        //14计科1班
-        Team team = teamRepository.findOne(140101);
-
+        Team team;
+        Project project;
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findOne(1));
 
-        Project project = projectRepository.findOne(1401010);
+        //14计科1班
+        team = teamRepository.findOne(140101);
+        project = projectRepository.findOne(1401010);
 
-        //userRepository.save(new User("20142805", team, "徐劲松", false, "20142805", roles, project, true));
         userRepository.save(new User("20142805", team, "徐劲松", false, "20142805",roles,project,true));
         userRepository.save(new User("20142807", team, "赵伟业", false, "20142807",roles,project,true));
         userRepository.save(new User("20142810", team, "王健晖", false, "20142810",roles,project,true));
@@ -220,9 +219,9 @@ public class Initializr implements CommandLineRunner {
         userRepository.save(new User("20144407", team, "陈玮琪", false, "20144407",roles,project,true));
 
         //为李新宇添加管理员权限
-        User user = userRepository.findOne(20143461);
-        user.addRole(roleRepository.findOne(0));
-        userRepository.save(user);
+        //User user = userRepository.findOne(20143461);
+        //user.addRole(roleRepository.findOne(0));
+        //userRepository.save(user);
     }
 
     private void initCode() {

@@ -14,7 +14,7 @@ public class Code {
     //@Lob : 设置MYSQL中content的字段类型为longtext(存储更多字符串)
     @Lob
     private String content;
-	private String type;
+	private String mode;
 
 	@ManyToOne
     @JoinColumn(name = "project_id")
@@ -26,11 +26,11 @@ public class Code {
 
     }
 
-    public Code(int code_id, String code_title, String content, String type, Project project, boolean executable) {
+    public Code(int code_id, String code_title, String content, String mode, Project project, boolean executable) {
         this.code_id = code_id;
         this.code_title = code_title;
         this.content = content;
-        this.type = type;
+        this.mode = mode;
         this.project = project;
         this.executable = executable;
     }
@@ -59,12 +59,12 @@ public class Code {
 		this.content = content;
 	}
 
-    public String getType() {
-        return type;
+    public String getMode() {
+        return mode;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public Project getProject() {

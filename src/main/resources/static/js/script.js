@@ -68,6 +68,22 @@ editor.addKeyMap(map);
 var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
 CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
 
+function tabClick(e, index) {
+
+    //选项卡选中状态UI
+    code_id = index;
+
+    var tabs = document.getElementsByClassName("tabs_selected");
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].className = "tabs";
+    }
+    e.className = "tabs_selected";
+
+    //
+    $.post("/code/" + index, function (data) {
+        editor.getDoc().setValue(data);
+    });
+}
 
 $.post("/file",function(data){
     console.log(data);
@@ -75,10 +91,23 @@ $.post("/file",function(data){
     for (var i = 0; i < data.length; i++) {
         var title = data[i].code_title;
         var code_id = data[i].code_id;
-        $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ")'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
+        var tab = "#tab_"+code_id;
+        $("#tab_new").before("<span class='tabs' id='tab_"+code_id+"' onclick='tabClick(this," + code_id + ")'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
+
+        if(data[i].executable){
+            var tabs = document.getElementsByClassName("tabs");
+            tabs[tabs.length-1].className="tabs_selected";
+            editor.getDoc().setValue(data[i].content);
+
+            switch (data[i].mode){
+                case "c":
+                    editor.setOption("mode", "text/x-c++src");
+                    CodeMirror.autoLoadMode(editor, "clike");
+                    break;
+            }
+        }
     }
-    var codes = data;
-    editor.getDoc().setValue(data[1].content);
+
 });
 
 function mtoString(data){
@@ -174,22 +203,7 @@ function tabNew(){
     }
 }
 
-function tabClick(e, index) {
 
-    //选项卡选中状态UI
-    code_id = index;
-
-    var tabs = document.getElementsByClassName("tabs_selected");
-    for (var i = 0; i < tabs.length; i++) {
-        tabs[i].className = "tabs";
-    }
-    e.className = "tabs_selected";
-
-    //
-    $.post("/code/" + index, function (data) {
-        editor.getDoc().setValue(data);
-    });
-}
 
 function m_input_focus(e) {
     var parameters = $("#parameters");
