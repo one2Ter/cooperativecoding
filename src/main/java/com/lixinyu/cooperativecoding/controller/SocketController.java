@@ -26,11 +26,15 @@ public class SocketController {
 
     private File file;
     private String code_type;
-    @Autowired
-    private CodeRepository codeRepository;
+
+    private final CodeRepository codeRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public SocketController(CodeRepository codeRepository, UserRepository userRepository) {
+        this.codeRepository = codeRepository;
+        this.userRepository = userRepository;
+    }
 
 
     @MessageMapping("/message")
@@ -54,7 +58,6 @@ public class SocketController {
                 break;
             case MSG_RUN:
                 for (Code c : user.getProject().getCodes()) {
-                    System.out.println(c.getContent());
                     if (c.isExecutable()) {
                         code_type = c.getMode();
                         file = Writer.write(c.getContent(), "/spring_boot/src/" + c.getCode_title());
