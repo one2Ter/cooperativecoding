@@ -1,9 +1,12 @@
 package com.lixinyu.cooperativecoding.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties(value = {"project"})
 public class User {
 
     @Id

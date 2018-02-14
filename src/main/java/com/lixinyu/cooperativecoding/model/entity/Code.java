@@ -23,10 +23,6 @@ public class Code {
 
     private boolean executable;
 
-    @OneToOne
-    @JoinColumn(name = "maintainer")
-    private User maintainer;
-
     public Code() {
 
     }
@@ -86,13 +82,5 @@ public class Code {
 
     public void setExecutable(boolean executable) {
         this.executable = executable;
-    }
-
-    public User getMaintainer() {
-        return maintainer;
-    }
-
-    public void setMaintainer(User maintainer) {
-        this.maintainer = maintainer;
     }
 }

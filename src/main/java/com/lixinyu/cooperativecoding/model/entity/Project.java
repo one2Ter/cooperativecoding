@@ -21,6 +21,10 @@ public class Project {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @OneToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "maintainer")
+    private User maintainer;
+
     //在线人数
     private int online = 0;
 
@@ -63,6 +67,14 @@ public class Project {
 
     public void setProject_id(int project_id) {
         this.project_id = project_id;
+    }
+
+    public User getMaintainer() {
+        return maintainer;
+    }
+
+    public void setMaintainer(User maintainer) {
+        this.maintainer = maintainer;
     }
 
     public int getOnline() {

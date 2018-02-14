@@ -47,9 +47,7 @@ public class RestfulController {
     @RequestMapping(value = "/project")
     public @ResponseBody
     Project project(Authentication authentication){
-
         Project project = userRepository.findByUsername(authentication.getName()).get().getProject();
-
         //统计在线人数
         int online = 0;
         for(User user:userRepository.findAll()){
@@ -58,7 +56,6 @@ public class RestfulController {
             }
         }
         project.setOnline(online);
-
         return project;
     }
 

@@ -74,19 +74,6 @@ function tabClick(e, index) {
 
     //
     $.post("/code/" + index, function (data) {
-
-        console.log(data);
-
-
-        if(!(data.maintainer)){
-            console.log("该文档没有Maintainer");
-            maintainer=false;
-        }else{
-            maintainer = username === data.maintainer.username;
-            console.log("你是该文档的Maintainer:"+maintainer);
-        }
-
-        console.log("替换content:");
         editor.getDoc().setValue(data.content);
     });
 }
@@ -100,10 +87,6 @@ $.post("/file",function(data){
         $("#tab_new").before("<span class='tabs' id='tab_"+code_id+"' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
 
         if(data[i].executable){
-
-            console.log("username: "+username+"maintainer: "+data[i].maintainer.username);
-            maintainer = username===data[i].maintainer.username;
-
             var tabs = document.getElementsByClassName("tabs");
             tabs[tabs.length-1].className="tabs_selected";
             editor.getDoc().setValue(data[i].content);
@@ -171,12 +154,25 @@ function heartbeat() {
 }
 
 $(document).ready(function(){
+
     connect();
     resize();
     $.post("/user",function (data) {
         username = data.username;
+
     });
+
     setInterval(heartbeat,10000);
+
+    $.post("/project",function (data) {
+        if(!data.maintainer){
+            alert("no maintainer!");
+            maintainer=false;
+        }else{
+            maintainer = username === data.maintainer.username;
+            alert("username="+username+", data.maintainer.username="+data.maintainer.username+", "+maintainer);
+        }
+    });
 });
 
 window.onresize = function resizeBody(){
