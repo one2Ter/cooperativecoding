@@ -6,6 +6,7 @@ var username = null;
 var code_id = 0;
 var maintainer = false;
 var user=null;
+var project_id=null;
 
 function connect() {
     username = localStorage.getItem("username");
@@ -157,20 +158,22 @@ $(document).ready(function(){
 
     connect();
     resize();
-    $.post("/user",function (data) {
+    $.get("/user",function (data) {
         username = data.username;
+    });
 
+    $.get("/project/current",function (data) {
+        project_id = data;
     });
 
     setInterval(heartbeat,10000);
 
-    $.post("/project",function (data) {
+    $.get("/project",function (data) {
+
         if(!data.maintainer){
-            alert("no maintainer!");
             maintainer=false;
         }else{
             maintainer = username === data.maintainer.username;
-            alert("username="+username+", data.maintainer.username="+data.maintainer.username+", "+maintainer);
         }
     });
 });
@@ -247,13 +250,37 @@ function m_input_focus(e) {
 
 function loadProject() {
     $.post("/project/all",function (data) {
-        var content="";
+        var content=null;
+
         for(var i=0;i<data.length;i++){
+            var pid = data[i].project_id;
             var project_name = data[i].project_name;
             var online = data[i].online;
-            console.log(project_name);
-            content+="<tr><th scope=\"row\"><input type=\"radio\" name=\"project_radio\"/></th><td>"+project_name+"</td><td>"+online+"</td></tr>";
+            var cname="fa fa-toggle-off fa-grey";
+
+            if(project_id===pid){
+                cname = "fa fa-toggle-on fa-green";
+            }
+
+            content+="<tr onclick='projectSwitch(this,"+pid+")' style='cursor: pointer'><th id='"+pid+"' scope=\"row\"><i style='font-size: 24px;' class='"+cname+"'></i></th><td>"+project_name+"</td><td>"+online+"</td></tr>";
         }
         $("#project_list").html(content);
     });
+}
+
+function projectSwitch(e,pid) {
+    project_id=parseInt(pid);
+    var es = document.getElementById("project_list").getElementsByTagName("i");
+    for(var i=0;i<es.length;i++){
+        es[i].className="fa fa-toggle-off fa-grey";
+    }
+    e.getElementsByTagName("i")[0].className="fa fa-toggle-on fa-green";
+}
+
+function switchProject() {
+    $.post("/user/project",{'project_id':project_id},function (data) {
+        window.location.reload();
+    });
+
+
 }

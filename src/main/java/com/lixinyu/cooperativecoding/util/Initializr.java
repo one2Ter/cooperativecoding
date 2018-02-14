@@ -56,12 +56,12 @@ public class Initializr implements CommandLineRunner {
     }
 
     private void initProject() {
-        Project p1 = new Project(1401030, "default_140103", teamRepository.findOne(140103));
-        //p1.setMaintainer(userRepository.findByUsername("20143461").get());
         //14计科3班的project
-        projectRepository.save(p1);
-        projectRepository.save(new Project(1401020, "default_140102", teamRepository.findOne(140102)));
         projectRepository.save(new Project(1401010, "default_140101", teamRepository.findOne(140101)));
+        projectRepository.save(new Project(1401020, "default_140102", teamRepository.findOne(140102)));
+        projectRepository.save(new Project(1401030, "default_140103", teamRepository.findOne(140103)));
+
+        projectRepository.save(new Project(1401031, "second_140103", teamRepository.findOne(140103)));
     }
 
     private void initUser() {
@@ -267,5 +267,7 @@ public class Initializr implements CommandLineRunner {
         codeRepository.save(c1);
 
         codeRepository.save(new Code("readme.md", "毕业设计readme", "text", projectRepository.findOne(1401030), false));
+
+        codeRepository.save(new Code("main.c", "second project of 140103", "c", projectRepository.findOne(1401031), true));
     }
 }

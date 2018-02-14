@@ -234,6 +234,17 @@ body,html{
 .fl {
     float: left;
 }
+
+
+.fa-green{
+    color: #00bb00;
+}
+
+.fa-grey{
+    color: dimgrey;
+
+}
+
  .jimi_lists .msg {
     margin-left: 59px;
     margin-right: 40px;

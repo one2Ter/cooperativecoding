@@ -67,7 +67,7 @@ public class SocketController {
                 }
                 Output o = Compiler.execute(file, code_type, message.getExtra().split("\\|"));
                 if(!o.getError().equals("")){
-                    message.setContent("[COMPILER REPORTED AN ERROR]\n" + o.getError());
+                    message.setContent(o.getError());
                 }else{
                     message.setContent(o.getOutput());
                 }

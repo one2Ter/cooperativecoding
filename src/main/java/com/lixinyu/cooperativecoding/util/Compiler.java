@@ -8,7 +8,7 @@ import java.io.OutputStream;
 public class Compiler {
     private static String PATH_TARGET = "/spring_boot/target/";
         public static Output execute(File file, String type, String[] inputs) throws Exception {
-            System.out.println(inputs[0]);
+
             String target = PATH_TARGET + String.valueOf(System.currentTimeMillis());
             Output output = new Output();
             ProcessBuilder processBuilder = new ProcessBuilder("/spring_boot/target/build.sh", target, file.getPath(), type);

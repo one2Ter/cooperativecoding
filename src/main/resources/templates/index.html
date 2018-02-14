@@ -20,7 +20,7 @@
             <img style="width: 24px;height: 24px;border-radius: 12px;float: left;margin: 3px" src="img/head.png" />
             <span style="color: white">李新宇(20143461)正在编辑</span>
 
-            <span onclick="loadProject()" class="code_mode" type="button" data-toggle="modal" data-target="#m_switch_project">默认空间</span>
+            <span onclick="loadProject()" class="code_mode" type="button" data-toggle="modal" data-target="#m_switch_project">切换</span>
         </div>
     </div>
     <div id="bookmark">
@@ -111,7 +111,7 @@
                 <h4 class="modal-title"><i class="fa fa-tasks" aria-hidden="true"></i>所有项目</h4>
             </div>
             <div class="modal-body">
-                <table class="table table-hover" id="project_table">
+                <table class="table table-hover" id="project_table" style="margin-bottom: 0">
                     <thead>
                     <tr>
                         <th scope="col">切换</th>
@@ -126,7 +126,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                <button onclick="switchProject()" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
             </div>
         </div>
     </div>

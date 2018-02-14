@@ -24,6 +24,8 @@ public class RestfulController {
     private final CodeRepository codeRepository;
     private final ProjectRepository projectRepository;
 
+
+
     @Autowired
     public RestfulController(UserRepository userRepository, CodeRepository codeRepository, ProjectRepository projectRepository) {
         this.userRepository = userRepository;
@@ -44,7 +46,7 @@ public class RestfulController {
         return codeRepository.findOne(code_id);
     }
 
-    @RequestMapping(value = "/project")
+    @GetMapping(value = "/project")
     public @ResponseBody
     Project project(Authentication authentication){
         Project project = userRepository.findByUsername(authentication.getName()).get().getProject();
@@ -81,7 +83,7 @@ public class RestfulController {
         return projects;
     }
 
-    @RequestMapping(value = "code/new")
+    @RequestMapping(value = "/code/new")
     public @ResponseBody
     Code codeNew(@RequestParam("code_title") String code_title, Authentication authentication){
         User user = userRepository.findByUsername(authentication.getName()).get();
@@ -90,9 +92,29 @@ public class RestfulController {
         return code;
     }
 
-    @RequestMapping(value="user")
+    @GetMapping(value="/user")
     public @ResponseBody
     User getUserInfo(Authentication authentication){
         return userRepository.findByUsername(authentication.getName()).get();
+    }
+
+    //Set project
+    @RequestMapping(value="/user/project")
+    public @ResponseBody
+    User setUserInfo(@RequestParam("project_id") int project_id,Authentication authentication){
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        Project project = projectRepository.findOne(project_id);
+
+        user.setProject(project);
+        userRepository.save(user);
+        projectRepository.save(project);
+        System.out.println(user.getProject().getProject_name());
+        return user;
+    }
+
+    @GetMapping(value = "/project/current")
+    public @ResponseBody
+    long cproject(Authentication authentication){
+        return userRepository.findByUsername(authentication.getName()).get().getProject().getProject_id();
     }
 }
