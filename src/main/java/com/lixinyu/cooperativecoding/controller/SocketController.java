@@ -45,11 +45,11 @@ public class SocketController {
             case MSG_CHAT:
                 break;
             case MSG_CODE:
-
                 int code_id = Integer.parseInt(message.getExtra());
                 Code code = codeRepository.findOne(code_id);
-                code.setContent(message.getContent());
-                codeRepository.save(code);
+
+                    code.setContent(message.getContent());
+                    codeRepository.save(code);
 
                 break;
             case MSG_RUN:
@@ -62,8 +62,6 @@ public class SocketController {
                         Writer.write(c.getContent(), "/spring_boot/src/" + c.getCode_title());
                     }
                 }
-
-
                 Output o = Compiler.execute(file, code_type, message.getExtra().split("\\|"));
                 if(!o.getError().equals("")){
                     message.setContent("[COMPILER REPORTED AN ERROR]\n" + o.getError());

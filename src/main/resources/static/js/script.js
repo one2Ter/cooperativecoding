@@ -3,8 +3,9 @@ var connected = false;
 var content = $("#chatcontent");
 var cursor = null;
 var username = null;
-var maintainer = true;
 var code_id = 0;
+var maintainer = false;
+var user=null;
 
 function connect() {
     username = localStorage.getItem("username");
@@ -13,6 +14,7 @@ function connect() {
         connected = true;
         stompClient.subscribe('/clients/message', function (message) {
             var response = JSON.parse(message.body);
+
             switch (response.id){
                 case 0:
                     receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from,JSON.parse(message.body).from);
@@ -59,15 +61,6 @@ var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
     lineNumbers: true
 });
 
-//按键绑定
-var map = {
-    "Ctrl-S": function(cm){update();}
-};
-editor.addKeyMap(map);
-
-var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
-CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
-
 function tabClick(e, index) {
 
     //选项卡选中状态UI
@@ -81,34 +74,55 @@ function tabClick(e, index) {
 
     //
     $.post("/code/" + index, function (data) {
-        editor.getDoc().setValue(data);
+
+        console.log(data);
+
+
+        if(!(data.maintainer)){
+            console.log("该文档没有Maintainer");
+            maintainer=false;
+        }else{
+            maintainer = username === data.maintainer.username;
+            console.log("你是该文档的Maintainer:"+maintainer);
+        }
+
+        console.log("替换content:");
+        editor.getDoc().setValue(data.content);
     });
 }
 
 $.post("/file",function(data){
-    console.log(data);
     //code_id code_title content type
     for (var i = 0; i < data.length; i++) {
         var title = data[i].code_title;
-        var code_id = data[i].code_id;
+        code_id = data[i].code_id;
         var tab = "#tab_"+code_id;
-        $("#tab_new").before("<span class='tabs' id='tab_"+code_id+"' onclick='tabClick(this," + code_id + ")'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
+        $("#tab_new").before("<span class='tabs' id='tab_"+code_id+"' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
 
         if(data[i].executable){
+
+            console.log("username: "+username+"maintainer: "+data[i].maintainer.username);
+            maintainer = username===data[i].maintainer.username;
+
             var tabs = document.getElementsByClassName("tabs");
             tabs[tabs.length-1].className="tabs_selected";
             editor.getDoc().setValue(data[i].content);
 
-            switch (data[i].mode){
-                case "c":
-                    editor.setOption("mode", "text/x-c++src");
-                    CodeMirror.autoLoadMode(editor, "clike");
-                    break;
-            }
+            //代码高亮
+            loadMode(data[i].mode);
         }
     }
 
 });
+
+function loadMode(mode){
+    switch(mode){
+        case "c":
+            editor.setOption("mode", "text/x-c++src");
+            CodeMirror.autoLoadMode(editor, "clike");
+            break;
+    }
+}
 
 function mtoString(data){
     var lines = "";
@@ -148,8 +162,7 @@ function resize(){
 }
 
 function heartbeat() {
-    //客户端每隔10秒向服务端发送心跳，服务端统计在线人数
-    console.log("客户端向服务端发送心跳 服务端统计在线人数");
+    //客户端每隔3秒向服务端发送心跳，服务端统计在线人数
     if(connected){
         stompClient.send("/server/message", {}, JSON.stringify({'id': 2}));
     }else{
@@ -160,6 +173,9 @@ function heartbeat() {
 $(document).ready(function(){
     connect();
     resize();
+    $.post("/user",function (data) {
+        username = data.username;
+    });
     setInterval(heartbeat,10000);
 });
 
@@ -169,9 +185,22 @@ window.onresize = function resizeBody(){
 
 //阻止内容相同时触发的change事件，防止死循环
 editor.on('beforeChange',function (cm,obj) {
-    cursor = cm.doc.getCursor();
-    if(cm.getValue()===mtoString(obj.text)){
-        obj.cancel();
+
+    if(obj.origin==="setValue"){
+        cursor = cm.doc.getCursor();
+        if(cm.getValue()===mtoString(obj.text)){
+            obj.cancel();
+        }
+    }else{
+        if(maintainer){
+            cursor = cm.doc.getCursor();
+            if(cm.getValue()===mtoString(obj.text)){
+                obj.cancel();
+            }
+        }else{
+            obj.cancel();
+            alert("请先取得该文档的编辑权限!");
+        }
     }
 });
 
@@ -197,13 +226,16 @@ function change(mime,mode,selected) {
 }
 
 function tabNew(){
+    var code_id;
     var file_name = $("#ip_filename").val();
     if (file_name !== "") {
-        $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ")'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
+        $.post("/code/new",{'code_title':$("#ip_filename").val()},function (data) {
+            console.log(data);
+            code_id = data.code_id;
+            $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
+        });
     }
 }
-
-
 
 function m_input_focus(e) {
     var parameters = $("#parameters");

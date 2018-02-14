@@ -8,6 +8,7 @@ import javax.persistence.*;
 @JsonIgnoreProperties(value = {"project"})
 public class Code {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int code_id;
     private String code_title;
 
@@ -17,17 +18,21 @@ public class Code {
 	private String mode;
 
 	@ManyToOne
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project")
 	private Project project;
 
     private boolean executable;
+
+    @OneToOne
+    @JoinColumn(name = "maintainer")
+    private User maintainer;
 
     public Code() {
 
     }
 
-    public Code(int code_id, String code_title, String content, String mode, Project project, boolean executable) {
-        this.code_id = code_id;
+    public Code(String code_title, String content, String mode, Project project, boolean executable) {
+        //this.code_id = code_id;
         this.code_title = code_title;
         this.content = content;
         this.mode = mode;
@@ -81,5 +86,13 @@ public class Code {
 
     public void setExecutable(boolean executable) {
         this.executable = executable;
+    }
+
+    public User getMaintainer() {
+        return maintainer;
+    }
+
+    public void setMaintainer(User maintainer) {
+        this.maintainer = maintainer;
     }
 }

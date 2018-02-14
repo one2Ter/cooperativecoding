@@ -20,12 +20,16 @@ import java.util.Set;
 @PreAuthorize("hasAnyRole('User')")
 @RestController
 public class RestfulController {
+    private final UserRepository userRepository;
+    private final CodeRepository codeRepository;
+    private final ProjectRepository projectRepository;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CodeRepository codeRepository;
-    @Autowired
-    private ProjectRepository projectRepository;
+    public RestfulController(UserRepository userRepository, CodeRepository codeRepository, ProjectRepository projectRepository) {
+        this.userRepository = userRepository;
+        this.codeRepository = codeRepository;
+        this.projectRepository = projectRepository;
+    }
 
 
     @RequestMapping(value = "/file")
@@ -36,8 +40,8 @@ public class RestfulController {
 
     @RequestMapping(value = "/code/{code_id}")
     public @ResponseBody
-    String code(@PathVariable int code_id) {
-        return codeRepository.findOne(code_id).getContent();
+    Code code(@PathVariable int code_id) {
+        return codeRepository.findOne(code_id);
     }
 
     @RequestMapping(value = "/project")
@@ -78,5 +82,20 @@ public class RestfulController {
             //projectRepository.save(project);
         }
         return projects;
+    }
+
+    @RequestMapping(value = "code/new")
+    public @ResponseBody
+    Code codeNew(@RequestParam("code_title") String code_title, Authentication authentication){
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        Code code = new Code(code_title,"","c",user.getProject(),false);
+        codeRepository.save(code);
+        return code;
+    }
+
+    @RequestMapping(value="user")
+    public @ResponseBody
+    User getUserInfo(Authentication authentication){
+        return userRepository.findByUsername(authentication.getName()).get();
     }
 }
