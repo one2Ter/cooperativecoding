@@ -34,7 +34,7 @@ public class RestfulController {
     }
 
 
-    @RequestMapping(value = "/file")
+    @RequestMapping(value = "/code/all")
     public @ResponseBody
     Set<Code> jread(Authentication authentication) {
         return userRepository.findByUsername(authentication.getName()).get().getProject().getCodes();
@@ -58,6 +58,14 @@ public class RestfulController {
             }
         }
         project.setOnline(online);
+
+        if (project.getMaintainer()!=null){
+            if(System.currentTimeMillis() - project.getMaintainer().getLastHeartbeat() > 30000){
+                project.setMaintainer(null);
+            }
+        }
+
+        projectRepository.save(project);
         return project;
     }
 
@@ -116,5 +124,36 @@ public class RestfulController {
     public @ResponseBody
     long cproject(Authentication authentication){
         return userRepository.findByUsername(authentication.getName()).get().getProject().getProject_id();
+    }
+
+    @PostMapping(value = "/project/take")
+    public @ResponseBody
+    Project takeProject(Authentication authentication){
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        user.setLastHeartbeat(System.currentTimeMillis());
+        userRepository.save(user);
+        Project project = user.getProject();
+        if (project.getMaintainer() != null) {
+            if (System.currentTimeMillis() - project.getMaintainer().getLastHeartbeat()>30000){
+                project.setMaintainer(user);
+                projectRepository.save(project);
+            }
+        }else{
+            project.setMaintainer(user);
+            projectRepository.save(project);
+        }
+        return project;
+    }
+
+    @PostMapping(value = "/project/release")
+    public @ResponseBody
+    Project releaseProject(Authentication authentication){
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        Project project = user.getProject();
+        if(project.getMaintainer()==user){
+            project.setMaintainer(null);
+        }
+        projectRepository.save(project);
+        return project;
     }
 }

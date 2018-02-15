@@ -17,9 +17,7 @@
 <div id="editor">
 	<div id="title">
         <div class="title-bar">
-            <img style="width: 24px;height: 24px;border-radius: 12px;float: left;margin: 3px" src="img/head.png" />
-            <span style="color: white">李新宇(20143461)正在编辑</span>
-
+            <span onclick="takeCharge()" style="color: white;cursor: pointer" id="maintain_status">此项目暂时无人编辑，点击此处接管</span>
             <span onclick="loadProject()" class="code_mode" type="button" data-toggle="modal" data-target="#m_switch_project">切换</span>
         </div>
     </div>
@@ -40,7 +38,7 @@
 
         <button onclick="run()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer"><i class="fa fa-trash" aria-hidden="true"></i>删除</button>
     </div>
-    <textarea readonly="true" id="console"></textarea>
+    <textarea readonly="readonly" id="console"></textarea>
 </div>
 
 <div id="chatroom">
@@ -120,7 +118,9 @@
                     </tr>
                     </thead>
                     <tbody id="project_list">
-
+                        <div class="fa-3x">
+                            <i class="fas fa-circle-notch fa-spin"></i>
+                        </div>
                     </tbody>
                 </table>
             </div>
@@ -142,7 +142,7 @@
             </div>
             <div class="modal-body">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="margin-bottom: 0">
                     <tbody>
                     <tr>
                         <th scope="row">名称</th>

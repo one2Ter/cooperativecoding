@@ -15,24 +15,24 @@ function connect() {
         connected = true;
         stompClient.subscribe('/clients/message', function (message) {
             var response = JSON.parse(message.body);
-
             switch (response.id){
                 case 0:
-                    receiveMessage("chat:"+JSON.parse(message.body).content+"from:"+JSON.parse(message.body).from,JSON.parse(message.body).from);
+                    receiveMessage("chat:"+response.content+"from:"+response.from,response.from);
                     break;
                 case -1:
-                    var data = JSON.parse(message.body).content;
-                    var lines = "";
-                    for(var i=0;i<data.length;i++){
-                        lines += data[i];
+
+                    if(response.from!==username){
+                        cursor = editor.doc.getCursor();
+
+                        editor.getDoc().setValue(response.content);
+                        //重置光标位置
+                        editor.doc.setCursor(cursor);
                     }
-                    editor.getDoc().setValue(lines);
-                    //重置光标位置
-                    editor.doc.setCursor(cursor);
+
                     break;
                 case 1:
                     var console = $("#console");
-                    var output = JSON.parse(message.body).content;
+                    var output = response.content;
                     console.val(output);
                     break;
             }
@@ -43,11 +43,10 @@ function connect() {
 function sendMessage(){
     var input =$("#inputBox");
     var message = input.val();
-    if(!connected){
-        connect();
+    if(connected){
+        stompClient.send("/server/message", {}, JSON.stringify({'id':0,'content': message}));
+        input.val("");
     }
-    stompClient.send("/server/message", {}, JSON.stringify({'id':0,'content': message}));
-    input.val("");
 }
 
 function receiveMessage(msg,from){
@@ -63,23 +62,19 @@ var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
 });
 
 function tabClick(e, index) {
-
     //选项卡选中状态UI
     code_id = index;
-
     var tabs = document.getElementsByClassName("tabs_selected");
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].className = "tabs";
     }
     e.className = "tabs_selected";
-
-    //
     $.post("/code/" + index, function (data) {
         editor.getDoc().setValue(data.content);
     });
 }
 
-$.post("/file",function(data){
+$.post("/code/all",function(data){
     //code_id code_title content type
     for (var i = 0; i < data.length; i++) {
         var title = data[i].code_title;
@@ -91,7 +86,6 @@ $.post("/file",function(data){
             var tabs = document.getElementsByClassName("tabs");
             tabs[tabs.length-1].className="tabs_selected";
             editor.getDoc().setValue(data[i].content);
-
             //代码高亮
             loadMode(data[i].mode);
         }
@@ -117,10 +111,7 @@ function mtoString(data){
     return lines;
 }
 
-function update(){
-    var content = editor.getValue();
-    stompClient.send("/server/message", {}, JSON.stringify({'id': -1, 'content': editor.getValue(), 'extra': code_id}));
-}
+
 
 function run(){
     var input_parameters = document.getElementsByClassName("input-parameters");
@@ -128,11 +119,8 @@ function run(){
     for (var i = 0; i < input_parameters.length - 1; i++) {
         inputs += input_parameters[i].value + "|";
     }
-
     inputs = inputs + input_parameters[input_parameters.length - 1].value;
 
-    console.log(inputs);
-    console.log(JSON.stringify({'id': 1, 'content': editor.getValue(), 'extra': inputs}));
     stompClient.send("/server/message", {}, JSON.stringify({'id': 1, 'content': editor.getValue(), 'extra': inputs}));
 }
 
@@ -146,33 +134,26 @@ function resize(){
 }
 
 function heartbeat() {
-    //客户端每隔3秒向服务端发送心跳，服务端统计在线人数
     if(connected){
         stompClient.send("/server/message", {}, JSON.stringify({'id': 2}));
-    }else{
-        console.log("正在等待建立socket连接...");
     }
 }
 
 $(document).ready(function(){
-
     connect();
     resize();
     $.get("/user",function (data) {
         username = data.username;
     });
-
     $.get("/project/current",function (data) {
         project_id = data;
     });
-
     setInterval(heartbeat,10000);
-
     $.get("/project",function (data) {
-
         if(!data.maintainer){
             maintainer=false;
         }else{
+            $("#maintain_status").html(data.maintainer.name+"("+data.maintainer.username+")正在编辑...");
             maintainer = username === data.maintainer.username;
         }
     });
@@ -183,16 +164,14 @@ window.onresize = function resizeBody(){
 };
 
 //阻止内容相同时触发的change事件，防止死循环
+//再简单点...
 editor.on('beforeChange',function (cm,obj) {
-
     if(obj.origin==="setValue"){
-        cursor = cm.doc.getCursor();
         if(cm.getValue()===mtoString(obj.text)){
             obj.cancel();
         }
     }else{
         if(maintainer){
-            cursor = cm.doc.getCursor();
             if(cm.getValue()===mtoString(obj.text)){
                 obj.cancel();
             }
@@ -203,13 +182,11 @@ editor.on('beforeChange',function (cm,obj) {
     }
 });
 
-//监听编辑器代码变动，同步到所有客户端
 editor.on('change',function (cm) {
     if(connected && maintainer){
-        update();
+        stompClient.send("/server/message", {}, JSON.stringify({'id': -1, 'content': editor.getValue(), 'extra': code_id}));
     }
 });
-
 //切换代码高亮模式
 CodeMirror.modeURL = "js/codemirror/mode/%N/%N.js";
 
@@ -225,14 +202,18 @@ function change(mime,mode,selected) {
 }
 
 function tabNew(){
-    var code_id;
-    var file_name = $("#ip_filename").val();
-    if (file_name !== "") {
-        $.post("/code/new",{'code_title':$("#ip_filename").val()},function (data) {
-            console.log(data);
-            code_id = data.code_id;
-            $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
-        });
+    if(maintainer){
+        var code_id;
+        var file_name = $("#ip_filename").val();
+        if (file_name !== "") {
+            $.post("/code/new",{'code_title':$("#ip_filename").val()},function (data) {
+                console.log(data);
+                code_id = data.code_id;
+                $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
+            });
+        }
+    }else{
+        alert("请先取得该文档的编辑权限!");
     }
 }
 
@@ -251,7 +232,6 @@ function m_input_focus(e) {
 function loadProject() {
     $.post("/project/all",function (data) {
         var content=null;
-
         for(var i=0;i<data.length;i++){
             var pid = data[i].project_id;
             var project_name = data[i].project_name;
@@ -261,7 +241,6 @@ function loadProject() {
             if(project_id===pid){
                 cname = "fa fa-toggle-on fa-green";
             }
-
             content+="<tr onclick='projectSwitch(this,"+pid+")' style='cursor: pointer'><th id='"+pid+"' scope=\"row\"><i style='font-size: 24px;' class='"+cname+"'></i></th><td>"+project_name+"</td><td>"+online+"</td></tr>";
         }
         $("#project_list").html(content);
@@ -281,6 +260,12 @@ function switchProject() {
     $.post("/user/project",{'project_id':project_id},function (data) {
         window.location.reload();
     });
+}
 
-
+//接管项目
+function takeCharge() {
+    $.post("/project/take",function (data) {
+        console.log(data);
+        window.location.reload();
+    });
 }

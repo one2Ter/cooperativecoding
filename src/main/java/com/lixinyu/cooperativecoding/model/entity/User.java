@@ -27,7 +27,7 @@ public class User {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    private long lastHeartbeat;
+    private long lastHeartbeat=0;
     private boolean active;
     public User(){
     }
