@@ -263,11 +263,8 @@ public class Initializr implements CommandLineRunner {
                 "}";
 
         Code c1 = new Code("main.c", s, "c", projectRepository.findOne(1401030), true);
-
         codeRepository.save(c1);
-
         codeRepository.save(new Code("readme.md", "毕业设计readme", "text", projectRepository.findOne(1401030), false));
-
         codeRepository.save(new Code("main.c", "second project of 140103", "c", projectRepository.findOne(1401031), true));
     }
 }

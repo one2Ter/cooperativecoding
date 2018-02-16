@@ -5,55 +5,52 @@ var cursor = null;
 var username = null;
 var code_id = 0;
 var maintainer = false;
-var user=null;
-var project_id=null;
+var user = null;
+var project_id = null;
 
 function connect() {
-    username = localStorage.getItem("username");
     stompClient = Stomp.over(new SockJS('/message'));
-    stompClient.connect({}, function (frame) {
+    stompClient.connect({}, function(frame) {
         connected = true;
-        stompClient.subscribe('/clients/message', function (message) {
+        stompClient.subscribe('/clients/message', function(message) {
             var response = JSON.parse(message.body);
-            switch (response.id){
+            var text = response.content;
+            var from = response.from;
+            switch (response.id) {
                 case 0:
-                    receiveMessage("chat:"+response.content+"from:"+response.from,response.from);
+                    handleMessage(text, from);
                     break;
                 case -1:
-
-                    if(response.from!==username){
+                    if (from !== username) {
                         cursor = editor.doc.getCursor();
-
-                        editor.getDoc().setValue(response.content);
-                        //重置光标位置
+                        editor.getDoc().setValue(text);
                         editor.doc.setCursor(cursor);
                     }
-
                     break;
                 case 1:
-                    var console = $("#console");
-                    var output = response.content;
-                    console.val(output);
+                    $("#console").val(text);
                     break;
             }
         });
     });
 }
 
-function sendMessage(){
-    var input =$("#inputBox");
-    var message = input.val();
-    if(connected){
-        stompClient.send("/server/message", {}, JSON.stringify({'id':0,'content': message}));
+function sendMessage() {
+    if (connected) {
+        var input = $("#inputBox");
+        stompClient.send("/server/message", {}, JSON.stringify({
+            'id': 0,
+            'content': input.val()
+        }));
         input.val("");
     }
 }
 
-function receiveMessage(msg,from){
-    if(from === username){
-        content.append("<div class=\"customer_lists clearfix\"><div class=\"header_img jimi3\" style=\"background: url(../img/mine.jpg) no-repeat center;\"><div class=\"header_img_hover\"></div></div><div class=\"bkbubble left\"><p>"+msg+"</p></div></div>");
-    }else{
-        content.append("<div class=\"jimi_lists clearfix\"><div class=\"header_img jimi3 fl\"></div><div class=\"bkbubble right\"><p>"+msg+"</p></div></div>");
+function handleMessage(msg, from) {
+    if (from === username) {
+        content.append("<div class=\"customer_lists clearfix\"><div class=\"header_img jimi3\" style=\"background: url(../img/mine.jpg) no-repeat center;\"><div class=\"header_img_hover\"></div></div><div class=\"bkbubble left\"><p>" + msg + "</p></div></div>");
+    } else {
+        content.append("<div class=\"jimi_lists clearfix\"><div class=\"header_img jimi3 fl\"></div><div class=\"bkbubble right\"><p>" + msg + "</p></div></div>");
     }
     content.scrollTop(content[0].scrollHeight);
 }
@@ -69,32 +66,29 @@ function tabClick(e, index) {
         tabs[i].className = "tabs";
     }
     e.className = "tabs_selected";
-    $.post("/code/" + index, function (data) {
+    $.post("/code/" + index, function(data) {
         editor.getDoc().setValue(data.content);
     });
 }
 
-$.post("/code/all",function(data){
-    //code_id code_title content type
+$.post("/code/all", function(data) {
     for (var i = 0; i < data.length; i++) {
         var title = data[i].code_title;
         code_id = data[i].code_id;
-        var tab = "#tab_"+code_id;
-        $("#tab_new").before("<span class='tabs' id='tab_"+code_id+"' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
 
-        if(data[i].executable){
+        $("#tab_new").before("<span class='tabs' id='tab_" + code_id + "' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
+
+        if (data[i].executable) {
             var tabs = document.getElementsByClassName("tabs");
-            tabs[tabs.length-1].className="tabs_selected";
+            tabs[tabs.length - 1].className = "tabs_selected";
             editor.getDoc().setValue(data[i].content);
-            //代码高亮
             loadMode(data[i].mode);
         }
     }
-
 });
 
-function loadMode(mode){
-    switch(mode){
+function loadMode(mode) {
+    switch (mode) {
         case "c":
             editor.setOption("mode", "text/x-c++src");
             CodeMirror.autoLoadMode(editor, "clike");
@@ -102,95 +96,104 @@ function loadMode(mode){
     }
 }
 
-function mtoString(data){
+function mtoString(data) {
     var lines = "";
-    for(var i=0;i<data.length-1;i++){
-        lines += data[i]+"\n";
+    for (var i = 0; i < data.length - 1; i++) {
+        lines += data[i] + "\n";
     }
-    lines +=data[i];
+    lines += data[i];
     return lines;
 }
 
 
 
-function run(){
+function run() {
     var input_parameters = document.getElementsByClassName("input-parameters");
     var inputs = "";
     for (var i = 0; i < input_parameters.length - 1; i++) {
         inputs += input_parameters[i].value + "|";
     }
     inputs = inputs + input_parameters[input_parameters.length - 1].value;
-
-    stompClient.send("/server/message", {}, JSON.stringify({'id': 1, 'content': editor.getValue(), 'extra': inputs}));
+    stompClient.send("/server/message", {}, JSON.stringify({
+        'id': 1,
+        'content': editor.getValue(),
+        'extra': inputs
+    }));
 }
 
-function resize(){
+function resize() {
     var width = document.body.clientWidth;
     var height = document.body.clientHeight;
     $("body").height(height - 60);
-    editor.setSize(width * 0.7, height - 194);
+    editor.setSize(width * 0.7, height - 192);
     content.height(height - 120);
     content.scrollTop(content[0].scrollHeight);
 }
 
 function heartbeat() {
-    if(connected){
-        stompClient.send("/server/message", {}, JSON.stringify({'id': 2}));
+    if (connected) {
+        stompClient.send("/server/message", {}, JSON.stringify({
+            'id': 2
+        }));
     }
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
     connect();
     resize();
-    $.get("/user",function (data) {
+    $.get("/user", function(data) {
         username = data.username;
     });
-    $.get("/project/current",function (data) {
+    $.get("/project/current", function(data) {
         project_id = data;
     });
-    setInterval(heartbeat,10000);
-    $.get("/project",function (data) {
-        if(!data.maintainer){
-            maintainer=false;
-        }else{
-            $("#maintain_status").html(data.maintainer.name+"("+data.maintainer.username+")正在编辑...");
+    setInterval(heartbeat, 10000);
+    $.get("/project", function(data) {
+        if (!data.maintainer) {
+            maintainer = false;
+        } else {
+            $("#maintain_status").html(data.maintainer.name + "(" + data.maintainer.username + ")正在编辑...");
             maintainer = username === data.maintainer.username;
         }
     });
 });
 
-window.onresize = function resizeBody(){
+window.onresize = function resizeBody() {
     resize();
 };
 
 //阻止内容相同时触发的change事件，防止死循环
 //再简单点...
-editor.on('beforeChange',function (cm,obj) {
-    if(obj.origin==="setValue"){
-        if(cm.getValue()===mtoString(obj.text)){
+editor.on('beforeChange', function(cm, obj) {
+    if (obj.origin === "setValue") {
+        if (cm.getValue() === mtoString(obj.text)) {
             obj.cancel();
         }
-    }else{
-        if(maintainer){
-            if(cm.getValue()===mtoString(obj.text)){
+    } else {
+        if (maintainer) {
+            if (cm.getValue() === mtoString(obj.text)) {
                 obj.cancel();
             }
-        }else{
+        } else {
             obj.cancel();
             alert("请先取得该文档的编辑权限!");
         }
     }
 });
 
-editor.on('change',function (cm) {
-    if(connected && maintainer){
-        stompClient.send("/server/message", {}, JSON.stringify({'id': -1, 'content': editor.getValue(), 'extra': code_id}));
+editor.on('change', function(cm) {
+    if (connected && maintainer) {
+        stompClient.send("/server/message", {}, JSON.stringify({
+            'id': -1,
+            'content': editor.getValue(),
+            'extra': code_id
+        }));
     }
 });
 //切换代码高亮模式
 CodeMirror.modeURL = "js/codemirror/mode/%N/%N.js";
 
-function change(mime,mode,selected) {
+function change(mime, mode, selected) {
     editor.setOption("mode", mime);
     CodeMirror.autoLoadMode(editor, mode);
 
@@ -201,18 +204,19 @@ function change(mime,mode,selected) {
     selected.className = "code_mode_selected";
 }
 
-function tabNew(){
-    if(maintainer){
+function tabNew() {
+    if (maintainer) {
         var code_id;
         var file_name = $("#ip_filename").val();
         if (file_name !== "") {
-            $.post("/code/new",{'code_title':$("#ip_filename").val()},function (data) {
-                console.log(data);
+            $.post("/code/new", {
+                'code_title': $("#ip_filename").val()
+            }, function(data) {
                 code_id = data.code_id;
                 $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
             });
         }
-    }else{
+    } else {
         alert("请先取得该文档的编辑权限!");
     }
 }
@@ -221,8 +225,8 @@ function m_input_focus(e) {
     var parameters = $("#parameters");
     var children = parameters.children("input");
 
-    for(var i=0;i<children.length;i++){
-        if(children[i]!==e && children[i].value===""){
+    for (var i = 0; i < children.length; i++) {
+        if (children[i] !== e && children[i].value === "") {
             children[i].remove();
         }
     }
@@ -230,42 +234,44 @@ function m_input_focus(e) {
 }
 
 function loadProject() {
-    $.post("/project/all",function (data) {
-        var content=null;
-        for(var i=0;i<data.length;i++){
+    $.post("/project/all", function(data) {
+        var content = null;
+        for (var i = 0; i < data.length; i++) {
             var pid = data[i].project_id;
             var project_name = data[i].project_name;
             var online = data[i].online;
-            var cname="fa fa-toggle-off fa-grey";
+            var cname = "fa fa-toggle-off fa-grey";
 
-            if(project_id===pid){
+            if (project_id === pid) {
                 cname = "fa fa-toggle-on fa-green";
             }
-            content+="<tr onclick='projectSwitch(this,"+pid+")' style='cursor: pointer'><th id='"+pid+"' scope=\"row\"><i style='font-size: 24px;' class='"+cname+"'></i></th><td>"+project_name+"</td><td>"+online+"</td></tr>";
+            content += "<tr onclick='projectSwitch(this," + pid + ")' style='cursor: pointer'><th id='" + pid + "' scope=\"row\"><i style='font-size: 24px;' class='" + cname + "'></i></th><td>" + project_name + "</td><td>" + online + "</td></tr>";
         }
         $("#project_list").html(content);
     });
 }
 
-function projectSwitch(e,pid) {
-    project_id=parseInt(pid);
+function projectSwitch(e, pid) {
+    project_id = parseInt(pid);
     var es = document.getElementById("project_list").getElementsByTagName("i");
-    for(var i=0;i<es.length;i++){
-        es[i].className="fa fa-toggle-off fa-grey";
+    for (var i = 0; i < es.length; i++) {
+        es[i].className = "fa fa-toggle-off fa-grey";
     }
-    e.getElementsByTagName("i")[0].className="fa fa-toggle-on fa-green";
+    e.getElementsByTagName("i")[0].className = "fa fa-toggle-on fa-green";
 }
 
 function switchProject() {
-    $.post("/user/project",{'project_id':project_id},function (data) {
+    $.post("/user/project", {
+        'project_id': project_id
+    }, function(data) {
         window.location.reload();
     });
 }
 
 //接管项目
+
 function takeCharge() {
-    $.post("/project/take",function (data) {
-        console.log(data);
+    $.post("/project/take", function(data) {
         window.location.reload();
     });
 }

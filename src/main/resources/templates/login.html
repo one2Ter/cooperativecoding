@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
 <head>
+    <meta charset="UTF-8"/>
     <title>登录</title>
 </head>
 <body onload='document.f.username.focus();'>
@@ -16,17 +17,9 @@
             <td><input type='password' name='password' th:value="20143461" /></td>
         </tr>
         <tr>
-            <td colspan='2'><input id="btn_login" name="submit" type="submit" value="Login" onclick="login()" /></td>
+            <td colspan='2'><input id="btn_login" name="submit" type="submit" value="Login" /></td>
         </tr>
     </table>
-
-    <script>
-        function login(){
-            localStorage.setItem('username',f.password.value);
-        }
-
-        //document.getElementById("btn_login").click();
-    </script>
 </form>
 </body>
 </html>

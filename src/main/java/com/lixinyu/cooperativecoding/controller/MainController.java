@@ -17,7 +17,6 @@ public class MainController{
     @GetMapping("/")
     public String session(HttpServletRequest request, Model model, Authentication authentication) {
         String username = authentication.getName();
-
         request.getSession().setAttribute("username", username);
         model.addAttribute("username", request.getSession().getAttribute("username"));
         return "index";
@@ -28,7 +27,6 @@ public class MainController{
     public String login() {
         return "login";
     }
-
 
     @PreAuthorize("hasAnyRole('User')")
     @GetMapping("/admin")
