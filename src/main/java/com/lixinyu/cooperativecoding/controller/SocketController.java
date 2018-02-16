@@ -55,15 +55,27 @@ public class SocketController {
                 codeRepository.save(code);
                 break;
             case MSG_RUN:
-                for (Code c : user.getProject().getCodes()) {
-                    if (c.isExecutable()) {
-                        code_type = c.getMode();
-                        file = Writer.write(c.getContent(), "/spring_boot/src/" + c.getCode_title());
-                    } else {
-                        Writer.write(c.getContent(), "/spring_boot/src/" + c.getCode_title());
+                String path = "/tmp/spring_boot/"+name+"_"+System.currentTimeMillis();
+
+                //make dirs
+                //TODO 优化
+                File rootPath = new File("/tmp/spring_boot");
+                if(!rootPath.exists()){
+                    rootPath.mkdir();
+                }
+
+                if(new File(path).mkdir() && new File(path+"/src").mkdir() && new File(path+"/target").mkdir()){
+                    for (Code c : user.getProject().getCodes()) {
+                        if (c.isExecutable()) {
+                            code_type = c.getMode();
+                            file = Writer.write(c.getContent(), path+"/src/" + c.getCode_title());
+                        } else {
+                            Writer.write(c.getContent(), path+"/src/" + c.getCode_title());
+                        }
                     }
                 }
-                Output output = Compiler.execute(file, code_type, message.getExtra().split("\\|"));
+
+                Output output = Compiler.execute(file, path,code_type, message.getExtra().split("\\|"));
                 if(!output.getError().equals("")){
                     message.setContent(output.getError());
                 }else{
