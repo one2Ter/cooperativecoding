@@ -24,7 +24,7 @@ public class SocketController {
     private static final int MSG_RUN = 1;
     private static final int MSG_HEARTBEAT = 2;
 
-    private File file;
+    private File src_file;
     private String code_type;
 
     private final CodeRepository codeRepository;
@@ -65,17 +65,19 @@ public class SocketController {
                 }
 
                 if(new File(path).mkdir() && new File(path+"/src").mkdir() && new File(path+"/target").mkdir()){
+                    File file;
                     for (Code c : user.getProject().getCodes()) {
+                        String code_path = path+"/src/" + c.getCode_title();
+                        String code_text = c.getContent();
+                        file = Writer.write(code_text, code_path);
                         if (c.isExecutable()) {
                             code_type = c.getMode();
-                            file = Writer.write(c.getContent(), path+"/src/" + c.getCode_title());
-                        } else {
-                            Writer.write(c.getContent(), path+"/src/" + c.getCode_title());
+                            src_file = file;
                         }
                     }
                 }
 
-                Output output = Compiler.execute(file, path,code_type, message.getExtra().split("\\|"));
+                Output output = Compiler.execute(src_file, path,code_type, message.getExtra().split("\\|"));
                 if(!output.getError().equals("")){
                     message.setContent(output.getError());
                 }else{

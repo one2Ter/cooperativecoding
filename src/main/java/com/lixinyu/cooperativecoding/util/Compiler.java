@@ -8,7 +8,7 @@ import java.io.OutputStream;
 public class Compiler {
     public static Output execute(File file,String path, String type, String[] inputs) throws Exception {
 
-        String target = path+"/target/" + String.valueOf(System.currentTimeMillis());
+        String target = path+"/target/program";
         Output output = new Output();
         ProcessBuilder processBuilder = new ProcessBuilder("build", target, file.getPath(), type,path);
         Process process = processBuilder.start();
