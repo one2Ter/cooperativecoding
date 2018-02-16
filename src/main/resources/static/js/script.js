@@ -1,13 +1,11 @@
 var stompClient = null;
 var connected = false;
-var content = $("#chatcontent");
 var cursor = null;
 var username = null;
-var code_id = 0;
+var code_id = null;
 var maintainer = false;
-var user = null;
 var project_id = null;
-
+var content = $("#chatcontent");
 function connect() {
     stompClient = Stomp.over(new SockJS('/message'));
     stompClient.connect({}, function(frame) {
@@ -47,6 +45,7 @@ function sendMessage() {
 }
 
 function handleMessage(msg, from) {
+
     if (from === username) {
         content.append("<div class=\"customer_lists clearfix\"><div class=\"header_img jimi3\" style=\"background: url(../img/mine.jpg) no-repeat center;\"><div class=\"header_img_hover\"></div></div><div class=\"bkbubble left\"><p>" + msg + "</p></div></div>");
     } else {
