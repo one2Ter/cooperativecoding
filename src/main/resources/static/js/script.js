@@ -14,7 +14,7 @@ function connect() {
             var response = JSON.parse(message.body);
             var text = response.content;
             var from = response.from;
-            switch (response.id) {
+            switch (response.channel) {
                 case 0:
                     handleMessage(text, from);
                     break;
@@ -37,7 +37,7 @@ function sendMessage() {
     if (connected) {
         var input = $("#inputBox");
         stompClient.send("/server/message", {}, JSON.stringify({
-            'id': 0,
+            'channel': 0,
             'content': input.val()
         }));
         input.val("");
@@ -114,7 +114,7 @@ function run() {
     }
     inputs = inputs + input_parameters[input_parameters.length - 1].value;
     stompClient.send("/server/message", {}, JSON.stringify({
-        'id': 1,
+        'channel': 1,
         'content': editor.getValue(),
         'extra': inputs
     }));
@@ -132,7 +132,7 @@ function resize() {
 function heartbeat() {
     if (connected) {
         stompClient.send("/server/message", {}, JSON.stringify({
-            'id': 2
+            'channel': 2
         }));
     }
 }
@@ -183,7 +183,7 @@ editor.on('beforeChange', function(cm, obj) {
 editor.on('change', function(cm) {
     if (connected && maintainer) {
         stompClient.send("/server/message", {}, JSON.stringify({
-            'id': -1,
+            'channel': -1,
             'content': editor.getValue(),
             'extra': code_id
         }));

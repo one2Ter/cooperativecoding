@@ -36,7 +36,6 @@ public class SocketController {
         this.userRepository = userRepository;
     }
 
-
     @MessageMapping("/message")
     @SendTo("/clients/message")
     public Message greeting(Message message,Authentication authentication) throws Exception {
@@ -44,8 +43,7 @@ public class SocketController {
         String name = authentication.getName();
         User user = userRepository.findByUsername(name).get();
 
-        //TODO database操作
-        switch (message.getId()){
+        switch (message.getChannel()){
             case MSG_CHAT:
                 break;
             case MSG_CODE:
@@ -58,7 +56,6 @@ public class SocketController {
                 String path = "/tmp/spring_boot/"+name+"_"+System.currentTimeMillis();
 
                 //make dirs
-                //TODO 优化
                 File rootPath = new File("/tmp/spring_boot");
                 if(!rootPath.exists()){
                     rootPath.mkdir();
