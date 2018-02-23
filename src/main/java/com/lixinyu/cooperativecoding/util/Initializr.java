@@ -34,8 +34,6 @@ public class Initializr implements CommandLineRunner {
 
         initProject();
         initUser();
-
-
         initCode();
     }
     /*
