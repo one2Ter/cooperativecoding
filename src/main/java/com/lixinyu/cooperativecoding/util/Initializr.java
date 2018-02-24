@@ -222,8 +222,9 @@ public class Initializr implements CommandLineRunner {
         userRepository.save(new User("20142942", team, "熊志敏","20142942",roles,project,true));
         userRepository.save(new User("20142944", team, "张雨星","20142944",roles,project,true));
         */
-        userRepository.save(new User("20143461", team, "李新宇","20143461",roles,project,true));
         userRepository.save(new User("20144407", team, "陈玮琪","20144407",roles,project,true));
+        roles.add(roleRepository.findOne(0));
+        userRepository.save(new User("20143461", team, "李新宇","20143461",roles,project,true));
 
         //为李新宇添加管理员权限
         //User user = userRepository.findOne(20143461);

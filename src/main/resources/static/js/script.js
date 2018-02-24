@@ -26,7 +26,12 @@ function connect() {
                     }
                     break;
                 case 1:
-                    $("#console").val(text);
+                    $("#preloader_6").hide();
+                    $("#console_text").show();
+                    $("#btn_run").css("cursor","pointer");
+                    $("#btn_run").css("color","black");
+                    $("#btn_run").removeAttr("disabled");
+                    $("#console_text").val(text);
                     break;
             }
         });
@@ -75,7 +80,7 @@ $.post("/code/all", function(data) {
         var title = data[i].code_title;
         code_id = data[i].code_id;
 
-        $("#tab_new").before("<span class='tabs' id='tab_" + code_id + "' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + title + "</span>");
+        $("#tab_new").before("<span class='tabs' id='tab_" + code_id + "' onclick='tabClick(this," + code_id + ",)'><i class='far fa-file-code' aria-hidden='true'></i>" + title + "</span>");
 
         if (data[i].executable) {
             var tabs = document.getElementsByClassName("tabs");
@@ -107,6 +112,13 @@ function mtoString(data) {
 
 
 function run() {
+
+    $("#console_text").hide();
+    $("#preloader_6").show();
+    $("#btn_run").css("color","#AABBCC");
+    $("#btn_run").css("cursor","wait");
+    $("#btn_run").attr("disabled", "disabled");
+    $("#console_text").text("正在编译请稍候...");
     var input_parameters = document.getElementsByClassName("input-parameters");
     var inputs = "";
     for (var i = 0; i < input_parameters.length - 1; i++) {

@@ -75,7 +75,7 @@ public class SocketController {
                                     compiler.write(
                                             "#/bin/sh\n"+
                                                     "gcc "+c.getCode_title()+"\n"+
-                                                    "./a.out",
+                                                    "./a.out ",
                                             path+"/run.sh");
                                     break;
                             }
@@ -83,7 +83,7 @@ public class SocketController {
                     }
                 }
 
-                Output output = compiler.execute(src_file, path,code_type, message.getExtra().split("\\|"));
+                Output output = compiler.execute(name,src_file, path,code_type, message.getExtra().split("\\|"));
                 if(!output.getError().equals("")){
                     message.setContent(output.getError());
                 }else{

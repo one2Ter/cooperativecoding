@@ -50,6 +50,12 @@ body,html{
 #console{
     height: 100px;
     width: 100%;
+    background-color: #FFFFFF
+}
+
+.console{
+    height: 100px;
+    width: 100%;
     resize:none;
     font-size: 16px;
     padding: 5px;
@@ -92,8 +98,6 @@ body,html{
 .container {
     position: absolute;
     margin-top: 25px;
-    margin-left: auto;
-    margin-right: auto;
     left: 188px;
     height: 679px;
     right: auto;
@@ -167,11 +171,9 @@ body,html{
     cursor: pointer;
     height: 30px;
     line-height: 30px;
-    text-align: left;
     background-color: #cccccc;
     float: left;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0 10px;
     border: 1px solid #999999;
     border-left: none
 }
@@ -180,11 +182,9 @@ body,html{
     cursor: pointer;
     height: 30px;
     line-height: 30px;
-    text-align: left;
     background-color: #F9FAF9;
     float: left;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0 10px;
     border: 1px solid #999999;
     border-left: none;
     border-bottom: none
@@ -193,10 +193,8 @@ body,html{
 #tab_new{
     height: 30px;
     width: 30px;
-
     float: left;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 0 5px;
     cursor: pointer;
     color: #999999
 }
@@ -210,8 +208,7 @@ body,html{
 }
 
 .input-parameters {
-    margin-top: 10px;
-    margin-bottom: 10px
+    margin: 10px 0;
 }
 
 
@@ -495,4 +492,49 @@ body,html{
     border-left-width: 1px;
     border-top-left-radius: 154px;
     border-color: #00bfff;
+}
+
+#preloader_6{
+    position:relative;
+    width: 42px;
+    height: 42px;
+    animation: preloader_6 5s infinite linear;
+
+}
+#preloader_6 span{
+    margin-top: 25px;
+    width:20px;
+    height:20px;
+    position:absolute;
+    background:red;
+    display:block;
+    animation: preloader_6_span 1s infinite linear;
+}
+#preloader_6 span:nth-child(1){
+    background:#2ecc71;
+}
+#preloader_6 span:nth-child(2){
+    left:22px;
+    background:#9b59b6;
+    animation-delay: .2s;
+}
+#preloader_6 span:nth-child(3){
+    top:22px;
+    background:#3498db;
+    animation-delay: .4s;
+}
+#preloader_6 span:nth-child(4){
+    top:22px;
+    left:22px;
+    background:#f1c40f;
+    animation-delay: .6s;
+}
+@keyframes preloader_6 {
+    from {-ms-transform: rotate(0deg);}
+    to {-ms-transform: rotate(360deg);}
+}
+@keyframes preloader_6_span {
+    0% { transform:scale(1); }
+    50% { transform:scale(0.5); }
+    100% { transform:scale(1); }
 }

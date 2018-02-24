@@ -28,7 +28,7 @@ public class MainController{
         return "login";
     }
 
-    @PreAuthorize("hasAnyRole('User')")
+    @PreAuthorize("hasAnyRole('Administrator')")
     @GetMapping("/admin")
     public String admin() {
         return "admin";
