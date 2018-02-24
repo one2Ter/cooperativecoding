@@ -50,7 +50,6 @@ public class RestfulController {
     public @ResponseBody
     Project project(Authentication authentication){
         Project project = userRepository.findByUsername(authentication.getName()).get().getProject();
-        //统计在线人数
         int online = 0;
         for(User user:userRepository.findAll()){
             if(System.currentTimeMillis() - user.getLastHeartbeat() < 15000){
@@ -78,7 +77,6 @@ public class RestfulController {
         Set<Project> projects = team.getProjects();
 
         for(Project project:projects){
-            //统计在线人数
             int online = 0;
             for(User user : userRepository.findAll()){
                 if(user.getProject() == project && System.currentTimeMillis() - user.getLastHeartbeat() < 15000){

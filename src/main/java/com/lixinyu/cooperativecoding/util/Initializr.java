@@ -42,6 +42,7 @@ public class Initializr implements CommandLineRunner {
     * Guest         游客
     */
     private void initRole() {
+
         roleRepository.save(new Role(0, "Administrator"));
         roleRepository.save(new Role(1, "User"));
         roleRepository.save(new Role(2, "Guest"));

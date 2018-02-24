@@ -7,7 +7,6 @@ import com.lixinyu.cooperativecoding.model.Output;
 import com.lixinyu.cooperativecoding.model.entity.Code;
 import com.lixinyu.cooperativecoding.model.entity.User;
 import com.lixinyu.cooperativecoding.util.Compiler;
-import com.lixinyu.cooperativecoding.util.Writer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -53,28 +52,38 @@ public class SocketController {
                 codeRepository.save(code);
                 break;
             case MSG_RUN:
-                String path = "/tmp/spring_boot/"+name+"_"+System.currentTimeMillis();
 
+                Compiler compiler = new Compiler();
+                String path = "/tmp/spring_boot/"+name+"_"+System.currentTimeMillis()+"/";
                 //make dirs
                 File rootPath = new File("/tmp/spring_boot");
                 if(!rootPath.exists()){
                     rootPath.mkdir();
                 }
 
-                if(new File(path).mkdir() && new File(path+"/src").mkdir() && new File(path+"/target").mkdir()){
+                if(new File(path).mkdir()){
                     File file;
                     for (Code c : user.getProject().getCodes()) {
-                        String code_path = path+"/src/" + c.getCode_title();
+                        String code_path = path + c.getCode_title();
                         String code_text = c.getContent();
-                        file = Writer.write(code_text, code_path);
+                        file = compiler.write(code_text, code_path);
                         if (c.isExecutable()) {
                             code_type = c.getMode();
                             src_file = file;
+                            switch (code_type){
+                                case "c":
+                                    compiler.write(
+                                            "#/bin/sh\n"+
+                                                    "gcc "+c.getCode_title()+"\n"+
+                                                    "./a.out",
+                                            path+"/run.sh");
+                                    break;
+                            }
                         }
                     }
                 }
 
-                Output output = Compiler.execute(src_file, path,code_type, message.getExtra().split("\\|"));
+                Output output = compiler.execute(src_file, path,code_type, message.getExtra().split("\\|"));
                 if(!output.getError().equals("")){
                     message.setContent(output.getError());
                 }else{
