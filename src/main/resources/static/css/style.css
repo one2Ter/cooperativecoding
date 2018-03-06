@@ -1,6 +1,7 @@
 *{
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
+    font-family: "WenQuanYi Micro Hei", serif;
 }
 
 body,html{
@@ -13,12 +14,6 @@ body,html{
     background-color: #009999;
     height: 30px;
     line-height: 30px
-}
-
-.CodeMirror{
-    font-size:16px;
-    background-color: #F9FAF9;
-    overflow-x: hidden
 }
 
 .nav{
@@ -45,12 +40,6 @@ body,html{
     height: 100%;
     float: left;
     background-color: #F9FAF9
-}
-
-#console{
-    height: 100px;
-    width: 100%;
-    background-color: #FFFFFF
 }
 
 .console{
@@ -104,15 +93,15 @@ body,html{
     top: 0
 }
 
- .content {
+.content {
     position: relative;
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
     margin-right: -18px;
     outline: 0;
     width: 100%;
-     background-color: #EFF0F2;
-     padding-top: 10px
+    background-color: #EFF0F2;
+    padding-top: 10px
 }
 
  #title{
@@ -130,8 +119,7 @@ body,html{
      background-color: #33CCCC;
      float: right;
      color: white;
-     padding-left: 11px;
-     padding-right: 11px;
+     padding: 0 11px;
      line-height: 22px;
      cursor: pointer
  }
@@ -139,27 +127,9 @@ body,html{
      height: 24px;
      border-radius: 12px;
      margin: 3px;
-     background-color: #33CCCC;
-     float: right;
-     color: white;
-     padding-left: 12px;
-     padding-right: 12px;
+     padding: 0 12px;
      line-height: 24px;
-     cursor: pointer
  }
-
-.code_mode_selected{
-    height: 22px;
-    border-radius: 11px;
-    margin: 4px;
-    background-color: #00bb00;
-    float: right;
-    color: white;
-    padding-left: 11px;
-    padding-right: 11px;
-    line-height: 22px;
-    cursor: pointer
-}
 
 #bookmark{
     width: 100%;

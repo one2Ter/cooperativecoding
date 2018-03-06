@@ -1,11 +1,19 @@
 /* BASICS */
 
 .CodeMirror {
-  /* Set height, width, borders, and global font properties here */
-  font-family: monospace;
-  height: 300px;
-  color: black;
-  direction: ltr;
+    /* Set height, width, borders, and global font properties here */
+    font-family: monospace;
+    height: 300px;
+    color: black;
+    direction: ltr;
+    font-size:20px;
+    background-color: #F9FAF9;
+    overflow-x: hidden;
+}
+
+.CodeMirror span{
+    /* Set height, width, borders, and global font properties here */
+    font-family: monospace;
 }
 
 /* PADDING */
