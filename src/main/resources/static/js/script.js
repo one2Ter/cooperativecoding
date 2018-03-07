@@ -26,10 +26,10 @@ function connect() {
                     }
                     break;
                 case 1:
+                    editor.setOption("readOnly","false");
                     $("#preloader_6").hide();
                     $("#console_text").show();
-                    $("#btn_run").css("cursor","pointer");
-                    $("#btn_run").css("color","black");
+                    $("#btn_run").css({"cursor":"pointer","color":"black"});
                     $("#btn_run").removeAttr("disabled");
                     $("#console_text").val(text);
                     break;
@@ -110,15 +110,21 @@ function mtoString(data) {
 }
 
 
-
+//调用Docker编译运行
 function run() {
+    var console_text = $("#console_text");
+    var btn_run = $("#btn_run");
+    var load_mask = $("#preloader_6");
 
-    $("#console_text").hide();
-    $("#preloader_6").show();
-    $("#btn_run").css("color","#AABBCC");
-    $("#btn_run").css("cursor","wait");
-    $("#btn_run").attr("disabled", "disabled");
-    $("#console_text").text("正在编译请稍候...");
+    //编译等待期间控制台样式
+    editor.setOption("readOnly","nocursor");
+
+    console_text.hide();
+    load_mask.show();
+    btn_run.css({"color":"#AABBCC","cursor":"wait"});
+    btn_run.attr("disabled", "disabled");
+    console_text.text("正在编译请稍候...");
+
     var input_parameters = document.getElementsByClassName("input-parameters");
     var inputs = "";
     for (var i = 0; i < input_parameters.length - 1; i++) {
@@ -207,12 +213,6 @@ CodeMirror.modeURL = "js/codemirror/mode/%N/%N.js";
 function change(mime, mode, selected) {
     editor.setOption("mode", mime);
     CodeMirror.autoLoadMode(editor, mode);
-
-    var modes = document.getElementsByClassName("code_mode_selected");
-    for (var i = 0; i < modes.length; i++) {
-        modes[i].className = "code_mode";
-    }
-    selected.className = "code_mode_selected";
 }
 
 function tabNew() {
@@ -279,10 +279,16 @@ function switchProject() {
     });
 }
 
-//接管项目
+//项目接管、释放
 
 function takeCharge() {
     $.post("/project/take", function(data) {
+        window.location.reload();
+    });
+}
+
+function logout() {
+    $.post("/logout", function(data) {
         window.location.reload();
     });
 }
