@@ -1,0 +1,66 @@
+body,html{
+    width: 100%;
+    height: 100%;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+#nav{
+    width: 100%;
+    height: 40px;
+    background-color: #d7d4f0;
+}
+#title{
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    font-size: 25px;
+    margin-left: 10px;
+    font-family: "WenQuanYi Micro Hei", serif;
+}
+#menus{
+    float: right;
+    width: 80%;
+    height: 40px;
+}
+
+#nav ul{
+    list-style:none; /* 去掉ul前面的符号 */
+    margin: 0; /* 与外界元素的距离为0 */
+    padding: 0; /* 与内部元素的距离为0 */
+    width: auto; /* 宽度根据元素内容调整 */
+}
+#nav ul li{
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    padding: auto 5px;
+    background-color: #d7d4f0;
+    float: left;
+    text-align: center;
+    font-family: "WenQuanYi Micro Hei",serif;
+}
+
+#logout i{
+    float: right;
+    font-size: 25px;
+    height: 40px;
+    line-height: 40px;
+    margin-right: 10px;
+}
+.tab_selected{
+    background-color: #2ecc71;
+}
+
+#panel_right{
+    width: 100%;
+    height: 100%;
+    background-color: #c8f064;
+    float: left;
+}
+
+iframe{
+    border: none;
+}
+

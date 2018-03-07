@@ -6,10 +6,23 @@ var code_id = null;
 var maintainer = false;
 var project_id = null;
 var content = $("#chatcontent");
+var timestamp;
+//通知相同帐号下线
+function login_broadcast(){
+    if (connected) {
+        timestamp = ""+new Date().getTime();
+        stompClient.send("/server/message", {}, JSON.stringify({
+            'channel': 3,
+            'content':username,
+            'extra':timestamp
+        }));
+    }
+}
 function connect() {
     stompClient = Stomp.over(new SockJS('/message'));
     stompClient.connect({}, function(frame) {
         connected = true;
+        login_broadcast();
         stompClient.subscribe('/clients/message', function(message) {
             var response = JSON.parse(message.body);
             var text = response.content;
@@ -26,12 +39,18 @@ function connect() {
                     }
                     break;
                 case 1:
-                    editor.setOption("readOnly","false");
+                    editor.setOption("readOnly",false);
                     $("#preloader_6").hide();
                     $("#console_text").show();
                     $("#btn_run").css({"cursor":"pointer","color":"black"});
                     $("#btn_run").removeAttr("disabled");
                     $("#console_text").val(text);
+                    break;
+                case 3:
+                    if(text===username&&response.extra!==timestamp){
+                        logout();
+                        alert("你的帐号在别处登录");
+                    }
                     break;
             }
         });
@@ -117,7 +136,7 @@ function run() {
     var load_mask = $("#preloader_6");
 
     //编译等待期间控制台样式
-    editor.setOption("readOnly","nocursor");
+    editor.setOption("readOnly",true);
 
     console_text.hide();
     load_mask.show();
@@ -161,6 +180,9 @@ $(document).ready(function() {
     $.get("/user", function(data) {
         username = data.username;
     });
+
+
+
     $.get("/project/current", function(data) {
         project_id = data;
     });

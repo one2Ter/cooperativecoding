@@ -1,9 +1,37 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Admin</title>
+    <title>协作式在线程序编程</title>
+    <link type="text/css" rel="stylesheet" href="css/admin.css" />
+    <link type="text/css" rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="webjars/font-awesome/5.0.6/on-server/css/fontawesome-all.css"/>
+    <script type="text/javascript" src="webjars/jquery/jquery.min.js" ></script>
+    <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 </head>
 <body>
-<h1>管理员页面</h1>
+
+<div id="nav">
+    <span id="title">
+        <a href="/admin"><i class="fas fa-leaf"></i></a>
+        协作式在线程序编程
+    </span>
+    <span id="logout">
+        <i class="fas fa-sign-out-alt"></i>
+    </span>
+
+    <ul id="menus">
+        <li class="tab_selected">总览</li>
+        <li>项目管理</li>
+        <li>团队管理</li>
+        <li>人员管理</li>
+        <li>高级设置</li>
+    </ul>
+</div>
+<div id="box">
+    <iframe id="panel_right" src="/admin/settings.html"></iframe>
+</div>
+
+
+<script type="text/javascript" src="js/admin.js" ></script>
 </body>
 </html>
