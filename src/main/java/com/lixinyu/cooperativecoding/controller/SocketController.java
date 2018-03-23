@@ -53,11 +53,11 @@ public class SocketController {
                 codeRepository.save(code);
                 break;
             case MSG_RUN:
-
                 Compiler compiler = new Compiler();
-                String path = "/tmp/spring_boot/"+name+"_"+System.currentTimeMillis()+"/";
+                String temp_dir = System.getProperty("user.home")+"\\AppData\\Local\\Temp\\spring_boot\\";
+                String path = temp_dir + name+"_"+System.currentTimeMillis()+"\\";
                 //make dirs
-                File rootPath = new File("/tmp/spring_boot");
+                File rootPath = new File(temp_dir);
                 if(!rootPath.exists()){
                     rootPath.mkdir();
                 }
