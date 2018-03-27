@@ -1,7 +1,7 @@
 package com.lixinyu.cooperativecoding.util;
 
-
 import com.lixinyu.cooperativecoding.model.Output;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;

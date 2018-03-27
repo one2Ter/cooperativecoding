@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: "WenQuanYi Micro Hei", serif;
+    font-family: "Microsoft YaHei UI", serif;
 }
 
 body,html{
@@ -48,7 +48,8 @@ body,html{
     resize:none;
     font-size: 16px;
     padding: 5px;
-    color: blue
+    color: blue;
+    font-family: "Monospaced", monospace;
 }
 
 #chatroom{
@@ -394,8 +395,12 @@ body,html{
     border-width: 0 0 12px 12px ;
  }
 
+/*编辑器使用等宽字体（重要）*/
+.CodeMirror-line span {
+    font-family: "Monospaced", monospace;
+}
 
- /*边框气泡*/
+/*边框气泡*/
   .lim_bubble {
     padding: 0 10px;
       border-radius: 5px;
