@@ -54,8 +54,8 @@ public class SocketController {
                 break;
             case MSG_RUN:
                 Compiler compiler = new Compiler();
-                String temp_dir = System.getProperty("user.home")+"\\AppData\\Local\\Temp\\spring_boot\\";
-                String path = temp_dir + name+"_"+System.currentTimeMillis()+"\\";
+                String temp_dir = "/tmp/spring_boot/";
+                String path = temp_dir + name+"_"+System.currentTimeMillis()+"/";
                 //make dirs
                 File rootPath = new File(temp_dir);
                 if(!rootPath.exists()){
@@ -77,7 +77,7 @@ public class SocketController {
                                             "#/bin/sh\n"+
                                                     "gcc "+c.getCode_title()+"\n"+
                                                     "./a.out ",
-                                            path+"/run.sh");
+                                            path+"run.sh");
                                     break;
                             }
                         }
