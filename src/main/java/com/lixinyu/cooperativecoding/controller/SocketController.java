@@ -54,8 +54,14 @@ public class SocketController {
                 break;
             case MSG_RUN:
                 Compiler compiler = new Compiler();
-                String temp_dir = "/tmp/spring_boot/";
-                String path = temp_dir + name+"_"+System.currentTimeMillis()+"/";
+                //For Linux
+                //String temp_dir = "/tmp/spring_boot/";
+
+                //For Windows
+                String temp_dir = "C:\\Users\\Ivan\\AppData\\Local\\Temp";
+
+
+                String path = temp_dir + name+"_"+System.currentTimeMillis()+"\\";
                 //make dirs
                 File rootPath = new File(temp_dir);
                 if(!rootPath.exists()){
@@ -105,4 +111,6 @@ public class SocketController {
         message.setFrom(name);
         return message;
     }
+
+
 }

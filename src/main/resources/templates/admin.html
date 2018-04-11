@@ -20,15 +20,15 @@
     </span>
 
     <ul id="menus">
-        <li class="tab_selected">总览</li>
-        <li>项目管理</li>
-        <li>团队管理</li>
-        <li>人员管理</li>
-        <li>高级设置</li>
+        <li onclick="onMenuClick(this,'overview')" class="tab_selected">总览</li>
+        <li onclick="onMenuClick(this,'projects')" >项目管理</li>
+        <li onclick="onMenuClick(this,'team')" >团队管理</li>
+        <li onclick="onMenuClick(this,'user')" >人员管理</li>
+        <li onclick="onMenuClick(this,'configuration')" >高级设置</li>
     </ul>
 </div>
 <div id="box">
-    <iframe id="panel_right" src="/admin/settings.html"></iframe>
+    <iframe id="panel_right" src="/admin/overview/index.html"></iframe>
 </div>
 
 

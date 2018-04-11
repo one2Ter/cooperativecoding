@@ -17,12 +17,13 @@ body,html{
     line-height: 40px;
     font-size: 25px;
     margin-left: 10px;
-    font-family: "WenQuanYi Micro Hei", serif;
+    font-family: "Microsoft YaHei UI", serif;
 }
 #menus{
     float: right;
     width: 80%;
     height: 40px;
+    cursor: pointer;
 }
 
 #nav ul{
@@ -39,7 +40,18 @@ body,html{
     background-color: #d7d4f0;
     float: left;
     text-align: center;
-    font-family: "WenQuanYi Micro Hei",serif;
+    font-family: "Microsoft YaHei UI",serif;
+}
+
+#nav ul li:hover{
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    padding: auto 5px;
+    background-color: #2ecc71;
+    float: left;
+    text-align: center;
+    font-family: "Microsoft YaHei UI",serif;
 }
 
 #logout i{
