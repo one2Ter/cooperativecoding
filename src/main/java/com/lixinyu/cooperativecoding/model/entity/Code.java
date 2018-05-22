@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
-@JsonIgnoreProperties(value = {"project"})
+//@JsonIgnoreProperties(value = {"project"})
 public class Code {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

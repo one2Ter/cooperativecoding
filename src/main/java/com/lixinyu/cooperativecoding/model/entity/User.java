@@ -18,9 +18,10 @@ public class User {
 
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",joinColumns = @JoinColumn(name="uid",referencedColumnName = "username"),inverseJoinColumns = @JoinColumn(name = "role",referencedColumnName = "role_id"))
-    private Set<Role> roles;
+//    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @JoinTable(name = "user_role",joinColumns = @JoinColumn(name="uid",referencedColumnName = "username"),inverseJoinColumns = @JoinColumn(name = "role",referencedColumnName = "role_id"))
+//    private Set<Role> roles;
+    private String role;
 
 
     @ManyToOne
@@ -37,18 +38,28 @@ public class User {
         this.team = user.getTeam();
         this.name = user.getName();
         this.password = user.getPassword();
-        this.roles = user.getRoles();
+//        this.roles = user.getRoles();
+        this.role = user.getRole();
         this.active = user.getActive();
     }
 
-    public User(String username, Team team, String name, String password, Set<Role> roles, Project project, boolean active) {
+    public User(String username, Team team, String name, String password, String role, Project project, boolean active) {
         this.username = username;
         this.team = team;
         this.name = name;
         this.password = password;
-        this.roles = roles;
+//        this.roles = roles;
+        this.role = role;
         this.project = project;
         this.active = active;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Team getTeam() {
@@ -82,21 +93,21 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+//    public Set<Role> getRoles() {
+//        return roles;
+//    }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
 
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
+//    public void addRole(Role role) {
+//        this.roles.add(role);
+//    }
 
-    public void removeRole(Role role) {
-        this.roles.remove(role);
-    }
+//    public void removeRole(Role role) {
+//        this.roles.remove(role);
+//    }
 
     public Project getProject() {
         return project;

@@ -6,46 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
-
 //初始化数据库(产生测试数据)
 @Component
 public class Initializr implements CommandLineRunner {
     private final CodeRepository codeRepository;
     private final ProjectRepository projectRepository;
-    private final RoleRepository roleRepository;
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public Initializr(CodeRepository codeRepository, ProjectRepository projectRepository, RoleRepository roleRepository, TeamRepository teamRepository, UserRepository userRepository) {
+    public Initializr(CodeRepository codeRepository, ProjectRepository projectRepository, TeamRepository teamRepository, UserRepository userRepository) {
         this.codeRepository = codeRepository;
         this.projectRepository = projectRepository;
-        this.roleRepository = roleRepository;
         this.teamRepository = teamRepository;
         this.userRepository = userRepository;
     }
 
     @Override
     public void run(String... strings) {
-        initRole();
         initTeam();
 
         initProject();
         initUser();
         initCode();
-    }
-    /*
-    * Administrator 系统管理员
-    * User          普通用户
-    * Guest         游客
-    */
-    private void initRole() {
-
-        roleRepository.save(new Role(0, "Administrator"));
-        roleRepository.save(new Role(1, "User"));
-        roleRepository.save(new Role(2, "Guest"));
     }
 
     private void initTeam() {
@@ -66,8 +49,8 @@ public class Initializr implements CommandLineRunner {
     private void initUser() {
         Team team;
         Project project;
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findOne(1));
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(roleRepository.findOne(1));
 
         /*
         //14计科1班
@@ -176,8 +159,8 @@ public class Initializr implements CommandLineRunner {
 
         team = teamRepository.findOne(140103);
         project = projectRepository.findOne(1401030);
+        String roles = "User";
 
-        /*
         userRepository.save(new User("20142806", team, "王智豪","20142806",roles,project,true));
         userRepository.save(new User("20142809", team, "许海浪","20142809",roles,project,true));
         userRepository.save(new User("20142823", team, "魏玉强","20142823",roles,project,true));
@@ -221,10 +204,10 @@ public class Initializr implements CommandLineRunner {
         userRepository.save(new User("20142938", team, "郑乐","20142938",roles,project,true));
         userRepository.save(new User("20142942", team, "熊志敏","20142942",roles,project,true));
         userRepository.save(new User("20142944", team, "张雨星","20142944",roles,project,true));
-        */
-        userRepository.save(new User("20144407", team, "陈玮琪","20144407",roles,project,true));
-        roles.add(roleRepository.findOne(0));
-        userRepository.save(new User("20143461", team, "李新宇","20143461",roles,project,true));
+
+        userRepository.save(new User("20144407", team, "陈玮琪","20144407","Administrator",project,true));
+//        roles.add(roleRepository.findOne(0));
+        userRepository.save(new User("20143461", team, "李新宇","20143461","Administrator",project,true));
 
         //为李新宇添加管理员权限
         //User user = userRepository.findOne(20143461);

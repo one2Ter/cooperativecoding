@@ -161,7 +161,7 @@ function resize() {
     var width = document.body.clientWidth;
     var height = document.body.clientHeight;
     $("body").height(height - 60);
-    editor.setSize(width * 0.7, height - 192);
+    editor.setSize(width-360, height - 242);
     content.height(height - 120);
     content.scrollTop(content[0].scrollHeight);
 }
@@ -305,6 +305,8 @@ function switchProject() {
 
 function takeCharge() {
     $.post("/project/take", function(data) {
+        console.log(data);
+        alert("hello");
         window.location.reload();
     });
 }

@@ -55,15 +55,15 @@ public class SocketController {
             case MSG_RUN:
                 Compiler compiler = new Compiler();
                 //For Linux
-                String temp_dir = "/tmp/spring_boot/";
+//                String temp_dir = "/tmp/spring_boot/";
 
                 //For Windows
                 //Windows 下需要挂载磁盘
-                //String temp_dir = "C:\\Users\\Ivan\\AppData\\Local\\Temp";
-                //String path = temp_dir + name+"_"+System.currentTimeMillis()+"\\";
+                String temp_dir = "C:\\Users\\Ivan\\AppData\\Local\\Temp";
+                String path = temp_dir + name+"_"+System.currentTimeMillis()+"\\";
 
                 //For Linux
-                String path = temp_dir + name+"_"+System.currentTimeMillis()+"/";
+//                String path = temp_dir + name+"_"+System.currentTimeMillis()+"/";
                 //make dirs
                 File rootPath = new File(temp_dir);
                 if(!rootPath.exists()){

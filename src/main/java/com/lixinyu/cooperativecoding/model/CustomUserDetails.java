@@ -6,16 +6,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CustomUserDetails extends User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> simpleGrantedAuthorityList = getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_"+role.getRole()))
-                .collect(Collectors.toList());
+        List<SimpleGrantedAuthority> simpleGrantedAuthorityList = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + getRole()));
         return simpleGrantedAuthorityList;
     }
 

@@ -2,6 +2,7 @@ package com.lixinyu.cooperativecoding.controller;
 
 import com.lixinyu.cooperativecoding.data.CodeRepository;
 import com.lixinyu.cooperativecoding.data.ProjectRepository;
+import com.lixinyu.cooperativecoding.data.TeamRepository;
 import com.lixinyu.cooperativecoding.data.UserRepository;
 import com.lixinyu.cooperativecoding.model.entity.Code;
 import com.lixinyu.cooperativecoding.model.entity.Project;
@@ -13,24 +14,27 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 @CrossOrigin(origins = "http://127.0.0.1")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@PreAuthorize("hasAnyRole('User')")
+@PreAuthorize("hasAnyRole('User','Administrator')")
 @RestController
 public class RestfulController {
     private final UserRepository userRepository;
     private final CodeRepository codeRepository;
     private final ProjectRepository projectRepository;
+    private final TeamRepository teamRepository;
 
 
 
     @Autowired
-    public RestfulController(UserRepository userRepository, CodeRepository codeRepository, ProjectRepository projectRepository) {
+    public RestfulController(UserRepository userRepository, CodeRepository codeRepository, ProjectRepository projectRepository, TeamRepository teamRepository) {
         this.userRepository = userRepository;
         this.codeRepository = codeRepository;
         this.projectRepository = projectRepository;
+        this.teamRepository = teamRepository;
     }
 
 
@@ -67,6 +71,51 @@ public class RestfulController {
         projectRepository.save(project);
         return project;
     }
+
+    @RequestMapping(value = "/projects")
+    public @ResponseBody
+    ArrayList<Project> allProjects(@RequestParam("team_id") int team_id){
+        ArrayList<Project> projects = new ArrayList<>();
+        System.out.println("team_id = "+team_id);
+        if(team_id>0){
+            projects = projectRepository.findAllByTeam(teamRepository.findOne(team_id));
+        }else{
+            projectRepository.findAll().forEach(projects::add);
+        }
+
+        return projects;
+    }
+    @GetMapping(value = "/users")
+    public @ResponseBody
+    ArrayList<User> allUsers(){
+        ArrayList<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(users::add);
+        return users;
+    }
+    @PostMapping(value = "/users")
+    public @ResponseBody
+    ArrayList<User> allUsers(@RequestParam(value = "team_id") int team_id){
+        ArrayList<User> users = new ArrayList<>();
+        if (team_id>0){
+            users = userRepository.findAllByTeam(teamRepository.findOne(team_id));
+        }else {
+            userRepository.findAll().forEach(users::add);
+        }
+        return users;
+    }
+
+    @RequestMapping(value = "/codes")
+    public @ResponseBody
+    ArrayList<Code> allCodes(@RequestParam("project_id") int project_id){
+        ArrayList<Code> codes = new ArrayList<>();
+        if(project_id>0){
+            codes = codeRepository.findAllByProject(projectRepository.findOne(project_id));
+        }else{
+            codeRepository.findAll().forEach(codes::add);
+        }
+        return codes;
+    }
+
 
     @RequestMapping(value = "/project/all")
     public @ResponseBody
@@ -124,14 +173,19 @@ public class RestfulController {
         return userRepository.findByUsername(authentication.getName()).get().getProject().getProject_id();
     }
 
+    @RequestMapping(value = "/teams")
+    public @ResponseBody
+    ArrayList<Team> allTeams(){
+        ArrayList<Team> teams = new ArrayList<>();
+        teamRepository.findAll().forEach(teams::add);
+        return teams;
+    }
     @PostMapping(value = "/project/take")
     public @ResponseBody
     Project takeProject(Authentication authentication){
         User user = userRepository.findByUsername(authentication.getName()).get();
         user.setLastHeartbeat(System.currentTimeMillis());
         userRepository.save(user);
-
-
         Project project = user.getProject();
         //有人管理
         if (project.getMaintainer() != null) {
