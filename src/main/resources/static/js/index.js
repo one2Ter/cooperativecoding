@@ -306,7 +306,6 @@ function switchProject() {
 function takeCharge() {
     $.post("/project/take", function(data) {
         console.log(data);
-        alert("hello");
         window.location.reload();
     });
 }

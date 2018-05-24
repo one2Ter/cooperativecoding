@@ -50,6 +50,7 @@ public class SocketController {
                 int code_id = Integer.parseInt(message.getExtra());
                 Code code = codeRepository.findOne(code_id);
                 code.setContent(message.getContent());
+                System.out.println("----------------------"+message.getContent());
                 codeRepository.save(code);
                 break;
             case MSG_RUN:
@@ -59,7 +60,7 @@ public class SocketController {
 
                 //For Windows
                 //Windows 下需要挂载磁盘
-                String temp_dir = "C:\\Users\\Ivan\\AppData\\Local\\Temp";
+                String temp_dir = "C:\\Users\\Ivan\\AppData\\Local\\Temp\\";
                 String path = temp_dir + name+"_"+System.currentTimeMillis()+"\\";
 
                 //For Linux

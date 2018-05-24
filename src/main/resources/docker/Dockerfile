@@ -1,3 +1,3 @@
-FROM centos
-RUN yum -y update && yum -y install java-1.8.0-openjdk python gcc g++
+FROM ubuntu
+RUN apt-get update && apt-get -y install java-default-jdk python gcc g++
 WORKDIR /runtime
