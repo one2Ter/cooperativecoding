@@ -209,10 +209,6 @@ public class Initializr implements CommandLineRunner {
 //        roles.add(roleRepository.findOne(0));
         userRepository.save(new User("20143461", team, "李新宇","20143461","Administrator",project,true));
 
-        //为李新宇添加管理员权限
-        //User user = userRepository.findOne(20143461);
-        //user.addRole(roleRepository.findOne(0));
-        //userRepository.save(user);
         Project p1 = projectRepository.findOne(1401030);
         p1.setMaintainer(userRepository.findByUsername("20143461").get());
         //14计科3班的project
