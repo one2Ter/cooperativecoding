@@ -99,7 +99,7 @@ $.post("/code/all", function(data) {
         var title = data[i].code_title;
         code_id = data[i].code_id;
 
-        $("#tab_new").before("<span class='tabs' id='tab_" + code_id + "' onclick='tabClick(this," + code_id + ",)'><i class='far fa-file-code' aria-hidden='true'></i>" + title + "</span>");
+        $("#tab_new").before("<span class='tabs' id='tab_" + code_id + "' onclick='tabClick(this," + code_id + ",)'><i class='file alternate icon'></i>" + title + "</span>");
 
         if (data[i].executable) {
             var tabs = document.getElementsByClassName("tabs");
@@ -249,7 +249,7 @@ function tabNew() {
                 'code_title': $("#ip_filename").val()
             }, function(data) {
                 code_id = data.code_id;
-                $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ",)'><i class='file code outline icon'></i>" + file_name + "</span>");
+                $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ",)'><i class='file alternate icon'></i>" + file_name + "</span>");
             });
         }
     } else {

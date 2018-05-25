@@ -3,7 +3,6 @@
     padding: 0;
     font-family: "Microsoft YaHei UI", serif;
     border: none;
-
 }
 
 body,html{
@@ -424,7 +423,7 @@ body,html{
 #panel {
     width: 360px;
     height: 100%;
-    background-color: #00CCFF;
+    background-color: #fafafa;
     float: left;
 }
 
