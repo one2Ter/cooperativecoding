@@ -5,94 +5,214 @@
     <title>协作式在线程序编程</title>
 
     <link type="text/css" rel="stylesheet" href="css/index.css" />
-    <link type="text/css" rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="webjars/font-awesome/5.0.6/on-server/css/fontawesome-all.css"/>
+    <!--<link type="text/css" rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />-->
+
+    <!--<link type="text/css" rel="stylesheet" href="webjars/font-awesome/5.0.6/on-server/css/fontawesome-all.css"/>-->
     <link type="text/css" rel="stylesheet" href="css/codemirror.css" />
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"/>
     <script type="text/javascript" src="js/codemirror/codemirror.js" ></script>
     <script type="text/javascript" src="js/codemirror/mode/loadmode.js" ></script>
     <script type="text/javascript" src="webjars/sockjs-client/sockjs.min.js" ></script>
     <script type="text/javascript" src="webjars/stomp-websocket/stomp.min.js" ></script>
     <script type="text/javascript" src="webjars/jquery/jquery.min.js" ></script>
-    <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+    <!--<script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js" ></script>-->
+
 </head>
 <body>
-<div id="editor">
-	<div id="title">
-        <div class="title-bar">
-            <span onclick="takeCharge()" style="color: white;cursor: pointer" id="maintain_status">此项目暂时无人编辑，点击此处接管</span>
-            <span onclick="loadProject()" class="code_mode" type="button" data-toggle="modal" data-target="#m_switch_project">切换</span>
+<div id="panel" style="padding: 20px">
+    <!--<div id="title">-->
+    <!--<div class="title-bar">-->
+
+
+    <!--</div>-->
+    <!--</div>-->
+    <h1 class="ui header" style="width: 100%;text-align: center">协作式在线程序编程</h1>
+
+    <div id="all_project">
+        <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> 项目列表 </h4>
+        <div class="ui relaxed divided list">
+            <div class="item">
+                <i class="large github middle aligned icon"></i>
+                <div class="content">
+                    <a class="header">Semantic-Org/Semantic-UI</a>
+                    <div class="description">Updated 10 mins ago</div>
+                </div>
+            </div>
+            <div class="item">
+                <i class="large github middle aligned icon"></i>
+                <div class="content">
+                    <a class="header">Semantic-Org/Semantic-UI-Docs</a>
+                    <div class="description">Updated 22 mins ago</div>
+                </div>
+            </div>
+            <div class="item">
+                <i class="large github middle aligned icon"></i>
+                <div class="content">
+                    <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+                    <div class="description">Updated 34 mins ago</div>
+                </div>
+            </div>
         </div>
+
+        <span onclick="loadProject()" class="code_mode" type="button" data-toggle="modal"
+              data-target="#m_switch_project">更多</span>
     </div>
+
+    <div id="current_project">
+        <h4 class="ui horizontal divider header"><i class="tag icon"></i> 项目明细 </h4>
+        <span onclick="takeCharge()" style="color: white;cursor: pointer" id="maintain_status">此项目暂时无人编辑，点击此处接管</span>
+    </div>
+    <h4 class="ui horizontal divider header"><i class="bar chart icon"></i> 在线用户 </h4>
+    <div id="online_users" style="height:100px;overflow-y: scroll">
+
+
+        <div class="ui middle aligned selection list">
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">海伦</div>
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">Christian</div>
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">丹尼尔</div>
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">海伦</div>
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">Christian</div>
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">丹尼尔</div>
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">海伦</div>
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">Christian</div>
+                </div>
+            </div>
+            <div class="item">
+                <img class="ui avatar image" src="img/spring_logo.png"/>
+                <div class="content">
+                    <div class="header">丹尼尔</div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!--<button class="ui button" type="button" data-toggle="modal" data-target="#m_keyboard_input"><i class="fa fa-keyboard" aria-hidden="true"></i>输入</button>-->
+    <!--<button onclick="logout()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer"><i class="fa fa-trash"></i>删除</button>-->
+</div>
+
+
+<div id="editor">
+
+
     <div id="bookmark">
         <div type="button" data-toggle="modal" data-target="#m_new_tab" id="tab_new">
             <i id="btn_new" class="fa fa-plus-circle" aria-hidden="true"></i>
         </div>
 
-        <div style="float: right;width: 30px;height: 30px;font-size: 24px;padding: 3px;color: dimgray;cursor: pointer" type="button" data-toggle="modal" data-target="#m_setting_panel">
+        <div style="float: right;width: 30px;height: 30px;font-size: 24px;padding: 3px;color: dimgray;cursor: pointer"
+             type="button" data-toggle="modal" data-target="#m_setting_panel">
             <i class="fa fa-cog" aria-hidden="true"></i>
         </div>
     </div>
 
     <textarea id="codemirror"></textarea>
-    <div style="width: 100%;height: 32px;background-color: #009999;padding: 2px">
-        <button id="btn_run" onclick="run()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer;float: right"><i class="fab fa-docker" aria-hidden="true"></i>运行</button>
-        <button type="button" data-toggle="modal" data-target="#m_keyboard_input" style="height: 24px;width: 60px;margin: 2px;cursor: pointer"><i class="fa fa-keyboard" aria-hidden="true"></i>输入</button>
 
-        <button onclick="logout()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer"><i class="fa fa-trash"></i>删除</button>
+    <div style="width: 100%;height: 32px;background-color: #009999;padding: 2px">
+        <button id="btn_run" onclick="run()" style="height: 24px;width: 60px;margin: 2px;cursor: pointer;float: right">
+            运行
+        </button>
+
     </div>
     <div id="console">
-        <div style="margin: 0 auto;display: none" id="preloader_6">
+        <div style="margin: auto auto;display: none;" id="load_mask">
             <span></span>
             <span></span>
             <span></span>
             <span></span>
         </div>
-        <textarea readonly="readonly" class="console" id="console_text"></textarea>
+        <textarea class="console" readonly="readonly" id="console_text"></textarea>
     </div>
 
 </div>
 
 <div id="chatroom">
-    <div style="width: 100%;height: 60px;background-color: cornflowerblue;text-align: center;line-height: 60px;color: white">
-    14计科3班(42/49)
+
+    <div style="height: 300px;width: 360px;background-color: #00CCFF">
+        <div style="width: 360px;height: 75px;background-color: #FF6666"></div>
+        <img id="avatar" style="margin-top: -50px" src="img/spring_logo.png"/>
     </div>
+    <!--<div style="width: 100%;height: 60px;background-color: cornflowerblue;text-align: center;line-height: 60px;color: white">-->
+    <!--14计科3班(42/49)-->
+    <!--</div>-->
     <div id="chatbox">
-        <div id="chatcontent" class="content chat-block" tabindex="0" >
+        <div id="chatcontent" class="chat_content chat-block" tabindex="0">
         </div>
     </div>
     <div id="chat_input">
-        <input id="inputBox" type="text" name="" />
+        <input id="inputBox" type="text" name=""/>
         <div id="btn_send" onclick="sendMessage()">发送</div>
     </div>
 </div>
-<!-- Modal弹出层 -->
-<div class="modal fade" id="m_new_tab" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--&lt;!&ndash; Modal弹出层 &ndash;&gt;-->
+<!--<div class="modal fade" id="m_new_tab" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--<div class="modal-dialog" role="document">-->
+<!--<div class="modal-content">-->
+<!--<div class="modal-header">-->
+<!--<h4 class="modal-title"><i class="fa fa-file-o" aria-hidden="true"></i>新建文件</h4>-->
+<!--</div>-->
+<!--<div class="modal-body">-->
+
+<!--<form>-->
+<!--<div class="form-group">-->
+<!--<input id="ip_filename" type="text" class="form-control" placeholder="请输入文件名"/>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+<!--<div class="modal-footer">-->
+<!--<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>-->
+<!--<button type="button" onclick="tabNew()" class="btn btn-primary" data-dismiss="modal">确定</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="ui modal" id="m_keyboard_input" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><i class="fa fa-file-o" aria-hidden="true"></i>新建文件</h4>
-            </div>
-            <div class="modal-body">
-
-                <form>
-                    <div class="form-group">
-                        <input id="ip_filename" type="text" class="form-control" placeholder="请输入文件名"/>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" onclick="tabNew()" class="btn btn-primary" data-dismiss="modal">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="m_keyboard_input" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" ><i class="fa fa-cogs" aria-hidden="true"></i>输入参数</h4>
+                <h4 class="modal-title"><i class="fa fa-cogs" aria-hidden="true"></i>输入参数</h4>
             </div>
             <div class="modal-body">
                 <form>
@@ -112,86 +232,87 @@
     </div>
 </div>
 
-<div class="modal fade" id="m_switch_project" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><i class="fa fa-tasks" aria-hidden="true"></i>所有项目</h4>
-            </div>
-            <div class="modal-body">
-                <table class="table table-hover" id="project_table" style="margin-bottom: 0">
-                    <thead>
-                    <tr>
-                        <th scope="col">切换</th>
-                        <th scope="col">名称</th>
-                        <th scope="col">在线人数</th>
-                    </tr>
-                    </thead>
-                    <tbody id="project_list">
+<!--<div class="modal fade" id="m_switch_project" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
+<!--aria-hidden="true">-->
+<!--<div class="modal-dialog" role="document">-->
+<!--<div class="modal-content">-->
+<!--<div class="modal-header">-->
+<!--<h4 class="modal-title"><i class="fa fa-tasks" aria-hidden="true"></i>所有项目</h4>-->
+<!--</div>-->
+<!--<div class="modal-body">-->
+<!--<table class="table table-hover" id="project_table" style="margin-bottom: 0">-->
+<!--<thead>-->
+<!--<tr>-->
+<!--<th scope="col">切换</th>-->
+<!--<th scope="col">名称</th>-->
+<!--<th scope="col">在线人数</th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody id="project_list">-->
 
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button onclick="switchProject()" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--m_setting_panel-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--<div class="modal-footer">-->
+<!--<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>-->
+<!--<button onclick="switchProject()" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash;m_setting_panel&ndash;&gt;-->
 
-<div class="modal fade" id="m_setting_panel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><i class="fa fa-tasks" aria-hidden="true"></i>控制面板</h4>
-            </div>
-            <div class="modal-body">
+<!--<div class="modal fade" id="m_setting_panel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
+<!--aria-hidden="true">-->
+<!--<div class="modal-dialog" role="document">-->
+<!--<div class="modal-content">-->
+<!--<div class="modal-header">-->
+<!--<h4 class="modal-title"><i class="fa fa-tasks" aria-hidden="true"></i>控制面板</h4>-->
+<!--</div>-->
+<!--<div class="modal-body">-->
 
-                <table class="table table-bordered" style="margin-bottom: 0">
-                    <tbody>
-                    <tr>
-                        <th scope="row">名称</th>
-                        <td>HelloWorld</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">编程语言</th>
-                        <td>
-                            <select style="margin: 0">
-                                <option>C</option>
-                                <option>C++</option>
-                                <option>Java</option>
-                                <option>Python</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">所属团队</th>
-                        <td>14计科3班</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">创建日期</th>
-                        <td>2018-02-13</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">当前在线人数</th>
-                        <td>2</td>
-                    </tr>
+<!--<table class="table table-bordered" style="margin-bottom: 0">-->
+<!--<tbody>-->
+<!--<tr>-->
+<!--<th scope="row">名称</th>-->
+<!--<td>HelloWorld</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<th scope="row">编程语言</th>-->
+<!--<td>-->
+<!--<select style="margin: 0">-->
+<!--<option>C</option>-->
+<!--<option>C++</option>-->
+<!--<option>Java</option>-->
+<!--<option>Python</option>-->
+<!--</select>-->
+<!--</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<th scope="row">所属团队</th>-->
+<!--<td>14计科3班</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<th scope="row">创建日期</th>-->
+<!--<td>2018-02-13</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<th scope="row">当前在线人数</th>-->
+<!--<td>2</td>-->
+<!--</tr>-->
 
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal弹出层 -->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--<div class="modal-footer">-->
+<!--<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>-->
+<!--<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash; Modal弹出层 &ndash;&gt;-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
 <script type="text/javascript" src="js/index.js" ></script>
 
 </body>

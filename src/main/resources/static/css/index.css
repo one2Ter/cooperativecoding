@@ -45,13 +45,13 @@ body,html{
 }
 
 .console{
-    height: 150px;
+    height: 180px;
     width: 100%;
     resize:none;
     font-size: 16px;
     padding: 5px;
     color: blue;
-    font-family: "Monospaced", monospace;
+    font-family: "Consolas", monospace;
 }
 
 #chatroom{
@@ -98,7 +98,15 @@ body,html{
     top: 0
 }
 
-.content {
+#all_project {
+    height: 230px;
+}
+
+#current_project {
+    height: 370px;
+}
+
+.chat_content {
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
@@ -367,10 +375,11 @@ body,html{
 }
 
  /*背景气泡*/
- .bkbubble p{ 
+.bkbubble p {
      background-color: #00bfff;color: white;display: inline-block;
      padding: 12px;margin: 10px;
-     position: relative;border-radius: 5px; 
+    position: relative;
+    border-radius: 5px;
  }
  .bkbubble.right p {
      margin-left: 80px;
@@ -401,7 +410,22 @@ body,html{
 
 /*编辑器使用等宽字体（重要）*/
 .CodeMirror-line span {
-    font-family: "Monospaced", monospace;
+    font-family: "Consolas", monospace;
+!important;
+}
+
+#avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    margin-right: 130px;
+}
+
+#panel {
+    width: 360px;
+    height: 100%;
+    background-color: #00CCFF;
+    float: left;
 }
 
 /*边框气泡*/
@@ -473,46 +497,50 @@ body,html{
     border-color: #00bfff;
 }
 
-#preloader_6{
+#load_mask {
     position:relative;
     width: 42px;
     height: 42px;
-    animation: preloader_6 5s infinite linear;
-
+    animation: load_mask 5s infinite linear;
 }
-#preloader_6 span{
+
+#load_mask span {
     margin-top: 25px;
     width:20px;
     height:20px;
     position:absolute;
-    background:red;
-    display:block;
-    animation: preloader_6_span 1s infinite linear;
+    animation: load_mask_span 1s infinite linear;
 }
-#preloader_6 span:nth-child(1){
+
+#load_mask span:nth-child(1) {
     background:#2ecc71;
 }
-#preloader_6 span:nth-child(2){
+
+#load_mask span:nth-child(2) {
     left:22px;
     background:#9b59b6;
     animation-delay: .2s;
 }
-#preloader_6 span:nth-child(3){
+
+#load_mask span:nth-child(3) {
     top:22px;
     background:#3498db;
     animation-delay: .4s;
 }
-#preloader_6 span:nth-child(4){
+
+#load_mask span:nth-child(4) {
     top:22px;
     left:22px;
     background:#f1c40f;
     animation-delay: .6s;
 }
-@keyframes preloader_6 {
+
+@keyframes load_mask {
     from {-ms-transform: rotate(0deg);}
     to {-ms-transform: rotate(360deg);}
 }
-@keyframes preloader_6_span {
+
+@keyframes load_mask_span {
     0% { transform:scale(1); }
     50% { transform:scale(0.5); }
     100% { transform:scale(1); }

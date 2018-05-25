@@ -3,23 +3,61 @@
 <head>
     <meta charset="UTF-8"/>
     <title>登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: #DADADA;
+        }
+
+        input {
+            height: 40px;
+            border-radius: 5px;
+            padding-left: 10px;
+        !important;
+            margin-bottom: 10px;
+            border: #d7d4f0 1px solid;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body onload='document.f.username.focus();'>
-<h1>Login with Username and Password</h1>
-<form id="f" name='f' action='/login' method='POST'>
-    <table>
-        <tr>
-            <td>用户名</td>
-            <td><input id="username" type='text' name='username' th:value='20143461' /></td>
-        </tr>
-        <tr>
-            <td>密码</td>
-            <td><input type='password' name='password' th:value="20143461" /></td>
-        </tr>
-        <tr>
-            <td colspan='2'><input id="btn_login" name="submit" type="submit" value="Login" /></td>
-        </tr>
-    </table>
-</form>
+
+<table style="width: 100%;height: 100%;">
+    <tr>
+        <td></td>
+    </tr>
+    <tr>
+        <td style="height: 33%">
+            <div style="background-color: #FFFFFF;height:100%;width: 600px;margin:0 auto;border-radius: 5px;padding: 10px">
+                <div style="height: 50px;margin-left: 10px;margin-top: 10px">
+                    <img src="http://www.mkyong.com/wp-content/uploads/2016/11/spring-logo-new.png"
+                         style="width: 50px;height: 50px;float: left"/>
+                    <div style="height:50px;line-height: 50px;float: left;font-size: 35px;color: #6DB33F">协作式在线程序编程
+                    </div>
+                </div>
+                <form id="f" name='f' action='/login' method='POST'
+                      style="margin-left: 20px;margin-top: 50px;margin-right: 40px">
+                    <span style="height: 40px;font-size: 24px;line-height:40px;margin-right: 20px;color: #436289">账号</span><input
+                        id="username" type='text' name='username' th:value='20143461'/>
+                    <br/>
+                    <span style="height: 40px;font-size: 24px;line-height:40px;margin-right: 20px;color: #436289">密码</span><input
+                        type='password' name='password' th:value="20143461"/>
+                    <br/>
+                    <input id="btn_login" name="submit" type="submit" value="登录"
+                           style="background-color: #6DB33F;color: #FFFFFF;border-radius: 5px;border: none;width: 100px;text-align: center;padding-left: 0;float: right;cursor: pointer;margin-top: 20px"/>
+                </form>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+</table>
 </body>
 </html>

@@ -40,7 +40,7 @@ function connect() {
                     break;
                 case 1:
                     editor.setOption("readOnly",false);
-                    $("#preloader_6").hide();
+                    $("#load_mask").hide();
                     $("#console_text").show();
                     $("#btn_run").css({"cursor":"pointer","color":"black"});
                     $("#btn_run").removeAttr("disabled");
@@ -133,7 +133,7 @@ function mtoString(data) {
 function run() {
     var console_text = $("#console_text");
     var btn_run = $("#btn_run");
-    var load_mask = $("#preloader_6");
+    var load_mask = $("#load_mask");
 
     //编译等待期间控制台样式
     editor.setOption("readOnly",true);
@@ -161,8 +161,11 @@ function resize() {
     var width = document.body.clientWidth;
     var height = document.body.clientHeight;
     $("body").height(height - 60);
-    editor.setSize(width-360, height - 242);
-    content.height(height - 120);
+    $("#panel").height(height - 40);
+    $("#online_users").height(height - 740);
+    editor.setSize(width - 720, height - 242);
+
+    content.height(height - 360);
     content.scrollTop(content[0].scrollHeight);
 }
 
@@ -246,7 +249,7 @@ function tabNew() {
                 'code_title': $("#ip_filename").val()
             }, function(data) {
                 code_id = data.code_id;
-                $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ",)'><i class='fa fa-file-code-o' aria-hidden='true'></i>" + file_name + "</span>");
+                $("#tab_new").before("<span class='tabs' onclick='tabClick(this," + code_id + ",)'><i class='file code outline icon'></i>" + file_name + "</span>");
             });
         }
     } else {
@@ -314,4 +317,8 @@ function logout() {
     $.post("/logout", function(data) {
         window.location.reload();
     });
+}
+
+function online_users() {
+
 }
