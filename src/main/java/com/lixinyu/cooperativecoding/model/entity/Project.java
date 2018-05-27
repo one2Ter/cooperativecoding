@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@JsonIgnoreProperties(value = {"codes","team"})
+@JsonIgnoreProperties(value = {"codes"})
 
 public class Project {
     @Id

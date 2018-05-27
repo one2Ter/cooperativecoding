@@ -44,7 +44,7 @@ body,html{
 }
 
 .console{
-    height: 180px;
+    height: 170px;
     width: 100%;
     resize:none;
     font-size: 16px;
@@ -53,6 +53,9 @@ body,html{
     font-family: "Consolas", monospace;
 }
 
+#input_parameter input {
+    margin-left: 10px;
+}
 #chatroom{
     width: 360px;
     height: 50px;
@@ -61,11 +64,8 @@ body,html{
 }
 
 #chat_input{
-    height: 48px;
-    width: 358px;
-    background-color: #108359;
-    border: lightskyblue 1px solid;
-    margin: 1px;
+    height: 50px;
+    width: 360px
 }
 
 #inputBox{
@@ -98,11 +98,18 @@ body,html{
 }
 
 #all_project {
-    height: 230px;
+    height: 247px;
+    overflow-y: scroll;
+    width: 365px;
+}
+
+#online_users .item {
+    margin-right: 40px;
 }
 
 #current_project {
-    height: 370px;
+    padding-top: 30px;
+    height: 300px;
 }
 
 .chat_content {
@@ -413,6 +420,12 @@ body,html{
 !important;
 }
 
+.CodeMirror-code div {
+    height: 30px;
+    line-height: 30px;
+    border: #FFFFFF 1px solid;
+}
+
 #avatar {
     width: 100px;
     height: 100px;
@@ -425,6 +438,19 @@ body,html{
     height: 100%;
     background-color: #fafafa;
     float: left;
+}
+
+#all_project .item {
+    margin-right: 40px;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#all_project .item:hover {
+
+    background-color: #f2f2f2;
 }
 
 /*边框气泡*/

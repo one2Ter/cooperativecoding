@@ -18,9 +18,8 @@ public class User {
 
     private String password;
 
-//    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-//    @JoinTable(name = "user_role",joinColumns = @JoinColumn(name="uid",referencedColumnName = "username"),inverseJoinColumns = @JoinColumn(name = "role",referencedColumnName = "role_id"))
-//    private Set<Role> roles;
+
+    private String avatar;
     private String role;
 
 
@@ -38,22 +37,29 @@ public class User {
         this.team = user.getTeam();
         this.name = user.getName();
         this.password = user.getPassword();
-//        this.roles = user.getRoles();
         this.role = user.getRole();
         this.active = user.getActive();
+        this.avatar = user.getAvatar();
     }
 
-    public User(String username, Team team, String name, String password, String role, Project project, boolean active) {
+    public User(String username, Team team, String name, String password, String role, Project project, boolean active, String avatar) {
         this.username = username;
         this.team = team;
         this.name = name;
         this.password = password;
-//        this.roles = roles;
         this.role = role;
         this.project = project;
         this.active = active;
+        this.avatar = avatar;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
     public String getRole() {
         return role;
     }
@@ -92,22 +98,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-//    public Set<Role> getRoles() {
-//        return roles;
-//    }
-
-//    public void setRoles(Set<Role> roles) {
-//        this.roles = roles;
-//    }
-
-//    public void addRole(Role role) {
-//        this.roles.add(role);
-//    }
-
-//    public void removeRole(Role role) {
-//        this.roles.remove(role);
-//    }
 
     public Project getProject() {
         return project;
