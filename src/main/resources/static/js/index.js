@@ -203,13 +203,9 @@ $(document).ready(function() {
                 $("#maintain_status").html(data.maintainer.name + "(" + data.maintainer.username + ")正在编辑...");
                 is_maintainer = (username === data.maintainer.username);
             }
-
-
         });
         load_online_user();
     });
-
-
 });
 
 window.onresize = function resizeBody() {
@@ -273,7 +269,7 @@ function create_code() {
                     tab_new.before("<span class='tabs tabs_selected' onclick='tabClick(this," + data.code_id + ",)'><i class='file alternate icon'></i>" + data.code_title + "</span>");
 
                     $.post("/code/" + data.code_id, function (data) {
-                        editor_fill.setValue(data.content);
+                        editor_fill(data.content);
                     });
                 });
             }
@@ -350,8 +346,6 @@ function projectSwitch(pid) {
 
 function takeCharge() {
     $.post("/project/take", function(data) {
-        console.log(data);
-        alert("hhh");
         window.location.reload();
     });
 }
