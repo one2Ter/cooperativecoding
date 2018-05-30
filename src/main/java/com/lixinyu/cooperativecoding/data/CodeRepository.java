@@ -9,4 +9,5 @@ import java.util.ArrayList;
 public interface CodeRepository extends CrudRepository<Code,Integer> {
 
     public ArrayList<Code> findAllByProject(Project project);
+
 }

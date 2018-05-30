@@ -17,7 +17,7 @@ public class Code {
     private String content;
 	private String mode;
 
-	@ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "project")
 	private Project project;
 
@@ -44,7 +44,7 @@ public class Code {
         this.code_title = code_title;
     }
 
-    public long getCode_id() {
+    public int getCode_id() {
 		return code_id;
 	}
 
@@ -83,4 +83,6 @@ public class Code {
     public void setExecutable(boolean executable) {
         this.executable = executable;
     }
+
+
 }

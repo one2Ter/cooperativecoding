@@ -2,39 +2,34 @@ package com.lixinyu.cooperativecoding.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties(value = {"users","projects"})
 public class Team {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int team_id;
+
     private String team_name;
 
-    @OneToMany(mappedBy = "team",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.MERGE)
     private Set<User> users;
 
-    @OneToMany(mappedBy = "team",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.MERGE)
     private Set<Project> projects;
 
     public Team() {
     }
 
-    public Team(int team_id, String team_name) {
-        this.team_id = team_id;
+    public Team(String team_name) {
         this.team_name = team_name;
     }
 
+
     public long getTeam_id() {
         return team_id;
-    }
-
-    public void setTeam_id(int team_id) {
-        this.team_id = team_id;
     }
 
     public String getTeam_name() {

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-docker pull ubuntu:16.04
+docker pull ubuntu
 docker build -t ubuntu:sandbox .

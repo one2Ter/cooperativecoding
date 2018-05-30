@@ -10,19 +10,20 @@ import java.util.Set;
 
 public class Project {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int project_id;
 
     //项目名称
     private String project_name;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Code> codes;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "maintainer")
     private User maintainer;
 
@@ -36,8 +37,8 @@ public class Project {
         return project_id;
     }
 
-    public Project(int project_id, String project_name, Team team) {
-        this.project_id = project_id;
+    public Project(String project_name, Team team) {
+//        this.project_id = project_id;
         this.project_name = project_name;
         this.team = team;
     }

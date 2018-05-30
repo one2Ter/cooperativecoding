@@ -8,6 +8,16 @@ body{
     padding: 0;
 }
 
+select {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+    padding-left: 20px;
+    background-color: transparent;
+}
+
 #table_1{
     width: 94%;
     margin: 24px 2% 12px 4%;

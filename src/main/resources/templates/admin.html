@@ -17,7 +17,16 @@
         </thead>
 
         <tbody>
-        <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td style="width: 80px;margin-left: 5px"><i class="fas fa-plus"></i><i class="fas fa-search"></i></td></tr>
+        <tr>
+            <td>
+                <input readonly="readonly" type="text"/></td>
+            <td>
+                <input id="team_add_team_id" type="text"/></td>
+            <td></td>
+            <td></td>
+            <td style="width: 80px;margin-left: 5px">
+                <i onclick="add_team()" class="fas fa-plus"></i></td>
+        </tr>
         <tr id="tr_1" class="page">
             <td colspan="5" style="height: 38px">
                 <nav aria-label="Page navigation example">
@@ -50,7 +59,12 @@
         </thead>
 
         <tbody>
-        <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td style="width: 80px;margin-left: 5px"><i class="fas fa-plus"></i><i class="fas fa-search"></i></td></tr>
+        <tr>
+            <td></td>
+            <td><input id="add_project_name" type="text"/></td>
+            <td></td>
+            <td style="width: 80px;margin-left: 5px"><i onclick="add_project(team_id)" class="fas fa-plus"></i></td>
+        </tr>
 
         <tr id="tr_2" class="page">
             <td colspan="4" style="height: 38px">
@@ -80,11 +94,29 @@
 <div class="table">
     <table id="table_3" class="pure-table pure-table-bordered">
         <thead>
-        <tr><th>用户编号</th><th>姓名</th><th>团队名称</th><th>角色</th><th>当前项目</th><th style="width: 80px;">操作</th></tr>
+        <tr>
+            <th>用户编号</th>
+            <th>姓名</th>
+            <th>团队名称</th>
+            <th>角色</th>
+            <th style="width: 80px;">操作</th>
+        </tr>
         </thead>
 
         <tbody>
-        <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td style="width: 80px;margin-left: 5px"><i class="fas fa-plus"></i><i class="fas fa-search"></i></td></tr>
+        <tr>
+            <td>
+                <input id="user_add_username" type="text"/></td>
+            <td>
+                <input id="user_add_name" type="text"/></td>
+            <td id="add_userd"></td>
+            <td><select id="user_add_role">
+                <option value='User'>普通用户</option>
+                <option value='Administrator'>管理员</option>
+            </select></td>
+            <td style="width: 80px;margin-left: 5px">
+                <i onclick="add_user(team_id)" class="fas fa-plus"></i></td>
+        </tr>
 
         <tr id="tr_3" class="page">
             <td colspan="6" style="height: 38px">
@@ -114,11 +146,29 @@
 <div class="table">
     <table id="table_4" class="pure-table pure-table-bordered">
         <thead>
-        <tr><th>代码编号</th><th>文件名</th><th>主文件</th><th>模式</th><th>所属项目</th><th style="width: 80px;">操作</th></tr>
+        <tr>
+            <th>代码编号</th>
+            <th>文件名</th>
+            <th>主文件</th>
+            <th>模式</th>
+            <th style="width: 80px;">操作</th>
+        </tr>
         </thead>
 
         <tbody>
-        <tr><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td style="width: 80px;margin-left: 5px"><i class="fas fa-plus"></i><i class="fas fa-search"></i></td></tr>
+        <tr>
+            <td>
+                <input readonly="readonly" id="new_code_id" type="text"/></td>
+            <td>
+                <input id="new_code_title" type="text"/></td>
+            <td>
+                <input readonly="readonly" id="new_code_executable" type="text"/></td>
+            <td>
+                <input readonly="readonly" id="new_code_mode" type="text"/></td>
+            <td style="width: 80px;margin-left: 5px">
+                <i onclick="add_code(project_id)" class="fas fa-plus"></i>
+            </td>
+        </tr>
 
         <tr id="tr_4" class="page">
             <td colspan="6" style="height: 38px">

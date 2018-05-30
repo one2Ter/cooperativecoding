@@ -1,6 +1,7 @@
 package com.lixinyu.cooperativecoding.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.boot.autoconfigure.web.ResourceProperties;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,10 +12,11 @@ public class User {
 
     @Id
     private String username;
+    private String name;
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
-    private String name;
+
 
     private String password;
 
@@ -42,15 +44,14 @@ public class User {
         this.avatar = user.getAvatar();
     }
 
-    public User(String username, Team team, String name, String password, String role, Project project, boolean active, String avatar) {
+    public User(String username, Team team, String name, String role) {
+
         this.username = username;
         this.team = team;
         this.name = name;
-        this.password = password;
+        this.password = username;
         this.role = role;
-        this.project = project;
-        this.active = active;
-        this.avatar = avatar;
+        this.avatar = "img/mine.jpg";
     }
 
     public String getAvatar() {
@@ -80,7 +81,7 @@ public class User {
         return name;
     }
 
-    public void setName(String username) {
+    public void setName(String name) {
         this.name = name;
     }
     public String getUsername() {

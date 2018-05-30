@@ -44,7 +44,7 @@ public class Compiler {
                 "1",
                 "-v",
                 path+":/runtime",
-                "centos:sandbox",
+                "ubuntu:sandbox",
                 "/bin/bash",
                 "-c",
                 "chmod +x ./run.sh;./run.sh"
