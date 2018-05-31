@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin(origins = "http://127.0.0.1")
@@ -142,23 +141,23 @@ public class RestfulController {
         Team team = userRepository.findByUsername(authentication.getName()).get().getTeam();
 
         Set<Project> projects = team.getProjects();
-
-        for (Project project : projects) {
-
-            int online = 0;
-            for (User user : userRepository.findAll()) {
-                if (user.getProject() == project && System.currentTimeMillis() - user.getLastHeartbeat() < 15000) {
-                    online++;
-                } else {
-                    if (user == project.getMaintainer()) {
-                        project.setMaintainer(null);
-                    }
-                }
-            }
-            project.setOnline(online);
-
-        }
-        projectRepository.save(projects);
+//
+//        for (Project project : projects) {
+//
+//            int online = 0;
+//            for (User user : userRepository.findAll()) {
+//                if (user.getProject() == project && System.currentTimeMillis() - user.getLastHeartbeat() < 15000) {
+//                    online++;
+//                } else {
+//                    if (user == project.getMaintainer()) {
+//                        project.setMaintainer(null);
+//                    }
+//                }
+//            }
+//            project.setOnline(online);
+//
+//        }
+//        projectRepository.save(projects);
 
         return projects;
     }
