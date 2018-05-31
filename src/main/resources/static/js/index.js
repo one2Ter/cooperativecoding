@@ -92,10 +92,10 @@ var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
     lineNumbers: true
 });
 
-function tabClick(e, index) {
+function tabClick(index) {
     code_id = index;
     $(".tabs_selected").attr({"class": "tabs"});
-    $(e).attr({"class": "tabs_selected"});
+    $("#tab_" + index).attr({"class": "tabs_selected"});
     $.post("/code/" + index, function(data) {
         editor_fill(data.content);
     });
@@ -107,11 +107,11 @@ $.post("/code/all", function(data) {
         var title = data[i].code_title;
         code_id = data[i].code_id;
 
-        $("#tab_new").before("<span class='tabs' id='tab_" + code_id + "' onclick='tabClick(this," + code_id + ",)'><i class='file alternate icon'></i>" + title + "</span>");
+        $("#tab_new").before("<span class='tabs' id='tab_" + code_id + "' onclick='tabClick(" + code_id + ")'><i class='file alternate icon'></i>" + title + "</span>");
 
         if (data[i].executable) {
             var tabs = document.getElementsByClassName("tabs");
-            tabClick(tabs[tabs.length - 1], data[i].code_id);
+            tabClick(data[i].code_id);
             loadMode(data[i].mode);
         }
     }
@@ -194,7 +194,7 @@ $(document).ready(function() {
     resize();
     $.get("/user", function(data) {
         username = data.username;
-        $("#avatar").attr({"src": data.avatar})
+        $("#avatar").attr({"src": data.avatar});
         $("#user_name").html(data.name);
         loadProject();
         setInterval(heartbeat, 10000);
@@ -266,7 +266,7 @@ function create_code() {
                     for (var i = 0; i < tabs.length; i++) {
                         tabs[i].className = "tabs";
                     }
-                    tab_new.before("<span class='tabs tabs_selected' onclick='tabClick(this," + data.code_id + ",)'><i class='file alternate icon'></i>" + data.code_title + "</span>");
+                    tab_new.before("<span class='tabs tabs_selected' onclick='tabClick(" + data.code_id + ")'><i class='file alternate icon'></i>" + data.code_title + "</span>");
 
                     $.post("/code/" + data.code_id, function (data) {
                         editor_fill(data.content);
