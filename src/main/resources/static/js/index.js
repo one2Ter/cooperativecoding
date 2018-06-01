@@ -55,6 +55,11 @@ function connect() {
                         alert("你的帐号在别处登录");
                     }
                     break;
+                case 4:
+                    if (from !== username) {
+                        tabClick(text);
+                    }
+                    break;
             }
         });
     });
@@ -93,6 +98,17 @@ var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
 });
 
 function tabClick(index) {
+    console.log("tabClick(" + index + ")");
+    console.log(connected);
+    console.log(is_maintainer);
+    if (connected && is_maintainer) {
+        stompClient.send("/server/message", {}, JSON.stringify({
+            'channel': 4,
+            'content': code_id
+        }));
+    }
+
+
     code_id = index;
     $(".tabs_selected").attr({"class": "tabs"});
     $("#tab_" + index).attr({"class": "tabs_selected"});
@@ -174,7 +190,7 @@ function resize() {
     var height = document.body.clientHeight;
     $("body").height(height - 60);
     $("#panel").height(height - 40);
-    $("#online_users").height(height - 740);
+    $("#online_users").height(height - 643);
     editor.setSize(width - 720, height - 242);
 
     content.height(height - 360);
@@ -199,8 +215,9 @@ $(document).ready(function() {
         loadProject();
         setInterval(heartbeat, 10000);
         $.get("/project", function (data) {
+            //
             if (data.maintainer) {
-                $("#maintain_status").html(data.maintainer.name + "(" + data.maintainer.username + ")正在编辑...");
+                //         $("#maintain_status").html(data.maintainer.name + "(" + data.maintainer.username + ")正在编辑...");
                 is_maintainer = (username === data.maintainer.username);
             }
         });
@@ -368,8 +385,8 @@ function parameter_switch() {
 
 function load_online_user() {
     $.post("/users/online", function (data) {
+        $("#online_users .item").remove();
         for (var i = 0; i < data.length; i++) {
-            $("#online_users .item").remove();
             $("#online_flag").after("<div class=\"item\"><img class=\"ui avatar image\" src=\"img/spring_logo.png\"/><div class=\"content\"><div class=\"header\">" + data[i].name + "</div></div></div>");
         }
     });

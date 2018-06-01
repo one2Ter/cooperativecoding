@@ -23,6 +23,7 @@ public class SocketController {
     private static final int MSG_RUN = 1;
     private static final int MSG_HEARTBEAT = 2;
     private static final int MSG_LOGIN = 3;
+    private static final int MSG_TAB = 4;
 
     private File src_file;
     private String code_type;
@@ -113,6 +114,9 @@ public class SocketController {
                 //将当前时间写入到lastHeartbeat字段
                 user.setLastHeartbeat(System.currentTimeMillis());
                 userRepository.save(user);
+                break;
+            case MSG_TAB:
+                System.out.println("Tab");
                 break;
         }
         message.setFrom(name);

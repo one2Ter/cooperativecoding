@@ -39,8 +39,9 @@ public class RestfulController {
 
     @RequestMapping(value = "/code/all")
     public @ResponseBody
-    Set<Code> jread(Authentication authentication) {
-        return userRepository.findByUsername(authentication.getName()).get().getProject().getCodes();
+    ArrayList<Code> jread(Authentication authentication) {
+        return codeRepository.findAllByProject(userRepository.findByUsername(authentication.getName()).get().getProject());
+//        return userRepository.findByUsername(authentication.getName()).get().getProject().getCodes();
     }
 
     @RequestMapping(value = "/code/{code_id}")
@@ -53,21 +54,21 @@ public class RestfulController {
     public @ResponseBody
     Project project(Authentication authentication) {
         Project project = userRepository.findByUsername(authentication.getName()).get().getProject();
-        int online = 0;
-        for (User user : userRepository.findAll()) {
-            if (System.currentTimeMillis() - user.getLastHeartbeat() < 15000) {
-                online++;
-            }
-        }
-        project.setOnline(online);
-
-        if (project.getMaintainer() != null) {
-            if (System.currentTimeMillis() - project.getMaintainer().getLastHeartbeat() > 30000) {
-                project.setMaintainer(null);
-            }
-        }
-
-        projectRepository.save(project);
+//        int online = 0;
+//        for (User user : userRepository.findAll()) {
+//            if (System.currentTimeMillis() - user.getLastHeartbeat() < 15000) {
+//                online++;
+//            }
+//        }
+//        project.setOnline(online);
+//
+//        if (project.getMaintainer() != null) {
+//            if (System.currentTimeMillis() - project.getMaintainer().getLastHeartbeat() > 30000) {
+//                project.setMaintainer(null);
+//            }
+//        }
+//
+//        projectRepository.save(project);
         return project;
     }
 
@@ -136,30 +137,10 @@ public class RestfulController {
 
     @RequestMapping(value = "/project/all")
     public @ResponseBody
-    Set<Project> projects(Authentication authentication) {
+    ArrayList<Project> allProjects(Authentication authentication) {
 
         Team team = userRepository.findByUsername(authentication.getName()).get().getTeam();
-
-        Set<Project> projects = team.getProjects();
-//
-//        for (Project project : projects) {
-//
-//            int online = 0;
-//            for (User user : userRepository.findAll()) {
-//                if (user.getProject() == project && System.currentTimeMillis() - user.getLastHeartbeat() < 15000) {
-//                    online++;
-//                } else {
-//                    if (user == project.getMaintainer()) {
-//                        project.setMaintainer(null);
-//                    }
-//                }
-//            }
-//            project.setOnline(online);
-//
-//        }
-//        projectRepository.save(projects);
-
-        return projects;
+        return projectRepository.findAllByTeam(team);
     }
 
     @RequestMapping(value = "/code/new")
@@ -170,8 +151,6 @@ public class RestfulController {
         boolean executable = project.getCodes().size() == 0;
 
         String mode = code_title.split("\\.")[1];
-
-//        Code code = new Code(code_title,"",mode,user.getProject(),user.getProject().getCodes().isEmpty());
         Code code = new Code(code_title, "", mode, project, executable);
         codeRepository.save(code);
         return code;

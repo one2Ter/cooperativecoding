@@ -12,4 +12,6 @@ public interface ProjectRepository extends CrudRepository<Project,Integer> {
 
     ArrayList<Project> findAllByTeam(Team team);
 
+    ArrayList<Project> findOneByMaintainer(User user);
+
 }
