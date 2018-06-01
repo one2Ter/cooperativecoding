@@ -93,6 +93,12 @@ public class SocketController {
                                                     "java " + c.getCode_title().substring(0, code_title.length() - 5),
                                             path + "run.sh");
                                     break;
+                                case "py":
+                                    compiler.write(
+                                            "#/bin/sh\n" +
+                                                    "python " + c.getCode_title(),
+                                            path + "run.sh");
+                                    break;
                             }
                         }
                     }

@@ -63,7 +63,7 @@ public class RestfulController {
 //        project.setOnline(online);
 //
 //        if (project.getMaintainer() != null) {
-//            if (System.currentTimeMillis() - project.getMaintainer().getLastHeartbeat() > 30000) {
+//            if (System.currentTimeMillis() - project.getMaintainer().getLastHeartbeat() > 10000) {
 //                project.setMaintainer(null);
 //            }
 //        }
@@ -221,7 +221,7 @@ public class RestfulController {
         Project project = user.getProject();
         //有人管理
         if (project.getMaintainer() != null) {
-            if (System.currentTimeMillis() - project.getMaintainer().getLastHeartbeat() > 30000 | project.getMaintainer() == user) {
+            if (System.currentTimeMillis() - project.getMaintainer().getLastHeartbeat() > 10000 | project.getMaintainer() == user) {
                 project.setMaintainer(null);
                 projectRepository.save(project);
             }
@@ -320,13 +320,25 @@ public class RestfulController {
         return teamRepository.findOne(Integer.parseInt(team_id)) == null;
     }
 
+    @GetMapping(value = "/online/project/{project_id}")
+    public int projectonlinecont(@PathVariable int project_id) {
+        int count = 0;
+        Project project  = projectRepository.findOne(project_id);
+        for (User user : userRepository.findAll()) {
+            if(user.getProject()==project && System.currentTimeMillis() - user.getLastHeartbeat() < 10000){
+                count++;
+            }
+        }
+        return count;
+    }
+
     @GetMapping(value = "/online/{team_id}")
     public int teamonlinecont(@PathVariable int team_id) {
         int count = 0;
 
         Team team = teamRepository.findOne(team_id);
         for (User user : team.getUsers()) {
-            if (System.currentTimeMillis() - user.getLastHeartbeat() < 30000) {
+            if (System.currentTimeMillis() - user.getLastHeartbeat() < 10000) {
                 count++;
             }
         }

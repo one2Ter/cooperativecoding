@@ -101,7 +101,7 @@ i {
 }
 
 #all_project {
-    height: 150px;
+    height: 100px;
     overflow-y: scroll;
     width: 365px;
 }

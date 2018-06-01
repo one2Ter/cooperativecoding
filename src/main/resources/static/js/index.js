@@ -190,7 +190,7 @@ function resize() {
     var height = document.body.clientHeight;
     $("body").height(height - 60);
     $("#panel").height(height - 40);
-    $("#online_users").height(height - 643);
+    $("#online_users").height(height - 593);
     editor.setSize(width - 720, height - 242);
 
     content.height(height - 360);
@@ -202,6 +202,8 @@ function heartbeat() {
         stompClient.send("/server/message", {}, JSON.stringify({
             'channel': 2
         }));
+
+        load_online_user();
     }
 }
 
@@ -213,7 +215,7 @@ $(document).ready(function() {
         $("#avatar").attr({"src": data.avatar});
         $("#user_name").html(data.name);
         loadProject();
-        setInterval(heartbeat, 10000);
+        setInterval(heartbeat, 3000);
         $.get("/project", function (data) {
             //
             if (data.maintainer) {
@@ -310,26 +312,23 @@ function m_input_focus(e) {
 
 function loadProject() {
     $.post("/project", function (data) {
-        console.log(data);
-
         project_id = data.project_id;
 
         var pid = data.project_id;
         var project_name = data.project_name;
-        var online = data.online;
 
         var team_name = data.team.team_name;
         var maintainer = "无";
         if (data.maintainer) {
             maintainer = data.maintainer.name;
         }
-
-
+        $.get("/online/project/"+pid,function (d) {
+            $("#td_online").html(d);
+        });
         $("#td_project_id").html(pid);
         $("#td_project_name").html(project_name);
         $("#td_team_name").html(team_name);
         $("#td_maintainer").html(maintainer);
-        $("#td_online").html(online);
     });
 
     $.post("/project/all", function (data) {
