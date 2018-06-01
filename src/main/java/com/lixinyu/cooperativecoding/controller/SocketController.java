@@ -122,7 +122,7 @@ public class SocketController {
                 userRepository.save(user);
                 break;
             case MSG_TAB:
-                System.out.println("Tab");
+
                 break;
         }
         message.setFrom(name);

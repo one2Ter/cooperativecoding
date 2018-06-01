@@ -15,6 +15,7 @@ function login_broadcast(){
     if (connected) {
         timestamp = ""+new Date().getTime();
         stompClient.send("/server/message", {}, JSON.stringify({
+            'project_id':project_id,
             'channel': 3,
             'content':username,
             'extra':timestamp
@@ -30,37 +31,45 @@ function connect() {
             var response = JSON.parse(message.body);
             var text = response.content;
             var from = response.from;
-            switch (response.channel) {
-                case 0:
-                    handleMessage(text, from);
-                    break;
-                case -1:
-                    if (from !== username) {
-                        cursor = editor.doc.getCursor();
-                        editor_fill(text);
-                        editor.doc.setCursor(cursor);
-                    }
-                    break;
-                case 1:
-                    editor.setOption("readOnly",false);
-                    $("#load_mask").hide();
-                    $("#console_text").show();
-                    $("#btn_run").css({"cursor":"pointer","color":"black"});
-                    $("#btn_run").removeAttr("disabled");
-                    $("#console_text").val(new Date().toLocaleString() + ":\n" + text);
-                    break;
-                case 3:
-                    if(text===username&&response.extra!==timestamp){
-                        logout();
-                        alert("你的帐号在别处登录");
-                    }
-                    break;
-                case 4:
-                    if (from !== username) {
-                        tabClick(text);
-                    }
-                    break;
+            var pid = response.project_id;
+
+            if(pid===project_id){
+                switch (response.channel) {
+                    case 0:
+                        handleMessage(text, from);
+                        break;
+                    case -1:
+                        if (from !== username) {
+                            cursor = editor.doc.getCursor();
+                            editor_fill(text);
+                            editor.doc.setCursor(cursor);
+                        }
+                        break;
+                    case 1:
+                        editor.setOption("readOnly",false);
+                        $("#load_mask").hide();
+                        $("#console_text").show();
+                        $("#btn_run").css({"cursor":"pointer","color":"black"});
+                        $("#btn_run").removeAttr("disabled");
+                        $("#console_text").val(new Date().toLocaleString() + ":\n" + text);
+                        break;
+                    case 3:
+                        if(text===username&&response.extra!==timestamp){
+                            logout();
+                            alert("你的帐号在别处登录");
+                        }
+                        break;
+                    case 4:
+                        if (from !== username) {
+                            //tabClick(text);
+                            code_id = parseInt(text);
+                            $(".tabs_selected").attr({"class": "tabs"});
+                            $("#tab_" + text).attr({"class": "tabs_selected"});
+                        }
+                        break;
+                }
             }
+
         });
     });
 }
@@ -77,6 +86,7 @@ function sendMessage() {
     if (connected) {
         var input = $("#inputBox");
         stompClient.send("/server/message", {}, JSON.stringify({
+            'project_id':project_id,
             'channel': 0,
             'content': input.val()
         }));
@@ -98,18 +108,17 @@ var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
 });
 
 function tabClick(index) {
-    console.log("tabClick(" + index + ")");
-    console.log(connected);
-    console.log(is_maintainer);
+    code_id = index;
     if (connected && is_maintainer) {
         stompClient.send("/server/message", {}, JSON.stringify({
+            'project_id':project_id,
             'channel': 4,
             'content': code_id
         }));
     }
 
 
-    code_id = index;
+
     $(".tabs_selected").attr({"class": "tabs"});
     $("#tab_" + index).attr({"class": "tabs_selected"});
     $.post("/code/" + index, function(data) {
@@ -179,6 +188,7 @@ function run() {
 
 
     stompClient.send("/server/message", {}, JSON.stringify({
+        'project_id':project_id,
         'channel': 1,
         'content': editor.getValue(),
         'extra': inputs
@@ -200,6 +210,7 @@ function resize() {
 function heartbeat() {
     if (connected) {
         stompClient.send("/server/message", {}, JSON.stringify({
+            'project_id':project_id,
             'channel': 2
         }));
 
@@ -253,6 +264,7 @@ editor.on('beforeChange', function(cm, obj) {
 editor.on('change', function(cm) {
     if (connected && is_maintainer) {
         stompClient.send("/server/message", {}, JSON.stringify({
+            'project_id':project_id,
             'channel': -1,
             'content': editor.getValue(),
             'extra': code_id
