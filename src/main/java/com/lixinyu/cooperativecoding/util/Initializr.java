@@ -52,10 +52,10 @@ public class Initializr implements CommandLineRunner {
 //        Set<Role> roles = new HashSet<>();
 //        roles.add(roleRepository.findOne(1));
 
-        /*
-        //14计科1班
-        team = teamRepository.findOne(140101);
-        project = projectRepository.findOne(1401010);
+
+        team = teamRepository.findOne(140103);
+        project = projectRepository.findOne(1401030);
+        String roles = "User";
 
         userRepository.save(new User("20142805", team, "徐劲松","20142805",roles,project,true));
         userRepository.save(new User("20142807", team, "赵伟业","20142807",roles,project,true));
@@ -155,11 +155,11 @@ public class Initializr implements CommandLineRunner {
         userRepository.save(new User("20142949", team, "刘涛","20142949",roles,project,true));
         userRepository.save(new User("20142950", team, "王涛","20142950",roles,project,true));
         userRepository.save(new User("20144470", team, "张胜宝","20144470",roles,project,true));
-        */
+
 
         team = teamRepository.findOne(140103);
         project = projectRepository.findOne(1401030);
-        String roles = "User";
+        roles = "User";
 
         userRepository.save(new User("20142806", team, "王智豪","20142806",roles,project,true));
         userRepository.save(new User("20142809", team, "许海浪","20142809",roles,project,true));
