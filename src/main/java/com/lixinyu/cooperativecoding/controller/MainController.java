@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-@CrossOrigin(origins = "http://127.0.0.1")
+@CrossOrigin(origins = "http://cooperativecoding")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Controller
 public class MainController{
